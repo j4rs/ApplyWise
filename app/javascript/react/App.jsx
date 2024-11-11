@@ -2,8 +2,30 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { Dashboard } from './components/dashboard/Dashboard'
 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ErrorPage } from './components/error/ErrorPage'
+import { Inbox } from './components/inbox/Inbox'
+
+const router = createBrowserRouter([
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "inbox",
+        element: <Inbox />,
+      },
+    ],
+  }
+])
+
 function App() {
-  return <Dashboard />;
+  return (
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  )
 }
 
 document.addEventListener("turbo:load", () => {

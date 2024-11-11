@@ -43,6 +43,8 @@ import {
   TicketIcon,
 } from '@heroicons/react/20/solid'
 
+import { Outlet } from 'react-router-dom';
+
 const logout = (event) => {
   event.preventDefault()
   fetch('/sessions', { method: 'DELETE' }).then(() => {
@@ -57,10 +59,10 @@ export const Dashboard = () => {
         <Navbar>
           <NavbarSpacer />
           <NavbarSection>
-            <NavbarItem href="/search" aria-label="Search">
+            <NavbarItem href="search" aria-label="Search">
               <MagnifyingGlassIcon />
             </NavbarItem>
-            <NavbarItem href="/inbox" aria-label="Inbox">
+            <NavbarItem href="inbox" aria-label="Inbox">
               <InboxIcon />
             </NavbarItem>
             <Dropdown>
@@ -105,7 +107,7 @@ export const Dashboard = () => {
                 <ChevronDownIcon />
               </DropdownButton>
               <DropdownMenu className="min-w-80 lg:min-w-64" anchor="bottom start">
-                <DropdownItem href="/teams/1/settings">
+                <DropdownItem href="teams/1/settings">
                   <Cog8ToothIcon />
                   <DropdownLabel>Settings</DropdownLabel>
                 </DropdownItem>
@@ -130,7 +132,7 @@ export const Dashboard = () => {
                 <MagnifyingGlassIcon />
                 <SidebarLabel>Search</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/inbox">
+              <SidebarItem href="inbox">
                 <InboxIcon />
                 <SidebarLabel>Inbox</SidebarLabel>
               </SidebarItem>
@@ -221,7 +223,7 @@ export const Dashboard = () => {
         </Sidebar>
       }
     >
-      {/* The page content */}
+      <Outlet />
     </SidebarLayout>
   )
 }

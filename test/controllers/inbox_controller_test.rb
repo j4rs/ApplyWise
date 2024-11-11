@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SecureTokenTest < ActiveSupport::TestCase
+class InboxControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

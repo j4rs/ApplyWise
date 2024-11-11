@@ -14,5 +14,11 @@ class ApplicationController < ActionController::Base
     @current_talent ||= Talent.find(current_talent_id)
   end
 
-  private def current_talent_id = session[:current_talent_id]
+  private
+
+  def current_talent_id = session[:current_talent_id]
+
+  def redirect_to_dashboard_if_logged_in
+    redirect_to dashboard_path if current_talent
+  end
 end
