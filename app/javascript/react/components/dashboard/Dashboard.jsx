@@ -65,7 +65,7 @@ export const Dashboard = () => {
             </NavbarItem>
             <Dropdown>
               <DropdownButton as={NavbarItem}>
-                <Avatar src="/profile-photo.jpg" square />
+                <Avatar initials="AW" />
               </DropdownButton>
               <DropdownMenu className="min-w-64" anchor="bottom end">
                 <DropdownItem href="/my-profile">
@@ -100,8 +100,8 @@ export const Dashboard = () => {
           <SidebarHeader>
             <Dropdown>
               <DropdownButton as={SidebarItem} className="lg:mb-2.5">
-                <Avatar src="/tailwind-logo.svg" />
-                <SidebarLabel>Tailwind Labs</SidebarLabel>
+                <Avatar />
+                <SidebarLabel>Apply Wise</SidebarLabel>
                 <ChevronDownIcon />
               </DropdownButton>
               <DropdownMenu className="min-w-80 lg:min-w-64" anchor="bottom start">
@@ -111,8 +111,8 @@ export const Dashboard = () => {
                 </DropdownItem>
                 <DropdownDivider />
                 <DropdownItem href="/teams/1">
-                  <Avatar slot="icon" src="/tailwind-logo.svg" />
-                  <DropdownLabel>Tailwind Labs</DropdownLabel>
+                  <Avatar initials="AW" />
+                  <DropdownLabel>Apply Wise</DropdownLabel>
                 </DropdownItem>
                 <DropdownItem href="/teams/2">
                   <Avatar slot="icon" initials="WC" className="bg-purple-500 text-white" />
@@ -182,7 +182,7 @@ export const Dashboard = () => {
             <Dropdown>
               <DropdownButton as={SidebarItem}>
                 <span className="flex min-w-0 items-center gap-3">
-                  <Avatar src="/profile-photo.jpg" className="size-10" square alt="" />
+                  <Avatar initials="JR" className="size-10" alt="" />
                   <span className="min-w-0">
                     <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">Jorge</span>
                     <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
