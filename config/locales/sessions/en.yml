@@ -1,0 +1,6 @@
+en:
+  sessions:
+    create:
+      notice: "Magic link sent to %{email}"
+    show:
+      notice: "Welcome to Apply Wise %{email}"
