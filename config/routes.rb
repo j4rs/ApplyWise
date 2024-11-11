@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "home#index"
+  root "landing/home#index"
 
   resources :sessions, only: %i[ new create show destroy ] do
     collection do
@@ -19,5 +19,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :dashboard, only: %i[ show]
+  scope module: :dashboard do
+    resource :dashboard, only: %i[ show ] do
+      scope module: :inbox do
+        resource :inbox
+      end
+    end
+  end
 end
