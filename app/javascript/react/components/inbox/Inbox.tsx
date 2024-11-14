@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../ui/dropdown'
+import { Heading } from '../ui/heading'
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 
 export const Inbox = () => {
@@ -18,8 +19,10 @@ export const Inbox = () => {
   }]
 
   return (
-    <Table className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
-    <TableHead>
+    <>
+      <Heading>Inbox</Heading>
+      <Table className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
+        <TableHead>
       <TableRow>
         <TableHeader>Name</TableHeader>
         <TableHeader>Email</TableHeader>
@@ -52,6 +55,7 @@ export const Inbox = () => {
         </TableRow>
       ))}
     </TableBody>
-  </Table>
+      </Table>
+    </>
   )
 }

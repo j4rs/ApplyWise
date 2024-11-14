@@ -42,8 +42,10 @@ import {
   Square2StackIcon,
   TicketIcon,
 } from '@heroicons/react/20/solid'
-
+import { Strong } from '../ui/text'
 import { Outlet } from 'react-router-dom';
+
+import { Badge } from '../ui/badge'
 
 const logout = (event) => {
   event.preventDefault()
@@ -135,14 +137,17 @@ export const Dashboard = () => {
               <SidebarItem href="inbox">
                 <InboxIcon />
                 <SidebarLabel>Inbox</SidebarLabel>
+                <Badge color="blue">2</Badge>
               </SidebarItem>
             </SidebarSection>
           </SidebarHeader>
           <SidebarBody>
             <SidebarSection>
-              <SidebarItem href="/">
+              <SidebarItem href="inbox">
                 <HomeIcon />
-                <SidebarLabel>Home</SidebarLabel>
+                <SidebarLabel>
+                  <Strong>Home</Strong>
+                </SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/events">
                 <Square2StackIcon />
