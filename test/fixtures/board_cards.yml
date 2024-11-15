@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  board_column_id: 1
+  partition_id: 1
+  slug: slug1
+  position: 0
+  content_id: 1
+  content_type: job
+
+two:
+  board_column_id: 1
+  partition_id: 1
+  slug: slug2
+  position: 1
+  content_id: 2
+  content_type: job

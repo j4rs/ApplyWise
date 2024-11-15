@@ -1,11 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: MyString
+  slug: slug1
+  email: email1
   first_name: MyString
   last_name: MyString
 
 two:
-  email: MyString
+  slug: slug2
+  email: email2
   first_name: MyString
   last_name: MyString

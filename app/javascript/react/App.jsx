@@ -4,7 +4,7 @@ import { Dashboard } from './components/dashboard/Dashboard'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ErrorPage } from './components/error/ErrorPage'
-import { Inbox } from './components/inbox/Inbox'
+import { Board } from './components/board/Board'
 
 const router = createBrowserRouter([
   {
@@ -13,8 +13,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "inbox",
-        element: <Inbox />,
+        path: "board",
+        element: <Board />,
       },
     ],
   }
