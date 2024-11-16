@@ -70,7 +70,7 @@
         "singleQuote": true,
         "semi": false,
         "trailingComma": "none",
-        "printWidth": 100,
+        "printWidth": 80,
         "arrowParens": "always"
       }
     ],
@@ -113,13 +113,6 @@
         "pathGroupsExcludedImportTypes": [
           "react"
         ]
-      }
-    ],
-    "no-restricted-imports": [
-      "error",
-      {
-        "name": "lodash/isNumber",
-        "message": "Please use Fleetio's isNumber utility (import { isNumber } from '@spark/utils/typeUtils') instead of lodash/isNumber as it handles NaN and Infinity."
       }
     ],
     "lodash-imports/no-direct-lodash-import": "error",

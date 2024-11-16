@@ -14,7 +14,7 @@ class Board < ApplicationRecord
 
   def update_column_positions(params)
     params[:columns].each do |param|
-      columns
+      board_columns
         .find_by(slug: param[:id])
         .update(position: param[:position])
     end
