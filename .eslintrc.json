@@ -1,0 +1,187 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "ignorePatterns": [
+    ".storybook/**/*"
+  ],
+  "plugins": [
+    "prettier",
+    "jsx-a11y",
+    "react-hooks",
+    "import",
+    "sort-destructure-keys",
+    "sort-keys-fix",
+    "lodash-imports"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "babel-module": {},
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    },
+    "jest": {
+      "version": "latest"
+    }
+  },
+  "rules": {
+    "prefer-arrow-callback": "off",
+    "import/no-cycle": "error",
+    "no-use-before-define": "error",
+    "class-methods-use-this": 0,
+    "camelcase": 0,
+    "eol-last": "error",
+    "jsx-a11y/click-events-have-key-events": 1,
+    "jsx-a11y/no-noninteractive-element-interactions": 1,
+    "jsx-a11y/no-noninteractive-element-to-interactive-role": 1,
+    "react/prop-types": 0,
+    "no-param-reassign": 0,
+    "curly": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "semi": false,
+        "trailingComma": "none",
+        "printWidth": 100,
+        "arrowParens": "always"
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.js",
+          "**/*.spec.js",
+          "e2e/**/*"
+        ]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always-and-inside-groups",
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ]
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "name": "lodash/isNumber",
+        "message": "Please use Fleetio's isNumber utility (import { isNumber } from '@spark/utils/typeUtils') instead of lodash/isNumber as it handles NaN and Infinity."
+      }
+    ],
+    "lodash-imports/no-direct-lodash-import": "error",
+    "sort-destructure-keys/sort-destructure-keys": [
+      "error",
+      {
+        "caseSensitive": false
+      }
+    ],
+    "sort-keys-fix/sort-keys-fix": [
+      "error",
+      "asc",
+      {
+        "caseSensitive": false,
+        "natural": true
+      }
+    ],
+    //
+    // REACT
+    //
+    "react/display-name": 0,
+    "react/jsx-sort-props": [
+      "error",
+      {
+        "shorthandFirst": true,
+        "ignoreCase": true
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useDeepCompare*|useEffectAfterMount|useDebouncedCallback*)"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.json"
+      ],
+      "rules": {
+        "sort-keys-fix/sort-keys-fix": "off",
+        "no-template-curly-in-string": "off",
+        "no-unused-expressions": "off"
+      }
+    },
+    {
+      "files": [
+        "app/client/javascript/react/locales/**/*.json"
+      ],
+      "rules": {
+        "sort-keys-fix/sort-keys-fix": "error"
+      }
+    },
+    {
+      "files": [
+        "*.stories.tsx"
+      ],
+      "rules": {
+        "react-hooks/rules-of-hooks": "warn"
+      }
+    }
+  ]
+}

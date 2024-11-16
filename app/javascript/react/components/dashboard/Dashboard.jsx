@@ -1,14 +1,14 @@
 import React from 'react';
-import { Avatar } from '../ui/avatar'
+import { Avatar } from '../ui/avatar';
 import {
   Dropdown,
   DropdownButton,
   DropdownDivider,
   DropdownItem,
   DropdownLabel,
-  DropdownMenu,
-} from '../ui/dropdown'
-import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../ui/navbar'
+  DropdownMenu
+} from '../ui/dropdown';
+import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../ui/navbar';
 import {
   Sidebar,
   SidebarBody,
@@ -18,9 +18,9 @@ import {
   SidebarItem,
   SidebarLabel,
   SidebarSection,
-  SidebarSpacer,
-} from '../ui/sidebar'
-import { SidebarLayout } from '../ui/sidebar-layout'
+  SidebarSpacer
+} from '../ui/sidebar';
+import { SidebarLayout } from '../ui/sidebar-layout';
 import {
   ArrowRightStartOnRectangleIcon,
   ChevronDownIcon,
@@ -29,8 +29,8 @@ import {
   LightBulbIcon,
   PlusIcon,
   ShieldCheckIcon,
-  UserIcon,
-} from '@heroicons/react/16/solid'
+  UserIcon
+} from '@heroicons/react/16/solid';
 import {
   Cog6ToothIcon,
   HomeIcon,
@@ -40,19 +40,19 @@ import {
   QuestionMarkCircleIcon,
   SparklesIcon,
   Square2StackIcon,
-  TicketIcon,
-} from '@heroicons/react/20/solid'
-import { Strong } from '../ui/text'
+  TicketIcon
+} from '@heroicons/react/20/solid';
+import { Strong } from '../ui/text';
 import { Outlet } from 'react-router-dom';
 
-import { Badge } from '../ui/badge'
+import { Badge } from '../ui/badge';
 
 const logout = (event) => {
-  event.preventDefault()
+  event.preventDefault();
   fetch('/sessions', { method: 'DELETE' }).then(() => {
-    window.location.href = '/'
-  })
-}
+    window.location.href = '/';
+  });
+};
 
 export const Dashboard = () => {
   return (
@@ -108,7 +108,10 @@ export const Dashboard = () => {
                 <SidebarLabel>Apply Wise</SidebarLabel>
                 <ChevronDownIcon />
               </DropdownButton>
-              <DropdownMenu className="min-w-80 lg:min-w-64" anchor="bottom start">
+              <DropdownMenu
+                className="min-w-80 lg:min-w-64"
+                anchor="bottom start"
+              >
                 <DropdownItem href="teams/1/settings">
                   <Cog8ToothIcon />
                   <DropdownLabel>Settings</DropdownLabel>
@@ -119,7 +122,11 @@ export const Dashboard = () => {
                   <DropdownLabel>Apply Wise</DropdownLabel>
                 </DropdownItem>
                 <DropdownItem href="/teams/2">
-                  <Avatar slot="icon" initials="WC" className="bg-purple-500 text-white" />
+                  <Avatar
+                    slot="icon"
+                    initials="WC"
+                    className="bg-purple-500 text-white"
+                  />
                   <DropdownLabel>Workcation</DropdownLabel>
                 </DropdownItem>
                 <DropdownDivider />
@@ -168,7 +175,9 @@ export const Dashboard = () => {
             </SidebarSection>
             <SidebarSection className="max-lg:hidden">
               <SidebarHeading>Upcoming Events</SidebarHeading>
-              <SidebarItem href="/events/1">Bear Hug: Live in Concert</SidebarItem>
+              <SidebarItem href="/events/1">
+                Bear Hug: Live in Concert
+              </SidebarItem>
               <SidebarItem href="/events/2">Viking People</SidebarItem>
               <SidebarItem href="/events/3">Six Fingers — DJ Set</SidebarItem>
               <SidebarItem href="/events/4">We All Look The Same</SidebarItem>
@@ -191,7 +200,9 @@ export const Dashboard = () => {
                 <span className="flex min-w-0 items-center gap-3">
                   <Avatar initials="JR" className="size-10" alt="" />
                   <span className="min-w-0">
-                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">Jorge</span>
+                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
+                      Jorge
+                    </span>
                     <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
                       erica@example.com
                     </span>
@@ -230,6 +241,5 @@ export const Dashboard = () => {
     >
       <Outlet />
     </SidebarLayout>
-  )
-}
-
+  );
+};

@@ -5,7 +5,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/16/solid'
 import { useForm } from 'react-hook-form'
 
 export const EditCard = (props) => {
-  const { isOpen, card, onClose } = props
+  const { isOpen, card, onSave, onClose } = props
   const {
     register,
     handleSubmit,
@@ -15,7 +15,7 @@ export const EditCard = (props) => {
   console.log(errors)
   if(!card) return null
 
-  const { content: { id, role, company_name, description, url, color }, column_id } = card
+  const { job: { id, role, company_name, description, url, color }, column_id } = card
 
   const onSubmit = (data) => updateJob(data)
 
@@ -26,7 +26,8 @@ export const EditCard = (props) => {
       headers: {
         'Content-Type': 'application/json'
       }
-    })
+    }).then(() => onSave(card))
+    onClose()
   }
 
   return (

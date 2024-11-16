@@ -1,5 +1,5 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from 'react';
+import clsx from 'clsx';
 
 export function Divider({ soft = false, className, ...props }) {
   return (
@@ -13,5 +13,5 @@ export function Divider({ soft = false, className, ...props }) {
         !soft && 'border-zinc-950/10 dark:border-white/10'
       )}
     />
-  )
+  );
 }

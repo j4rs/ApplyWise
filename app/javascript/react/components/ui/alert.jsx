@@ -1,8 +1,8 @@
 import React from 'react';
-import * as Headless from '@headlessui/react'
-import clsx from 'clsx'
+import * as Headless from '@headlessui/react';
+import clsx from 'clsx';
 
-import { Text } from './text'
+import { Text } from './text';
 
 const sizes = {
   xs: 'sm:max-w-xs',
@@ -13,8 +13,8 @@ const sizes = {
   '2xl': 'sm:max-w-2xl',
   '3xl': 'sm:max-w-3xl',
   '4xl': 'sm:max-w-4xl',
-  '5xl': 'sm:max-w-5xl',
-}
+  '5xl': 'sm:max-w-5xl'
+};
 
 export function Alert({ size = 'md', className, children, ...props }) {
   return (
@@ -40,7 +40,7 @@ export function Alert({ size = 'md', className, children, ...props }) {
         </div>
       </div>
     </Headless.Dialog>
-  )
+  );
 }
 
 export function AlertTitle({ className, ...props }) {
@@ -52,7 +52,7 @@ export function AlertTitle({ className, ...props }) {
         'text-balance text-center text-base/6 font-semibold text-zinc-950 sm:text-wrap sm:text-left sm:text-sm/6 dark:text-white'
       )}
     />
-  )
+  );
 }
 
 export function AlertDescription({ className, ...props }) {
@@ -62,11 +62,11 @@ export function AlertDescription({ className, ...props }) {
       {...props}
       className={clsx(className, 'mt-2 text-pretty text-center sm:text-left')}
     />
-  )
+  );
 }
 
 export function AlertBody({ className, ...props }) {
-  return <div {...props} className={clsx(className, 'mt-4')} />
+  return <div {...props} className={clsx(className, 'mt-4')} />;
 }
 
 export function AlertActions({ className, ...props }) {
@@ -78,5 +78,5 @@ export function AlertActions({ className, ...props }) {
         'mt-6 flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:mt-4 sm:flex-row sm:*:w-auto'
       )}
     />
-  )
+  );
 }

@@ -66,12 +66,12 @@ export const renderColumnHeader = (column, { addCard }) => {
     const id = uuid()
     const card = {
       id,
-      content: {
+      job: {
         role: "Edit role",
         company_name: "Edit company name"
       }
     }
-    createCard(column.id, {content: card.content, slug: id})
+    createCard(column.id, { job_attributes: card.job, slug: id })
     addCard(card, { on: "top" })
   }
 

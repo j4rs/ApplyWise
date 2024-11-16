@@ -29,6 +29,9 @@ export const Board = () => {
       .then(setBoard)
   }, [])
 
+
+  console.log(board)
+
   const handleColumnDragEnd = (board) => {
     console.log(board)
   }

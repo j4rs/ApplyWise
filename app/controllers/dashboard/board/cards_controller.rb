@@ -10,10 +10,7 @@ module Dashboard
 
       # POST /dashboard/board/cards
       def create
-        @card =
-          @board_column
-            .board_cards
-            .create_card_on_top!(card_params)
+        @card = @board_column.board_cards.create!(card_params)
 
         render :show
       end
@@ -45,7 +42,7 @@ module Dashboard
         params
           .require(:card)
           .permit(:slug,
-                  content: %i[ role company_name description url color ])
+                  job_attributes: %i[ role company_name description url color ])
       end
     end
   end

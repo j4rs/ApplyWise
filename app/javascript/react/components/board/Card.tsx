@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { PencilSquareIcon } from '@heroicons/react/16/solid'
+import { PencilSquareIcon } from '@heroicons/react/16/solid';
 
 export const Card = ({ card, selectCard }) => {
-  const { content: { role, company_name, url, color }} = card
+  const { job: { role, company_name, url, color }} = card
   const [isHovering, setIsHovering] = useState(false);
 
   return (

@@ -18,9 +18,9 @@ class BoardColumn < ApplicationRecord
       DEFAULT_COLUMNS_ATTRIBUTES.each { |column| create!(column.merge(attributes)) }
 
       wish_column = find_by!(name: "Wish")
-      # Sample content
-      content = Job.create!(role: "Software Engineer", company_name: "Google")
-      BoardCard.create!(board_column: wish_column, content:, position: 0)
+      # Sample job
+      job = Job.create!(role: "Software Engineer", company_name: "Google")
+      BoardCard.create!(board_column: wish_column, job:)
     end
   end
 end

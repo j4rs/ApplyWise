@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Headless from '@headlessui/react'
-import clsx from 'clsx'
+import * as Headless from '@headlessui/react';
+import clsx from 'clsx';
 
 export function CheckboxGroup({ className, ...props }) {
   return (
@@ -15,7 +15,7 @@ export function CheckboxGroup({ className, ...props }) {
         'has-[[data-slot=description]]:space-y-6 [&_[data-slot=label]]:has-[[data-slot=description]]:font-medium'
       )}
     />
-  )
+  );
 }
 
 export function CheckboxField({ className, ...props }) {
@@ -37,7 +37,7 @@ export function CheckboxField({ className, ...props }) {
         '[&_[data-slot=label]]:has-[[data-slot=description]]:font-medium'
       )}
     />
-  )
+  );
 }
 
 const base = [
@@ -65,17 +65,17 @@ const base = [
   'dark:group-data-[disabled]:border-white/20 dark:group-data-[disabled]:bg-white/[2.5%] dark:group-data-[disabled]:[--checkbox-check:theme(colors.white/50%)] dark:group-data-[disabled]:group-data-[checked]:after:hidden',
   // Forced colors mode
   'forced-colors:[--checkbox-check:HighlightText] forced-colors:[--checkbox-checked-bg:Highlight] forced-colors:group-data-[disabled]:[--checkbox-check:Highlight]',
-  'dark:forced-colors:[--checkbox-check:HighlightText] dark:forced-colors:[--checkbox-checked-bg:Highlight] dark:forced-colors:group-data-[disabled]:[--checkbox-check:Highlight]',
-]
+  'dark:forced-colors:[--checkbox-check:HighlightText] dark:forced-colors:[--checkbox-checked-bg:Highlight] dark:forced-colors:group-data-[disabled]:[--checkbox-check:Highlight]'
+];
 
 const colors = {
   'dark/zinc': [
     '[--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.zinc.900)] [--checkbox-checked-border:theme(colors.zinc.950/90%)]',
-    'dark:[--checkbox-checked-bg:theme(colors.zinc.600)]',
+    'dark:[--checkbox-checked-bg:theme(colors.zinc.600)]'
   ],
   'dark/white': [
     '[--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.zinc.900)] [--checkbox-checked-border:theme(colors.zinc.950/90%)]',
-    'dark:[--checkbox-check:theme(colors.zinc.900)] dark:[--checkbox-checked-bg:theme(colors.white)] dark:[--checkbox-checked-border:theme(colors.zinc.950/15%)]',
+    'dark:[--checkbox-check:theme(colors.zinc.900)] dark:[--checkbox-checked-bg:theme(colors.white)] dark:[--checkbox-checked-border:theme(colors.zinc.950/15%)]'
   ],
   white:
     '[--checkbox-check:theme(colors.zinc.900)] [--checkbox-checked-bg:theme(colors.white)] [--checkbox-checked-border:theme(colors.zinc.950/15%)]',
@@ -106,8 +106,8 @@ const colors = {
   fuchsia:
     '[--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.fuchsia.500)] [--checkbox-checked-border:theme(colors.fuchsia.600/90%)]',
   pink: '[--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.pink.500)] [--checkbox-checked-border:theme(colors.pink.600/90%)]',
-  rose: '[--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.rose.500)] [--checkbox-checked-border:theme(colors.rose.600/90%)]',
-}
+  rose: '[--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.rose.500)] [--checkbox-checked-border:theme(colors.rose.600/90%)]'
+};
 
 export function Checkbox({ color = 'dark/zinc', className, ...props }) {
   return (
@@ -141,5 +141,5 @@ export function Checkbox({ color = 'dark/zinc', className, ...props }) {
         </svg>
       </span>
     </Headless.Checkbox>
-  )
+  );
 }
