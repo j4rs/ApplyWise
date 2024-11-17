@@ -10,7 +10,7 @@ import { BoardContext, BoardDispatchContext } from './BoardContext'
 import { Card } from './Card'
 import { Column } from './Column'
 import { EditCard } from './EditCard'
-import { fetchBoard, updateBoard } from './network'
+import { fetchBoard, moveCard, updateBoard } from './network'
 import { boardReducer, initBoardAction } from './reducer'
 
 export const Board = () => {
@@ -20,10 +20,6 @@ export const Board = () => {
   useEffect(() => {
     fetchBoard((initialBoard) => dispatch(initBoardAction(initialBoard)))
   }, [])
-
-  const handleCardDragEnd = (subject, source, dest) => {
-    console.log(subject, source, dest)
-  }
 
   console.log(board)
 
@@ -37,7 +33,19 @@ export const Board = () => {
         {board && (
           <UncontrolledBoard
             initialBoard={board}
-            onCardDragEnd={handleCardDragEnd}
+            onCardDragEnd={(_, card, source, destination) => {
+              const from = {
+                column_id: source.fromColumnId,
+                position: source.fromPosition
+              }
+
+              const to = {
+                column_id: destination.toColumnId,
+                position: destination.toPosition
+              }
+
+              moveCard(card, from, to)
+            }}
             onColumnDragEnd={(innerBoard) => updateBoard(innerBoard)}
             renderCard={(card) => (
               <Card card={card} selectCard={setSelectedCard} />

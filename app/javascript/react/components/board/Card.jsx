@@ -12,6 +12,7 @@ export const Card = ({ card, selectCard }) => {
   const [isHovering, setIsHovering] = useState(false)
 
   useEffect(() => {
+    console.log('Re-rendering', card)
     setControlledCard(findBoardCard(board, card.id))
   }, [board, card.id])
 
@@ -34,7 +35,7 @@ export const Card = ({ card, selectCard }) => {
         {isHovering && (
           <button
             className="p-1 rounded-md text-gray-500 hover:bg-gray-100 mx-6"
-            onClick={() => selectCard(card)}
+            onClick={() => selectCard(controlledCard)}
           >
             <PencilSquareIcon aria-hidden="true" className="size-5" />
           </button>

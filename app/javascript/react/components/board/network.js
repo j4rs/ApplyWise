@@ -37,3 +37,13 @@ export const updateJob = (job, callback) => {
     .then((res) => res.json())
     .then((res) => callback(res))
 }
+
+export const moveCard = (card, from, to) => {
+  fetch(`/dashboard/board/cards/${card.id}`, {
+    body: JSON.stringify({ card: { from, to } }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'PATCH'
+  })
+}

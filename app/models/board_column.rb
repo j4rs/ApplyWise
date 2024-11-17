@@ -23,4 +23,16 @@ class BoardColumn < ApplicationRecord
       BoardCard.create!(board_column: wish_column, job:)
     end
   end
+
+  def move_below_cards_down_from!(position)
+    board_cards
+      .where("position >= ?", position)
+      .update_all("position = position + 1")
+  end
+
+  def move_below_cards_up_from!(position)
+    board_cards
+      .where("position > ?", position)
+      .update_all("position = position - 1")
+  end
 end

@@ -25,6 +25,8 @@ export const EditCard = (props) => {
     job: { company_name, description, id: job_id, role, url }
   } = card
 
+  console.log('Card', card)
+
   const onSubmit = (data) =>
     updateJob(data, (res) => {
       dispatch(updateCardAction({ ...card, job: res }))

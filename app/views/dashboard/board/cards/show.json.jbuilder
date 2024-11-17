@@ -1,4 +1,4 @@
-json.slug @card.slug
+json.id @card.slug
 json.(@card, :position)
 json.job do
   json.id @card.job.slug

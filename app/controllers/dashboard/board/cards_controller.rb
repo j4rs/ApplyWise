@@ -3,7 +3,7 @@
 module Dashboard
   module Board
     class CardsController < ApplicationController
-      skip_forgery_protection only: %i[ create destroy ]
+      skip_forgery_protection only: %i[ create destroy update ]
 
       before_action :set_board_column, only: %i[ create destroy ]
       before_action :set_card, only: %i[ destroy ]
@@ -13,6 +13,12 @@ module Dashboard
         @card = @board_column.board_cards.create!(card_params)
 
         render :show
+      end
+
+      # PATCH /dashboard/board/cards/:id
+      def update
+        BoardCard.move_card!(params)
+        head :no_content
       end
 
       # DELETE /dashboard/board/cards/:id
@@ -42,6 +48,8 @@ module Dashboard
         params
           .require(:card)
           .permit(:slug,
+                  from: %i[ position column_id ],
+                  to: %i[ position column_id ],
                   job_attributes: %i[ role company_name description url color ])
       end
     end
