@@ -8,8 +8,6 @@ const findColumn = (board, columnId) =>
 const findBoardCard = (board, cardId) =>
   board.columns.flatMap((c) => c.cards).find((c) => c.id === cardId)
 
-// const findCard = (column, cardId) => column.cards.find((c) => c.id === cardId)
-
 export const boardReducer = (board, action) => {
   switch (action.type) {
     case INIT_BOARD: {
@@ -26,11 +24,7 @@ export const boardReducer = (board, action) => {
     case UPDATE_CARD: {
       const { card } = action.payload
       const boardCard = findBoardCard(board, card.id)
-      console.log('board', board)
-      console.log('card', card)
-      console.log('boardCard.job before', boardCard.job.role)
       boardCard.job = card.job
-      console.log('boardCard.job after', boardCard.job.role)
 
       break
     }
