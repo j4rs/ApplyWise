@@ -1,36 +1,35 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationCircleIcon } from '@heroicons/react/16/solid'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { BoardDispatchContext } from './BoardContext'
+
+import { updateJob } from './network'
+import { updateCardAction } from './reducer'
+
 export const EditCard = (props) => {
-  const { card, isOpen, onClose, onSave } = props
+  const dispatch = useContext(BoardDispatchContext)
+
+  const { card, isOpen, onClose } = props
   const {
     formState: { errors },
     handleSubmit,
     register
   } = useForm()
 
-  console.log(errors)
   if (!card) return null
 
   const {
-    job: { company_name, description, id, role, url }
+    job: { company_name, description, id: job_id, role, url }
   } = card
 
-  const updateJob = (data) => {
-    fetch(`/dashboard/board/jobs/${id}`, {
-      body: JSON.stringify({ job: data }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'PATCH'
-    }).then(() => onSave(card))
-    onClose()
-  }
-
-  const onSubmit = (data) => updateJob(data)
+  const onSubmit = (data) =>
+    updateJob(data, (res) => {
+      dispatch(updateCardAction({ ...card, job: res }))
+      onClose()
+    })
 
   return (
     <Dialog className="relative z-10" onClose={onClose} open={isOpen}>
@@ -47,6 +46,13 @@ export const EditCard = (props) => {
                 className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
                 onSubmit={handleSubmit(onSubmit)}
               >
+                <input
+                  defaultValue={job_id}
+                  id="id"
+                  name="id"
+                  type="hidden"
+                  {...register('id')}
+                />
                 <div className="h-0 flex-1 overflow-y-auto">
                   <div className="bg-zinc-600 px-4 py-6 sm:px-6">
                     <div className="flex items-center justify-between">

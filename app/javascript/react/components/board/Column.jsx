@@ -1,8 +1,12 @@
 import { PlusIcon } from '@heroicons/react/16/solid'
-import React from 'react'
+import React, { useContext } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import { Text } from '../ui/text'
+
+import { BoardDispatchContext } from './BoardContext'
+import { createCard } from './network'
+import { addCardAction } from './reducer'
 
 const fillColors = {
   blue: 'fill-blue-500',
@@ -31,8 +35,26 @@ const fillColors = {
 //   yellow: 'bg-yellow-400/10'
 // }
 
-export const Column = ({ column, onAddCard }) => {
+export const Column = ({ column, options }) => {
+  const dispatch = useContext(BoardDispatchContext)
+
+  const { addCard } = options
   const { color, name } = column
+
+  const onAddCard = () => {
+    const id = uuid()
+    const card = {
+      id,
+      job: {
+        company_name: 'Edit company name',
+        role: 'Edit role'
+      }
+    }
+    createCard(column.id, { job_attributes: card.job, slug: id })
+    dispatch(addCardAction(column.id, card))
+    addCard(card, { on: 'top' })
+  }
+
   return (
     <div className="mb-2 min-w-72 flex justify-between">
       <div className="flex items-center">
@@ -58,31 +80,4 @@ export const Column = ({ column, onAddCard }) => {
       </button>
     </div>
   )
-}
-
-const createCard = (board_column_id, card) => {
-  fetch('/dashboard/board/cards', {
-    body: JSON.stringify({ board_column_id, card }),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    method: 'POST'
-  })
-}
-
-export const renderColumnHeader = (column, { addCard }) => {
-  const onAddCard = () => {
-    const id = uuid()
-    const card = {
-      id,
-      job: {
-        company_name: 'Edit company name',
-        role: 'Edit role'
-      }
-    }
-    createCard(column.id, { job_attributes: card.job, slug: id })
-    addCard(card, { on: 'top' })
-  }
-
-  return <Column column={column} onAddCard={onAddCard} />
 }

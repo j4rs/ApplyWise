@@ -22,7 +22,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_14_165139) do
     t.bigint "job_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["board_column_id", "position"], name: "index_board_cards_on_board_column_id_and_position", unique: true
     t.index ["board_column_id"], name: "index_board_cards_on_board_column_id"
     t.index ["job_id"], name: "index_board_cards_on_job_id"
     t.index ["partition_id", "slug"], name: "index_board_cards_on_partition_id_and_slug"

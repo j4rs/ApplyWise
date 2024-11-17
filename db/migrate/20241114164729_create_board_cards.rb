@@ -13,6 +13,5 @@ class CreateBoardCards < ActiveRecord::Migration[8.0]
     end
 
     add_index :board_cards, [ :partition_id, :slug ]
-    add_index :board_cards, [ :board_column_id, :position ], unique: true
   end
 end

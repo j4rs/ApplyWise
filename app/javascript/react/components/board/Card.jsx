@@ -1,11 +1,25 @@
 import { PencilSquareIcon } from '@heroicons/react/16/solid'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+
+import { BoardContext } from './BoardContext'
+
+const findBoardCard = (board, cardId) =>
+  board.columns.flatMap((c) => c.cards).find((c) => c.id === cardId)
 
 export const Card = ({ card, selectCard }) => {
+  const board = useContext(BoardContext)
+  const [controlledCard, setControlledCard] = useState(null)
+  const [isHovering, setIsHovering] = useState(false)
+
+  useEffect(() => {
+    setControlledCard(findBoardCard(board, card.id))
+  }, [board, card.id])
+
+  if (!controlledCard) return null
+
   const {
     job: { company_name, role }
-  } = card
-  const [isHovering, setIsHovering] = useState(false)
+  } = controlledCard
 
   return (
     <div
