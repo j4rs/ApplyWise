@@ -49,3 +49,9 @@ export const moveCard = (card, from, to) => {
     method: 'PATCH'
   })
 }
+
+export const deleteCard = (cardId, callback) => {
+  fetch(`/dashboard/board/cards/${cardId}`, { method: 'DELETE' })
+    .then((res) => res.json())
+    .then((res) => callback(res))
+}

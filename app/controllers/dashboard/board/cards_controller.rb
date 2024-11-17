@@ -5,7 +5,7 @@ module Dashboard
     class CardsController < ApplicationController
       skip_forgery_protection only: %i[ create destroy update ]
 
-      before_action :set_board_column, only: %i[ create destroy ]
+      before_action :set_board_column, only: %i[ create ]
       before_action :set_card, only: %i[ destroy ]
 
       # POST /dashboard/board/cards
@@ -24,7 +24,6 @@ module Dashboard
       # DELETE /dashboard/board/cards/:id
       def destroy
         @card.destroy
-        head :no_content
       end
 
       private
@@ -34,10 +33,7 @@ module Dashboard
       end
 
       def set_card
-        @card =
-          @board_column
-            .board_cards
-            .find_by!(slug: params[:id])
+        @card = BoardCard.find_by!(slug: params[:id])
       end
 
       def create_card

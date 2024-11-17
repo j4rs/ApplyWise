@@ -10,8 +10,8 @@ import { BoardContext, BoardDispatchContext } from './BoardContext'
 import { Card } from './Card'
 import { Column } from './Column'
 import { EditCard } from './EditCard'
-import { fetchBoard, moveCard, updateBoard } from './network'
-import { boardReducer, initBoardAction } from './reducer'
+import { deleteCard, fetchBoard, moveCard, updateBoard } from './network'
+import { boardReducer, deleteCardAction, initBoardAction } from './reducer'
 
 export const Board = () => {
   const [board, dispatch] = useImmerReducer(boardReducer, null)
@@ -47,11 +47,19 @@ export const Board = () => {
               moveCard(card, from, to)
             }}
             onColumnDragEnd={(innerBoard) => updateBoard(innerBoard)}
-            renderCard={(card) => (
-              <Card card={card} selectCard={setSelectedCard} />
+            renderCard={(card, options) => (
+              <Card
+                card={card}
+                options={options}
+                selectCard={setSelectedCard}
+              />
             )}
             renderColumnHeader={(column, options) => (
-              <Column column={column} options={options} />
+              <Column
+                column={column}
+                onNewCard={(card) => setSelectedCard(card)}
+                options={options}
+              />
             )}
           />
         )}
@@ -60,6 +68,14 @@ export const Board = () => {
             isOpen
             card={selectedCard}
             onClose={() => setSelectedCard(null)}
+            onDelete={(cardId) => {
+              const callback = (deletedCard) => {
+                dispatch(deleteCardAction(deletedCard))
+              }
+
+              deleteCard(cardId, callback)
+              setSelectedCard(null)
+            }}
             onSave={() => null}
           />
         )}

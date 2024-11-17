@@ -9,6 +9,8 @@ class BoardCard < ApplicationRecord
   before_validation :set_default_position, on: :create
   before_create :move_other_cards_down
 
+  after_destroy :move_other_cards_up
+
   scope :ordered, -> { order(:position) }
 
   def self.move_card!(params)
@@ -44,5 +46,9 @@ class BoardCard < ApplicationRecord
   # to leave a gap for the new card at top
   def move_other_cards_down
     board_column.move_below_cards_down_from!(position)
+  end
+
+  def move_other_cards_up
+    board_column.move_below_cards_up_from!(position)
   end
 end

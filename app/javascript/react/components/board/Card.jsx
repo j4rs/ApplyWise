@@ -1,15 +1,21 @@
-import { PencilSquareIcon } from '@heroicons/react/16/solid'
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/16/solid'
 import React, { useContext, useEffect, useState } from 'react'
 
-import { BoardContext } from './BoardContext'
+import { BoardContext, BoardDispatchContext } from './BoardContext'
+import { deleteCard } from './network'
+import { deleteCardAction } from './reducer'
 
 const findBoardCard = (board, cardId) =>
   board.columns.flatMap((c) => c.cards).find((c) => c.id === cardId)
 
-export const Card = ({ card, selectCard }) => {
+export const Card = ({ card, options, selectCard }) => {
   const board = useContext(BoardContext)
+  const dispatch = useContext(BoardDispatchContext)
+
   const [controlledCard, setControlledCard] = useState(null)
   const [isHovering, setIsHovering] = useState(false)
+
+  const { removeCard } = options
 
   useEffect(() => {
     // console.log('Re-rendering', card)
@@ -17,6 +23,13 @@ export const Card = ({ card, selectCard }) => {
   }, [board, card.id])
 
   if (!controlledCard) return null
+
+  const onRemoveCard = () => {
+    deleteCard(card.id, (deletedCard) => {
+      dispatch(deleteCardAction(deletedCard))
+      removeCard(card)
+    })
+  }
 
   const {
     job: { company_name, role }
@@ -33,12 +46,20 @@ export const Card = ({ card, selectCard }) => {
           <p className="truncate text-sm text-gray-500">{company_name}</p>
         </div>
         {isHovering && (
-          <button
-            className="p-1 rounded-md text-gray-500 hover:bg-gray-100 mx-6"
-            onClick={() => selectCard(controlledCard)}
-          >
-            <PencilSquareIcon aria-hidden="true" className="size-5" />
-          </button>
+          <>
+            <button
+              className="p-1 rounded-md text-gray-500 hover:bg-gray-100 mx-6"
+              onClick={() => selectCard(controlledCard)}
+            >
+              <PencilSquareIcon aria-hidden="true" className="size-5" />
+            </button>
+            <button
+              className="p-1 rounded-md text-gray-500 hover:bg-gray-100 mx-6"
+              onClick={onRemoveCard}
+            >
+              <TrashIcon aria-hidden="true" className="size-5" />
+            </button>
+          </>
         )}
       </div>
     </div>

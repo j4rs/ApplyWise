@@ -35,7 +35,7 @@ const fillColors = {
 //   yellow: 'bg-yellow-400/10'
 // }
 
-export const Column = ({ column, options }) => {
+export const Column = ({ column, onNewCard, options }) => {
   const dispatch = useContext(BoardDispatchContext)
 
   const { addCard } = options
@@ -57,6 +57,7 @@ export const Column = ({ column, options }) => {
       (createdCard) => {
         dispatch(addCardAction(column.id, createdCard))
         addCard(createdCard, { on: 'top' })
+        onNewCard(createdCard)
       }
     )
   }

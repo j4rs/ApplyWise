@@ -3,6 +3,7 @@ import { findBoardCard, findColumn } from './utils'
 const ADD_CARD = 'add_card'
 const INIT_BOARD = 'init_board'
 const UPDATE_CARD = 'update_card'
+const DELETE_CARD = 'delete_card'
 
 export const boardReducer = (board, action) => {
   switch (action.type) {
@@ -21,6 +22,16 @@ export const boardReducer = (board, action) => {
       const { card } = action.payload
       const boardCard = findBoardCard(board, card.id)
       boardCard.job = card.job
+
+      break
+    }
+    case DELETE_CARD: {
+      const {
+        card: { column_id, id }
+      } = action.payload
+
+      const column = findColumn(board, column_id)
+      column.cards = column.cards.filter((c) => c.id !== id)
 
       break
     }
@@ -46,4 +57,9 @@ export const addCardAction = (columnId, card) => ({
 export const updateCardAction = (card) => ({
   payload: { card },
   type: UPDATE_CARD
+})
+
+export const deleteCardAction = (card) => ({
+  payload: { card },
+  type: DELETE_CARD
 })
