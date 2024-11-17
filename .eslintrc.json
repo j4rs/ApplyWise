@@ -1,8 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es6": true,
-    "jest/globals": true
+    "es2021": true
   },
   "extends": [
     "airbnb-base",
@@ -10,9 +9,6 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended"
-  ],
-  "ignorePatterns": [
-    ".storybook/**/*"
   ],
   "plugins": [
     "prettier",
@@ -29,7 +25,13 @@
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "babelOptions": {
+      "presets": [
+        "@babel/preset-react"
+      ]
+    },
     "requireConfigFile": false,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "settings": {
@@ -37,7 +39,6 @@
       "version": "detect"
     },
     "import/resolver": {
-      "babel-module": {},
       "node": {
         "extensions": [
           ".js",
@@ -85,16 +86,6 @@
       }
     ],
     "import/prefer-default-export": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": [
-          "**/*.test.js",
-          "**/*.spec.js",
-          "e2e/**/*"
-        ]
-      }
-    ],
     "import/order": [
       "error",
       {
@@ -141,13 +132,7 @@
         "ignoreCase": true
       }
     ],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": [
-      "warn",
-      {
-        "additionalHooks": "(useDeepCompare*|useEffectAfterMount|useDebouncedCallback*)"
-      }
-    ]
+    "react-hooks/rules-of-hooks": "error"
   },
   "overrides": [
     {

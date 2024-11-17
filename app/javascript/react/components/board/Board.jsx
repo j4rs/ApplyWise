@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Heading } from '../ui/heading';
-import { Divider } from '../ui/divider';
-import { UncontrolledBoard } from '@caldwell619/react-kanban';
-import { Card } from './Card';
-import { renderColumnHeader } from './Column';
-import { EditCard } from './EditCard';
+import { UncontrolledBoard } from '@caldwell619/react-kanban'
+import React, { useEffect, useState } from 'react'
+
+import { Divider } from '../ui/divider'
+import { Heading } from '../ui/heading'
+
+import { Card } from './Card'
+import { renderColumnHeader } from './Column'
+import { EditCard } from './EditCard'
 
 const updateBoard = (data) => {
   const board = {
     columns: data.columns.map((c, idx) => ({ id: c.id, position: idx }))
   }
   fetch(`/dashboard/board`, {
-    method: 'PATCH',
     body: JSON.stringify(board),
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    method: 'PATCH'
   })
 }
 
@@ -25,10 +27,9 @@ export const Board = () => {
 
   useEffect(() => {
     fetch('/dashboard/board.json')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setBoard)
   }, [])
-
 
   console.log(board)
 
@@ -43,23 +44,28 @@ export const Board = () => {
   console.log(selectedCard !== null)
 
   return (
-    <>
-      <Heading className="">
-        Board
-      </Heading>
+    <React.Fragment>
+      <Heading className="">Board</Heading>
       <Divider className="my-4" />
       {board && (
         <UncontrolledBoard
           initialBoard={board}
-          renderColumnHeader={renderColumnHeader}
-          renderCard={(card) => <Card card={card} selectCard={setSelectedCard} />}
-          onColumnDragEnd={(board) => updateBoard(board)}
           onCardDragEnd={handleCardDragEnd}
+          onColumnDragEnd={() => updateBoard(board)}
+          renderCard={(card) => (
+            <Card card={card} selectCard={setSelectedCard} />
+          )}
+          renderColumnHeader={renderColumnHeader}
         />
       )}
       {selectedCard && (
-        <EditCard isOpen card={selectedCard} onSave={() => null} onClose={() => setSelectedCard(null)} />
+        <EditCard
+          isOpen
+          card={selectedCard}
+          onClose={() => setSelectedCard(null)}
+          onSave={() => null}
+        />
       )}
-    </>
+    </React.Fragment>
   )
-};
+}
