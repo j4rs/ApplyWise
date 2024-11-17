@@ -1,12 +1,8 @@
+import { findBoardCard, findColumn } from './utils'
+
 const ADD_CARD = 'add_card'
 const INIT_BOARD = 'init_board'
 const UPDATE_CARD = 'update_card'
-
-const findColumn = (board, columnId) =>
-  board.columns.find((c) => c.id === columnId)
-
-const findBoardCard = (board, cardId) =>
-  board.columns.flatMap((c) => c.cards).find((c) => c.id === cardId)
 
 export const boardReducer = (board, action) => {
   switch (action.type) {

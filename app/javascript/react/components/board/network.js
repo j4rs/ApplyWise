@@ -16,7 +16,7 @@ export const updateBoard = (data) => {
   })
 }
 
-export const createCard = (board_column_id, card) => {
+export const createCard = (board_column_id, card, callback) => {
   fetch('/dashboard/board/cards', {
     body: JSON.stringify({ board_column_id, card }),
     headers: {
@@ -24,6 +24,8 @@ export const createCard = (board_column_id, card) => {
     },
     method: 'POST'
   })
+    .then((res) => res.json())
+    .then((res) => callback(res))
 }
 
 export const updateJob = (job, callback) => {

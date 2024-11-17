@@ -50,9 +50,15 @@ export const Column = ({ column, options }) => {
         role: 'Edit role'
       }
     }
-    createCard(column.id, { job_attributes: card.job, slug: id })
-    dispatch(addCardAction(column.id, card))
-    addCard(card, { on: 'top' })
+
+    createCard(
+      column.id,
+      { job_attributes: card.job, slug: id },
+      (createdCard) => {
+        dispatch(addCardAction(column.id, createdCard))
+        addCard(createdCard, { on: 'top' })
+      }
+    )
   }
 
   return (

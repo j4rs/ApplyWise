@@ -12,7 +12,7 @@ export const Card = ({ card, selectCard }) => {
   const [isHovering, setIsHovering] = useState(false)
 
   useEffect(() => {
-    console.log('Re-rendering', card)
+    // console.log('Re-rendering', card)
     setControlledCard(findBoardCard(board, card.id))
   }, [board, card.id])
 
