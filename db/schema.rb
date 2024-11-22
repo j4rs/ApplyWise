@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_14_165139) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_22_002054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,6 +38,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_14_165139) do
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "collapsed", default: false
     t.index ["board_id"], name: "index_board_columns_on_board_id"
     t.index ["partition_id", "slug"], name: "index_board_columns_on_partition_id_and_slug"
     t.index ["partition_id"], name: "index_board_columns_on_partition_id"

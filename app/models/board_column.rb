@@ -12,6 +12,9 @@ class BoardColumn < ApplicationRecord
   has_many :board_cards, -> { ordered }, dependent: :destroy
 
   scope :ordered, -> { order(:position) }
+  scope :collapsed, -> { where(collapsed: true) }
+
+  before_validation :set_default_position, on: :create
 
   def self.create_defaults!(attributes = {})
     ActiveRecord::Base.transaction do
@@ -34,5 +37,13 @@ class BoardColumn < ApplicationRecord
     board_cards
       .where("position > ?", position)
       .update_all("position = position - 1")
+  end
+
+  private
+
+  def set_default_position
+    return if position.present?
+
+    self.position = board.board_columns.count
   end
 end

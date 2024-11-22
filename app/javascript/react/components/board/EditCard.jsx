@@ -10,7 +10,7 @@ import { updateJob } from './network'
 import { updateCardAction } from './reducer'
 
 export const EditCard = (props) => {
-  const dispatch = useContext(BoardDispatchContext)
+  const { dispatch } = useContext(BoardDispatchContext)
 
   const { card, isOpen, onClose } = props
   const {
@@ -24,8 +24,6 @@ export const EditCard = (props) => {
   const {
     job: { company_name, description, id: job_id, role, url }
   } = card
-
-  console.log('Card', card)
 
   const onSubmit = (data) =>
     updateJob(data, (res) => {

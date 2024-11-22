@@ -27,8 +27,13 @@ Rails.application.routes.draw do
       end
       scope module: :board do
         resource :board, only: %i[ show update ], controller: :board do
-          resources :jobs, only: %i[ update destroy ]
+          resources :columns, only: %i[ create update destroy ] do
+            scope module: :columns do
+              resource :move, only: %i[ update ], controller: :move
+            end
+          end
           resources :cards, only: %i[ create destroy update ]
+          resources :jobs, only: %i[ update destroy ]
         end
       end
     end
