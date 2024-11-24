@@ -1,11 +1,10 @@
-import * as Headless from '@headlessui/react';
-import clsx from 'clsx';
-import React, { forwardRef } from 'react';
+import * as Headless from '@headlessui/react'
+import clsx from 'clsx'
+import React, { forwardRef } from 'react'
 
 export function InputGroup({ children }) {
   return (
     <span
-      data-slot="control"
       className={clsx(
         'relative isolate block',
         '[&_input]:has-[[data-slot=icon]:first-child]:pl-10 [&_input]:has-[[data-slot=icon]:last-child]:pr-10 sm:[&_input]:has-[[data-slot=icon]:first-child]:pl-8 sm:[&_input]:has-[[data-slot=icon]:last-child]:pr-8',
@@ -13,13 +12,14 @@ export function InputGroup({ children }) {
         '[&>[data-slot=icon]:first-child]:left-3 sm:[&>[data-slot=icon]:first-child]:left-2.5 [&>[data-slot=icon]:last-child]:right-3 sm:[&>[data-slot=icon]:last-child]:right-2.5',
         '[&>[data-slot=icon]]:text-zinc-500 dark:[&>[data-slot=icon]]:text-zinc-400'
       )}
+      data-slot="control"
     >
       {children}
     </span>
-  );
+  )
 }
 
-const dateTypes = ['date', 'datetime-local', 'month', 'time', 'week'];
+const dateTypes = ['date', 'datetime-local', 'month', 'time', 'week']
 
 export const Input = forwardRef(function Input(
   { className, ...props },
@@ -28,7 +28,6 @@ export const Input = forwardRef(function Input(
 ) {
   return (
     <span
-      data-slot="control"
       className={clsx([
         className,
         // Basic layout
@@ -44,6 +43,7 @@ export const Input = forwardRef(function Input(
         // Invalid state
         'before:has-[[data-invalid]]:shadow-red-500/10'
       ])}
+      data-slot="control"
     >
       <Headless.Input
         ref={ref}
@@ -84,5 +84,5 @@ export const Input = forwardRef(function Input(
         ])}
       />
     </span>
-  );
-});
+  )
+})

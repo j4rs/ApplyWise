@@ -1,5 +1,6 @@
-import * as Headless from '@headlessui/react';
-import clsx from 'clsx';
+import * as Headless from '@headlessui/react'
+import clsx from 'clsx'
+import React from 'react'
 
 export function Fieldset({ className, ...props }) {
   return (
@@ -10,7 +11,7 @@ export function Fieldset({ className, ...props }) {
         '[&>*+[data-slot=control]]:mt-6 [&>[data-slot=text]]:mt-1'
       )}
     />
-  );
+  )
 }
 
 export function Legend({ className, ...props }) {
@@ -23,7 +24,7 @@ export function Legend({ className, ...props }) {
         'text-base/6 font-semibold text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white'
       )}
     />
-  );
+  )
 }
 
 export function FieldGroup({ className, ...props }) {
@@ -33,7 +34,7 @@ export function FieldGroup({ className, ...props }) {
       {...props}
       className={clsx(className, 'space-y-8')}
     />
-  );
+  )
 }
 
 export function Field({ className, ...props }) {
@@ -50,7 +51,7 @@ export function Field({ className, ...props }) {
         '[&>[data-slot=label]]:font-medium'
       )}
     />
-  );
+  )
 }
 
 export function Label({ className, ...props }) {
@@ -63,7 +64,7 @@ export function Label({ className, ...props }) {
         'select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white'
       )}
     />
-  );
+  )
 }
 
 export function Description({ className, ...props }) {
@@ -76,7 +77,7 @@ export function Description({ className, ...props }) {
         'text-base/6 text-zinc-500 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-zinc-400'
       )}
     />
-  );
+  )
 }
 
 export function ErrorMessage({ className, ...props }) {
@@ -89,5 +90,5 @@ export function ErrorMessage({ className, ...props }) {
         'text-base/6 text-red-600 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-red-500'
       )}
     />
-  );
+  )
 }

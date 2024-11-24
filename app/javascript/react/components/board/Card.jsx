@@ -1,5 +1,25 @@
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/16/solid'
+import {
+  EllipsisHorizontalIcon,
+  PencilSquareIcon,
+  TrashIcon
+} from '@heroicons/react/16/solid'
+
 import React, { useContext, useEffect, useState } from 'react'
+
+import { Button } from '../ui/button'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogActions
+} from '../ui/dialog'
+
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItem,
+  DropdownMenu
+} from '../ui/dropdown'
 
 import { BoardContext, BoardDispatchContext } from './BoardContext'
 import { deleteCard } from './network'
@@ -12,6 +32,9 @@ export const Card = ({ card }) => {
   const [isHovering, setIsHovering] = useState(false)
   const [column, setColumn] = useState(null)
 
+  const [isOpenDialogToRemoveCard, setIsOpenDialogToRemoveCard] =
+    useState(false)
+
   useEffect(() => {
     setColumn(findColumn(board, card.column_id))
   }, [board, card])
@@ -19,12 +42,30 @@ export const Card = ({ card }) => {
   if (!card || column?.collapsed) return null
 
   const onRemoveCard = () => {
-    if (window.confirm('Are you sure you want to delete this card?')) {
-      deleteCard(card.id, (deletedCard) => {
-        dispatch(deleteCardAction(deletedCard))
-      })
-    }
+    deleteCard(card.id, (deletedCard) => {
+      dispatch(deleteCardAction(deletedCard))
+    })
   }
+
+  const removeCardDialog = () => (
+    <Dialog
+      onClose={setIsOpenDialogToRemoveCard}
+      open={isOpenDialogToRemoveCard}
+    >
+      <DialogTitle>Delete job</DialogTitle>
+      <DialogDescription>
+        Are you sure you want to delete this job?
+      </DialogDescription>
+      <DialogActions>
+        <Button plain onClick={() => setIsOpenDialogToRemoveCard(false)}>
+          Cancel
+        </Button>
+        <Button color="red" onClick={onRemoveCard}>
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
 
   const {
     job: { company_name, role }
@@ -42,23 +83,25 @@ export const Card = ({ card }) => {
             <p className="truncate text-sm text-gray-500">{company_name}</p>
           </div>
           {isHovering && (
-            <div className="flex gap-2">
-              <button onClick={onRemoveCard}>
-                <TrashIcon
-                  aria-hidden="true"
-                  className="rounded-md size-5 text-red-100 hover:text-red-400"
-                />
-              </button>
-              <button onClick={() => setEditCard(card)}>
-                <PencilSquareIcon
-                  aria-hidden="true"
-                  className="rounded-md size-5 text-gray-300 hover:text-gray-400"
-                />
-              </button>
-            </div>
+            <Dropdown>
+              <DropdownButton outline>
+                <EllipsisHorizontalIcon />
+              </DropdownButton>
+              <DropdownMenu anchor="bottom end">
+                <DropdownItem onClick={() => setEditCard(card)}>
+                  <PencilSquareIcon />
+                  Edit job details
+                </DropdownItem>
+                <DropdownItem onClick={() => setIsOpenDialogToRemoveCard(true)}>
+                  <TrashIcon />
+                  Delete job
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           )}
         </div>
       </div>
+      {removeCardDialog()}
     </div>
   )
 }

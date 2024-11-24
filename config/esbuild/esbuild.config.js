@@ -12,7 +12,7 @@ const entryPoints = [
   "app/javascript/application.js"
 ]
 
-const esbuildUpdateServerPort = process.env.ESBUILD_UPDATE_SERVER_PORT || '3035'
+const esbuildUpdateServerPort = process.env.ESBUILD_UPDATE_SERVER_PORT || '3036'
 
 const shouldWatch = process.argv.includes('--watch')
 const ignoreRefresh = process.argv.includes('--ignore-refresh')
