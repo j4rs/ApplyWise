@@ -20,21 +20,14 @@ import {
   DropdownLabel,
   DropdownMenu
 } from '../ui/dropdown'
-import {
-  Navbar,
-  NavbarDivider,
-  NavbarItem,
-  NavbarLabel,
-  NavbarSection,
-  NavbarSpacer
-} from '../ui/navbar'
+import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../ui/navbar'
 import {
   Sidebar,
   SidebarBody,
   SidebarHeader,
   SidebarItem,
   SidebarLabel,
-  SidebarSection,
+  SidebarSection
 } from '../ui/sidebar'
 import { StackedLayout } from '../ui/stacked-layout'
 
@@ -45,13 +38,7 @@ const logout = (event) => {
   })
 }
 
-const navItems = [
-  { label: 'Home', url: '/' },
-  { label: 'Events', url: '/events' },
-  { label: 'Orders', url: '/orders' },
-  { label: 'Broadcasts', url: '/broadcasts' },
-  { label: 'Settings', url: '/settings' }
-]
+const navItems = [{ label: 'Home', url: '/dashboard/boards' }]
 
 const TeamDropdownMenu = () => (
   <DropdownMenu anchor="bottom start" className="min-w-80 lg:min-w-64">

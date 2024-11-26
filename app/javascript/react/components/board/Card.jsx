@@ -72,6 +72,8 @@ export const Card = ({ card }) => {
     job: { company_name, role }
   } = card
 
+  if (column?.collapsed) return null
+
   return (
     <div
       onMouseEnter={() => setIsHovering(true)}
@@ -91,7 +93,7 @@ export const Card = ({ card }) => {
           </div>
           {isHovering && (
             <Dropdown>
-              <DropdownButton outline>
+              <DropdownButton plain>
                 <EllipsisHorizontalIcon />
               </DropdownButton>
               <DropdownMenu anchor="bottom end">

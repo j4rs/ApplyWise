@@ -62,7 +62,7 @@ export const Board = () => {
   const onAddColumn = () => {
     createColumn(
       board.id,
-      { column: { color: 'light', name: 'New column' } },
+      { column: { color: 'light', name: 'LIST NAME' } },
       (column) => {
         dispatch(createColumnAction(column))
       }
@@ -75,23 +75,29 @@ export const Board = () => {
     <BoardContext.Provider value={board}>
       <BoardDispatchContext.Provider value={{ dispatch, setEditCard }}>
         <div className="flex items-center justify-between">
-          <Heading className="">Board</Heading>
-          <Button plain className="cursor-pointer" onClick={onAddColumn}>
-            <PlusIcon className="h-4 w-4" />
-            Add column
-          </Button>
+          <Heading className="">{board.name}</Heading>
         </div>
         <Divider className="my-4" />
         {board && (
           <ControlledBoard
             allowAddCard={false}
-            allowAddColumn={false}
+            allowAddColumn={true}
             allowRemoveCard={false}
             allowRemoveColumn={false}
             allowRenameColumn={false}
             onCardDragEnd={onCardDragEnd}
             onColumnDragEnd={onColumnDragEnd}
             renderCard={(card) => <Card card={card} />}
+            renderColumnAdder={() => (
+              <Button
+                plain
+                className="min-w-64 text-zinc-950/50"
+                onClick={onAddColumn}
+              >
+                <PlusIcon />
+                ADD NEW LIST
+              </Button>
+            )}
             renderColumnHeader={(column) => (
               <Column column={column} onNewCard={(card) => setEditCard(card)} />
             )}

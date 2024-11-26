@@ -105,8 +105,8 @@ export const Column = ({ column, onNewCard = () => null }) => {
     const card = {
       id,
       job: {
-        company_name: 'Edit company name',
-        role: 'Edit role'
+        company_name: 'COMPANY NAME',
+        role: 'ROLE'
       }
     }
 
@@ -115,7 +115,6 @@ export const Column = ({ column, onNewCard = () => null }) => {
       { job_attributes: card.job, slug: id },
       (createdCard) => {
         dispatch(addCardAction(column.id, createdCard))
-        // addCard(createdCard, { on: 'top' })
         onNewCard(createdCard)
       }
     )
@@ -220,7 +219,7 @@ export const Column = ({ column, onNewCard = () => null }) => {
 
   if (collapsed) {
     return (
-      <div className={`${position === 0 ? 'ml-0 mr-4' : 'mx-4'} gap-4 py-1.5`}>
+      <div className={`${position === 0 ? 'ml-0 mr-2' : 'mx-2'} py-2`}>
         <div className="flex items-center">
           <ColorsDropdown value={color} />
           <button className="gap-2" onClick={() => toggleCollapse(false)}>
@@ -273,7 +272,7 @@ export const Column = ({ column, onNewCard = () => null }) => {
           )}
         </div>
         <Dropdown>
-          <DropdownButton outline>
+          <DropdownButton plain>
             <EllipsisHorizontalIcon />
           </DropdownButton>
           <DropdownMenu anchor="bottom end">
@@ -306,12 +305,9 @@ export const Column = ({ column, onNewCard = () => null }) => {
         </Dropdown>
       </div>
       {column.cards.length === 0 && (
-        <Button
-          plain
-          className="text-gray-400 hover:text-gray-500"
-          onClick={onAddCard}
-        >
-          Create a new job...
+        <Button plain className="text-zinc-950/50" onClick={onAddCard}>
+          <PlusIcon />
+          ADD NEW JOB
         </Button>
       )}
       {removeColumnDialog()}
