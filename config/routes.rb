@@ -21,20 +21,24 @@ Rails.application.routes.draw do
   end
 
   scope module: :dashboard do
-    resource :dashboard, only: %i[ show ] do
+    resource :dashboard, only: %i[ show ], controller: :dashboard do
       scope module: :inbox do
         resource :inbox
       end
+
       scope module: :board do
-        resource :board, only: %i[ show update ], controller: :board do
-          resources :columns, only: %i[ create update destroy ] do
-            scope module: :columns do
+        resources :boards, only: %i[ show ] do
+          scope module: :column do
+            resources :columns, only: %i[ create update destroy ] do
               resource :move, only: %i[ update ], controller: :move
             end
           end
-          resources :cards, only: %i[ create destroy update ]
-          resources :jobs, only: %i[ update destroy ]
         end
+      end
+
+      namespace :board do
+        resources :cards, only: %i[ create destroy update ]
+        resources :jobs, only: %i[ update destroy ]
       end
     end
   end

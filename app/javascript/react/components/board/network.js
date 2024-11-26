@@ -1,22 +1,23 @@
 const headers = {
+  Accept: 'application/json',
   'Content-Type': 'application/json'
 }
 
-export const fetchBoard = (callback) =>
-  fetch('/dashboard/board.json')
+export const fetchBoard = (id, callback) =>
+  fetch(`/dashboard/boards/${id}`, { headers, method: 'GET' })
     .then((res) => res.json())
     .then((board) => callback(board))
 
-export const moveColumn = (column, from, to) => {
-  fetch(`/dashboard/board/columns/${column.id}/move`, {
+export const moveColumn = (boardId, column, from, to) => {
+  fetch(`/dashboard/boards/${boardId}/columns/${column.id}/move`, {
     body: JSON.stringify({ column: { from_position: from, to_position: to } }),
     headers,
     method: 'PATCH'
   })
 }
 
-export const createColumn = (payload, callback) => {
-  fetch('/dashboard/board/columns', {
+export const createColumn = (boardId, payload, callback) => {
+  fetch(`/dashboard/boards/${boardId}/columns`, {
     body: JSON.stringify(payload),
     headers,
     method: 'POST'
@@ -25,8 +26,8 @@ export const createColumn = (payload, callback) => {
     .then((res) => callback(res))
 }
 
-export const updateColumn = (columnId, payload, callback) => {
-  fetch(`/dashboard/board/columns/${columnId}`, {
+export const updateColumn = (boardId, columnId, payload, callback) => {
+  fetch(`/dashboard/boards/${boardId}/columns/${columnId}`, {
     body: JSON.stringify(payload),
     headers,
     method: 'PATCH'
@@ -35,10 +36,10 @@ export const updateColumn = (columnId, payload, callback) => {
     .then((res) => callback(res))
 }
 
-export const deleteColumn = (columnId, callback) => {
-  fetch(`/dashboard/board/columns/${columnId}`, { method: 'DELETE' }).then(() =>
-    callback(columnId)
-  )
+export const deleteColumn = (boardId, columnId, callback) => {
+  fetch(`/dashboard/boards/${boardId}/columns/${columnId}`, {
+    method: 'DELETE'
+  }).then(() => callback(columnId))
 }
 
 export const createCard = (board_column_id, card, callback) => {

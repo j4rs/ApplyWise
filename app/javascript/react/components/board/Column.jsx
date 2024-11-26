@@ -1,3 +1,4 @@
+import * as Headless from '@headlessui/react'
 import {
   CheckIcon,
   ChevronDoubleLeftIcon,
@@ -5,12 +6,14 @@ import {
   EllipsisHorizontalIcon,
   PencilSquareIcon,
   PlusIcon,
+  SwatchIcon,
   TrashIcon
 } from '@heroicons/react/16/solid'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
 
+import { fillColors, textColors } from '../colors'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import {
@@ -28,7 +31,7 @@ import {
 } from '../ui/dropdown'
 import { Text } from '../ui/text'
 
-import { BoardDispatchContext } from './BoardContext'
+import { BoardContext, BoardDispatchContext } from './BoardContext'
 import { createCard, deleteColumn, updateColumn } from './network'
 import {
   addCardAction,
@@ -36,54 +39,6 @@ import {
   updateColumnAction
 } from './reducer'
 import { classNames } from './utils'
-
-const textColors = {
-  blue: 'text-blue-500',
-  cyan: 'text-cyan-500',
-  emerald: 'text-emerald-500',
-  green: 'text-green-500',
-  light: 'text-zinc-300',
-  orange: 'text-orange-500',
-  purple: 'text-purple-500',
-  red: 'text-red-500',
-  sky: 'text-sky-500',
-  teal: 'text-teal-500',
-  violet: 'text-violet-500',
-  yellow: 'text-yellow-500',
-  zinc: 'text-zinc-500'
-}
-
-// const bgColors = {
-//   blue: 'bg-blue-500',
-//   cyan: 'bg-cyan-500',
-//   emerald: 'bg-emerald-400',
-//   green: 'bg-green-500',
-//   light: 'bg-zinc-300',
-//   orange: 'bg-orange-500',
-//   purple: 'bg-purple-500',
-//   red: 'bg-red-500',
-//   sky: 'bg-sky-500',
-//   teal: 'bg-teal-500',
-//   violet: 'bg-violet-500',
-//   yellow: 'bg-yellow-500',
-//   zinc: 'bg-zinc-300'
-// }
-
-const fillColors = {
-  blue: 'fill-blue-500',
-  cyan: 'fill-cyan-500',
-  emerald: 'fill-emerald-400',
-  green: 'fill-green-500',
-  light: 'fill-zinc-300',
-  orange: 'fill-orange-500',
-  purple: 'fill-purple-500',
-  red: 'fill-red-500',
-  sky: 'fill-sky-500',
-  teal: 'fill-teal-500',
-  violet: 'fill-violet-500',
-  yellow: 'fill-yellow-500',
-  zinc: 'fill-zinc-500'
-}
 
 const sizes = {
   lg: 'size-5',
@@ -103,6 +58,7 @@ const colorIcon = (color, size = 'md') => (
 )
 
 export const Column = ({ column, onNewCard = () => null }) => {
+  const board = useContext(BoardContext)
   const { dispatch } = useContext(BoardDispatchContext)
 
   const [isEditing, setIsEditing] = useState(false)
@@ -111,7 +67,9 @@ export const Column = ({ column, onNewCard = () => null }) => {
   const [isOpenDialogToRemoveColumn, setIsOpenDialogToRemoveColumn] =
     useState(false)
 
+  const colorDropDownBtn = useRef(null)
   const editContainerRef = useRef(null)
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -169,14 +127,14 @@ export const Column = ({ column, onNewCard = () => null }) => {
 
     const payload = { column: form.getValues() }
 
-    updateColumn(column.id, payload, (updatedColumn) => {
+    updateColumn(board.id, column.id, payload, (updatedColumn) => {
       dispatch(updateColumnAction(updatedColumn))
-      // renameColumn(updatedColumn.name)
     })
   }
 
   const onChangeColor = (selectedColor) => () => {
     updateColumn(
+      board.id,
       column.id,
       {
         column: { color: selectedColor }
@@ -189,6 +147,7 @@ export const Column = ({ column, onNewCard = () => null }) => {
 
   const toggleCollapse = (isCollapsed) => {
     updateColumn(
+      board.id,
       column.id,
       { column: { collapsed: isCollapsed } },
       (updatedColumn) => {
@@ -198,20 +157,23 @@ export const Column = ({ column, onNewCard = () => null }) => {
   }
 
   const onRemoveColumn = () => {
-    deleteColumn(column.id, () => {
+    deleteColumn(board.id, column.id, () => {
       dispatch(deleteColumnAction(column.id))
     })
   }
 
   const ColorsDropdown = ({ value = 'light' }) => (
     <Dropdown>
-      <DropdownButton outline className="cursor-pointer border-0">
+      <Headless.MenuButton
+        className="cursor-pointer mx-2 hover:ring-2 hover:rounded-full hover:ring-zinc-950/10 focus:outline-none"
+        ref={colorDropDownBtn}
+      >
         {colorIcon(value, 'sm')}
-      </DropdownButton>
-      <DropdownMenu>
+      </Headless.MenuButton>
+      <DropdownMenu className="supports-[grid-template-columns:subgrid]:grid-cols-4">
         {Object.keys(fillColors).map((c) => (
           <DropdownItem
-            className="data-[focus]:bg-gray-100"
+            className="data-[focus]:bg-gray-100 col-span-1"
             key={c}
             onClick={onChangeColor(c)}
           >
@@ -219,7 +181,7 @@ export const Column = ({ column, onNewCard = () => null }) => {
               className={classNames(
                 textColors[c],
                 c === color && 'data-[checked]:ring-2',
-                'grid-cols-subgrid col-span-10 -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-current focus:outline-none'
+                'cursor-pointer rounded-full p-0.5 ring-current focus:outline-none'
               )}
               data-checked={c === value}
             >
@@ -265,12 +227,12 @@ export const Column = ({ column, onNewCard = () => null }) => {
             <ChevronDoubleRightIcon className="size-5 text-gray-300 hover:text-gray-500" />
           </button>
         </div>
-        <div className="[writing-mode:vertical-lr]">
+        <div className="[writing-mode:vertical-lr] my-2">
           <button onClick={() => toggleCollapse(false)}>
             <Text className="font-semibold">{name}</Text>
           </button>
           <button className="my-2" onClick={() => toggleCollapse(false)}>
-            <Badge className="px-0 py-2" color={color}>
+            <Badge className="px-1 py-2" color={color}>
               {column.cards.length}
             </Badge>
           </button>
@@ -327,6 +289,10 @@ export const Column = ({ column, onNewCard = () => null }) => {
               <PencilSquareIcon />
               Edit column name
             </DropdownItem>
+            <DropdownItem onClick={() => colorDropDownBtn.current?.click()}>
+              <SwatchIcon />
+              Change color
+            </DropdownItem>
             <DropdownItem onClick={onAddCard}>
               <PlusIcon />
               Add new job
@@ -342,7 +308,7 @@ export const Column = ({ column, onNewCard = () => null }) => {
       {column.cards.length === 0 && (
         <Button
           plain
-          className="text-gray-200 hover:text-gray-500"
+          className="text-gray-400 hover:text-gray-500"
           onClick={onAddCard}
         >
           Create a new job...

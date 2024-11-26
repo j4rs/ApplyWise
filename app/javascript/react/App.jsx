@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { Board } from './components/board/Board'
-import { Dashboard } from './components/dashboard/Dashboard'
 
 import { StackedLayoutDashboard } from './components/dashboard/StackedLayoutDashboard'
 import { ErrorPage } from './components/error/ErrorPage'
@@ -13,7 +12,7 @@ const router = createBrowserRouter([
     children: [
       {
         element: <Board />,
-        path: 'board'
+        path: 'boards/:id'
       }
     ],
     element: <StackedLayoutDashboard />,
@@ -31,7 +30,6 @@ function App() {
 }
 
 document.addEventListener('turbo:load', () => {
-  console.log('App is loaded')
   const app = document.getElementById('react-app-root')
 
   if (app) {

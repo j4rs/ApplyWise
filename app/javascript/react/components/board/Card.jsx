@@ -6,6 +6,7 @@ import {
 
 import React, { useContext, useEffect, useState } from 'react'
 
+import { borderColors, ringColors } from '../colors'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -24,7 +25,7 @@ import {
 import { BoardContext, BoardDispatchContext } from './BoardContext'
 import { deleteCard } from './network'
 import { deleteCardAction } from './reducer'
-import { findColumn } from './utils'
+import { classNames, findColumn } from './utils'
 
 export const Card = ({ card }) => {
   const board = useContext(BoardContext)
@@ -76,7 +77,13 @@ export const Card = ({ card }) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className="w-64 rounded-lg border bg-white px-4 py-4 shadow-md hover:border-gray-300 mb-3">
+      <div
+        className={classNames(
+          borderColors[column?.color],
+          'w-64 rounded-lg border p-4 shadow-lg mb-3 ml-1 bg-white',
+          isHovering && `ring-1 ${ringColors[column?.color]}`
+        )}
+      >
         <div className="flex">
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-gray-900">{role}</p>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Dashboard
-  class DashboardsController < PrivateController
+  class DashboardController < PrivateController
     include Reactive
 
     # GET /dashboard

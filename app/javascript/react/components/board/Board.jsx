@@ -2,6 +2,7 @@ import { ControlledBoard } from '@caldwell619/react-kanban'
 import { PlusIcon } from '@heroicons/react/16/solid'
 import React, { useEffect, useState } from 'react'
 
+import { useParams } from 'react-router-dom'
 import { useImmerReducer } from 'use-immer'
 
 import { Button } from '../ui/button'
@@ -29,12 +30,14 @@ import {
 } from './reducer'
 
 export const Board = () => {
+  const { id } = useParams()
   const [board, dispatch] = useImmerReducer(boardReducer, null)
   const [editCard, setEditCard] = useState(null)
 
   useEffect(() => {
-    fetchBoard((initialBoard) => dispatch(initBoardAction(initialBoard)))
-  }, [])
+    if (!id) return
+    fetchBoard(id, (initialBoard) => dispatch(initBoardAction(initialBoard)))
+  }, [id])
 
   const onCardDragEnd = (card, source, destination) => {
     const from = {
@@ -52,20 +55,19 @@ export const Board = () => {
   }
 
   const onColumnDragEnd = (column, source, destination) => {
-    moveColumn(column, source.fromPosition, destination.toPosition)
+    moveColumn(board.id, column, source.fromPosition, destination.toPosition)
     dispatch(moveColumnAction(column, source, destination))
   }
 
   const onAddColumn = () => {
     createColumn(
+      board.id,
       { column: { color: 'light', name: 'New column' } },
       (column) => {
         dispatch(createColumnAction(column))
       }
     )
   }
-
-  console.log(board)
 
   if (!board) return null
 

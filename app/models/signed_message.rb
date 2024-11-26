@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: signed_messages
+#
+#  id         :bigint           not null, primary key
+#  purpose    :string           not null
+#  read_at    :datetime
+#  slug       :string           not null
+#  token      :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_signed_messages_on_purpose  (purpose)
+#  index_signed_messages_on_slug     (slug) UNIQUE
+#  index_signed_messages_on_token    (token) UNIQUE
+#
+
 class SignedMessage < ApplicationRecord
   PURPOSES = %w[sign_in default]
 
