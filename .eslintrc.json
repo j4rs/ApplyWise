@@ -8,7 +8,9 @@
     "prettier",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
     "prettier",
@@ -17,20 +19,15 @@
     "import",
     "sort-destructure-keys",
     "sort-keys-fix",
+    "@typescript-eslint",
     "lodash-imports"
   ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "babelOptions": {
-      "presets": [
-        "@babel/preset-react"
-      ]
-    },
-    "requireConfigFile": false,
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
@@ -39,6 +36,10 @@
       "version": "detect"
     },
     "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      },
+      "babel-module": {},
       "node": {
         "extensions": [
           ".js",

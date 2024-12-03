@@ -38,7 +38,7 @@ const logout = (event) => {
   })
 }
 
-const navItems = [{ label: 'Home', url: '/dashboard/boards' }]
+const navItems = [{ label: 'Boards', url: '/dashboard/boards' }]
 
 const TeamDropdownMenu = () => (
   <DropdownMenu anchor="bottom start" className="min-w-80 lg:min-w-64">
@@ -68,13 +68,13 @@ export const StackedLayoutDashboard = () => (
     navbar={
       <Navbar>
         {/* <Dropdown>
-          <DropdownButton as={NavbarItem} className="max-lg:hidden">
-            <Avatar />
-            <NavbarLabel>Apply Wise</NavbarLabel>
-            <ChevronDownIcon />
-          </DropdownButton>
-          <TeamDropdownMenu />
-        </Dropdown> */}
+        <DropdownButton as={NavbarItem} className="max-lg:hidden">
+          <Avatar />
+          <NavbarLabel>Apply Wise</NavbarLabel>
+          <ChevronDownIcon />
+        </DropdownButton>
+        <TeamDropdownMenu />
+      </Dropdown> */}
         {/* <NavbarDivider className="max-lg:hidden" /> */}
         <NavbarSection className="max-lg:hidden">
           {navItems.map(({ label, url }) => (

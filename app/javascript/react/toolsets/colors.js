@@ -46,6 +46,22 @@ export const bgColors = {
   zinc: 'bg-zinc-300'
 }
 
+export const bgColorsWithOpacity = {
+  blue: 'bg-blue-500/10',
+  cyan: 'bg-cyan-500/10',
+  emerald: 'bg-emerald-400/10',
+  green: 'bg-green-500/10',
+  light: 'bg-zinc-300/10',
+  orange: 'bg-orange-500/10',
+  purple: 'bg-purple-500/10',
+  red: 'bg-red-500/10',
+  sky: 'bg-sky-500/10',
+  teal: 'bg-teal-500/10',
+  violet: 'bg-violet-500/10',
+  yellow: 'bg-yellow-500/10',
+  zinc: 'bg-zinc-300/10'
+}
+
 export const fillColors = {
   blue: 'fill-blue-500',
   cyan: 'fill-cyan-500',

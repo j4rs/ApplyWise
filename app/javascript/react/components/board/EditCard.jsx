@@ -2,6 +2,7 @@ import { LinkIcon } from '@heroicons/react/16/solid'
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { JobEditor } from '../jobs/JobEditor'
 import { Button } from '../ui/button'
 import { Dialog, DialogActions } from '../ui/dialog'
 
@@ -15,7 +16,6 @@ import {
 } from '../ui/fieldset'
 import { Input, InputGroup } from '../ui/input'
 import { Text } from '../ui/text'
-import { Textarea } from '../ui/textarea'
 
 import { BoardDispatchContext } from './BoardContext'
 
@@ -46,11 +46,11 @@ export const EditCard = (props) => {
 
   if (!card) return null
 
-  const onSubmit = (data) =>
-    updateJob(data, (res) => {
-      dispatch(updateCardAction({ ...card, job: res }))
-      onClose()
-    })
+  const onSubmit = async (data) => {
+    const updatedJob = await updateJob(data)
+    dispatch(updateCardAction({ ...card, job: updatedJob }))
+    onClose()
+  }
 
   return (
     <Dialog className="relative z-10" onClose={onClose} open={isOpen}>
@@ -94,11 +94,7 @@ export const EditCard = (props) => {
             </Field>
             <Field>
               <Label>Description</Label>
-              <Textarea
-                aria-label="Description"
-                name="description"
-                {...register('description')}
-              />
+              <JobEditor />
             </Field>
           </FieldGroup>
         </Fieldset>

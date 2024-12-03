@@ -27,7 +27,9 @@ class SessionsController < ApplicationController
     talent = Talent.find_or_create_by!(email:)
     session[:current_talent_id] = talent.id
 
-    redirect_to dashboard_board_path(talent.boards.first),
+    board_slug = talent.last_seen_board_id || talent.boards.first.slug
+
+    redirect_to dashboard_board_path(board_slug),
                 notice: I18n.t("sessions.show.notice", email:)
   end
 

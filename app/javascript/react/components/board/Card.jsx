@@ -6,7 +6,7 @@ import {
 
 import React, { useContext, useEffect, useState } from 'react'
 
-import { borderColors, ringColors } from '../colors'
+import { borderColors, ringColors } from '../../toolsets/colors'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -42,10 +42,9 @@ export const Card = ({ card }) => {
 
   if (!card || column?.collapsed) return null
 
-  const onRemoveCard = () => {
-    deleteCard(card.id, (deletedCard) => {
-      dispatch(deleteCardAction(deletedCard))
-    })
+  const onRemoveCard = async () => {
+    const deletedCard = await deleteCard(card.id)
+    dispatch(deleteCardAction(deletedCard))
   }
 
   const removeCardDialog = () => (
@@ -82,12 +81,12 @@ export const Card = ({ card }) => {
       <div
         className={classNames(
           borderColors[column?.color],
-          'w-64 rounded-lg border p-4 shadow-lg mb-3 ml-1 bg-white',
+          'min-w-64 rounded-lg border p-4 shadow-lg mb-3 ml-0.5 bg-white',
           isHovering && `ring-1 ${ringColors[column?.color]}`
         )}
       >
         <div className="flex">
-          <div className="min-w-0 flex-1">
+          <div>
             <p className="text-sm font-medium text-gray-900">{role}</p>
             <p className="truncate text-sm text-gray-500">{company_name}</p>
           </div>
@@ -102,7 +101,7 @@ export const Card = ({ card }) => {
                   Edit job details
                 </DropdownItem>
                 <DropdownItem onClick={() => setIsOpenDialogToRemoveCard(true)}>
-                  <TrashIcon />
+                  <TrashIcon className="fill-red-500" />
                   Delete job
                 </DropdownItem>
               </DropdownMenu>
