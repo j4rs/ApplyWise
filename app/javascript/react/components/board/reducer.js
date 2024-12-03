@@ -1,5 +1,7 @@
 import { findBoardCard, findColumn } from './utils'
 
+const UPDATE_BOARD = 'update_board'
+const COLLAPSE_COLUMNS = 'collapse_columns'
 const ADD_CARD = 'add_card'
 const MOVE_CARD = 'move_card'
 const INIT_BOARD = 'init_board'
@@ -14,6 +16,16 @@ export const boardReducer = (board, action) => {
   switch (action.type) {
     case INIT_BOARD: {
       board = action.payload.board
+      break
+    }
+    case UPDATE_BOARD: {
+      board.name = action.payload.board.name
+      break
+    }
+    case COLLAPSE_COLUMNS: {
+      board.columns.forEach((column) => {
+        column.collapsed = action.payload.collapsed
+      })
       break
     }
     case ADD_CARD: {
@@ -134,4 +146,14 @@ export const deleteColumnAction = (columnId) => ({
 export const moveColumnAction = (column, source, destination) => ({
   payload: { column, destination, source },
   type: MOVE_COLUMN
+})
+
+export const updateBoardAction = (board) => ({
+  payload: { board },
+  type: UPDATE_BOARD
+})
+
+export const collapseColumnsAction = (collapsed) => ({
+  payload: { collapsed },
+  type: COLLAPSE_COLUMNS
 })

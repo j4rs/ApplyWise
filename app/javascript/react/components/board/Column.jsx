@@ -2,7 +2,6 @@ import * as Headless from '@headlessui/react'
 import {
   CheckIcon,
   ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
   EllipsisHorizontalIcon,
   PencilSquareIcon,
   PlusIcon,
@@ -13,8 +12,12 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
 
-import { fillColors, textColors } from '../colors'
-import { Badge } from '../ui/badge'
+import {
+  bgColorsWithOpacity,
+  fillColors,
+  textColors
+} from '../../toolsets/colors'
+import { sizes } from '../../toolsets/sizes'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -39,13 +42,6 @@ import {
   updateColumnAction
 } from './reducer'
 import { classNames } from './utils'
-
-const sizes = {
-  lg: 'size-5',
-  md: 'size-4',
-  sm: 'size-3',
-  xs: 'size-2'
-}
 
 const colorIcon = (color, size = 'md') => (
   <svg
@@ -100,7 +96,7 @@ export const Column = ({ column, onNewCard = () => null }) => {
 
   const { collapsed, color, name, position } = column
 
-  const onAddCard = () => {
+  const onAddCard = async () => {
     const id = uuid()
     const card = {
       id,
@@ -110,55 +106,41 @@ export const Column = ({ column, onNewCard = () => null }) => {
       }
     }
 
-    createCard(
-      column.id,
-      { job_attributes: card.job, slug: id },
-      (createdCard) => {
-        dispatch(addCardAction(column.id, createdCard))
-        onNewCard(createdCard)
-      }
-    )
+    const newCard = await createCard(column.id, {
+      job_attributes: card.job,
+      slug: id
+    })
+    dispatch(addCardAction(column.id, newCard))
+    onNewCard(newCard)
   }
 
-  const onSubmitColumnName = (event) => {
+  const onSubmitColumnName = async (event) => {
     event.preventDefault()
     setIsEditing(false)
 
-    const payload = { column: form.getValues() }
-
-    updateColumn(board.id, column.id, payload, (updatedColumn) => {
-      dispatch(updateColumnAction(updatedColumn))
+    const updatedColumn = await updateColumn(board.id, column.id, {
+      column: form.getValues()
     })
+    dispatch(updateColumnAction(updatedColumn))
   }
 
-  const onChangeColor = (selectedColor) => () => {
-    updateColumn(
-      board.id,
-      column.id,
-      {
-        column: { color: selectedColor }
-      },
-      (updatedColumn) => {
-        dispatch(updateColumnAction(updatedColumn))
-      }
-    )
-  }
-
-  const toggleCollapse = (isCollapsed) => {
-    updateColumn(
-      board.id,
-      column.id,
-      { column: { collapsed: isCollapsed } },
-      (updatedColumn) => {
-        dispatch(updateColumnAction(updatedColumn))
-      }
-    )
-  }
-
-  const onRemoveColumn = () => {
-    deleteColumn(board.id, column.id, () => {
-      dispatch(deleteColumnAction(column.id))
+  const onChangeColor = (selectedColor) => async () => {
+    const updatedColumn = await updateColumn(board.id, column.id, {
+      column: { color: selectedColor }
     })
+    dispatch(updateColumnAction(updatedColumn))
+  }
+
+  const toggleCollapse = async (isCollapsed) => {
+    const updatedColumn = await updateColumn(board.id, column.id, {
+      column: { collapsed: isCollapsed }
+    })
+    dispatch(updateColumnAction(updatedColumn))
+  }
+
+  const onRemoveColumn = async () => {
+    deleteColumn(board.id, column.id)
+    dispatch(deleteColumnAction(column.id))
   }
 
   const ColorsDropdown = ({ value = 'light' }) => (
@@ -169,10 +151,10 @@ export const Column = ({ column, onNewCard = () => null }) => {
       >
         {colorIcon(value, 'sm')}
       </Headless.MenuButton>
-      <DropdownMenu className="supports-[grid-template-columns:subgrid]:grid-cols-4">
+      <DropdownMenu className="supports-[grid-template-columns:subgrid]:grid-cols-5">
         {Object.keys(fillColors).map((c) => (
           <DropdownItem
-            className="data-[focus]:bg-gray-100 col-span-1"
+            className="data-[focus]:bg-gray-100 supports-[grid-template-columns:subgrid]:col-span-1"
             key={c}
             onClick={onChangeColor(c)}
           >
@@ -219,31 +201,36 @@ export const Column = ({ column, onNewCard = () => null }) => {
 
   if (collapsed) {
     return (
-      <div className={`${position === 0 ? 'ml-0 mr-2' : 'mx-2'} py-2`}>
-        <div className="flex items-center">
-          <ColorsDropdown value={color} />
-          <button className="gap-2" onClick={() => toggleCollapse(false)}>
-            <ChevronDoubleRightIcon className="size-5 text-gray-300 hover:text-gray-500" />
-          </button>
-        </div>
-        <div className="[writing-mode:vertical-lr] my-2">
-          <button onClick={() => toggleCollapse(false)}>
-            <Text className="font-semibold">{name}</Text>
-          </button>
-          <button className="my-2" onClick={() => toggleCollapse(false)}>
-            <Badge className="px-1 py-2" color={color}>
-              {column.cards.length}
-            </Badge>
-          </button>
-        </div>
+      <div
+        className={classNames(
+          'flex items-center gap-2 py-3 rounded-lg [writing-mode:vertical-lr]',
+          position === 0 ? 'ml-0 mr-2' : 'mx-2',
+          bgColorsWithOpacity[color]
+        )}
+      >
+        <ColorsDropdown value={color} />
+        <button onClick={() => toggleCollapse(false)}>
+          <Text className="font-semibold">{name}</Text>
+        </button>
+        <Text
+          className="font-bold rounded-sm"
+          onClick={() => toggleCollapse(false)}
+        >
+          {column.cards.length}
+        </Text>
       </div>
     )
   }
 
   return (
     <div className="min-w-64 mr-2">
-      <div className="mb-2 flex justify-between">
-        <div className="flex items-center">
+      <div className="mb-2 flex">
+        <div
+          className={classNames(
+            'flex items-center rounded-lg mr-1',
+            bgColorsWithOpacity[color]
+          )}
+        >
           <ColorsDropdown value={color} />
           {isEditing ? (
             <form onSubmit={onSubmitColumnName} ref={editContainerRef}>
@@ -251,65 +238,69 @@ export const Column = ({ column, onNewCard = () => null }) => {
                 <input
                   type="text"
                   {...form.register('name')}
-                  className="border-0 text-gray-900 focus:ring-0 sm:text-sm/6 p-0 mx-2"
-                />
-                <div
-                  aria-hidden="true"
-                  className="inset-x-0 bottom-0 border-t border-gray-300 mx-2"
+                  className="p-0 font-semibold border-0 focus:ring-0 text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400"
                 />
               </div>
             </form>
           ) : (
-            <div className="max-w-44">
+            <div className="flex max-w-40">
               <Text
-                className="font-semibold mx-2 truncate"
+                className="font-semibold mr-2 truncate"
                 color={color}
                 onClick={() => setIsEditing(true)}
               >
                 {name}
               </Text>
+              <Text className="font-bold rounded-sm mr-2">
+                {column.cards.length}
+              </Text>
             </div>
           )}
         </div>
-        <Dropdown>
-          <DropdownButton plain>
-            <EllipsisHorizontalIcon />
-          </DropdownButton>
-          <DropdownMenu anchor="bottom end">
-            <DropdownItem onClick={() => toggleCollapse(true)}>
-              <ChevronDoubleLeftIcon
-                aria-hidden="true"
-                className="size-5 text-gray-300 hover:text-gray-500"
-              />
-              Collapse
-            </DropdownItem>
-            <DropdownDivider />
-            <DropdownItem onClick={() => setIsEditing(true)}>
-              <PencilSquareIcon />
-              Edit column name
-            </DropdownItem>
-            <DropdownItem onClick={() => colorDropDownBtn.current?.click()}>
-              <SwatchIcon />
-              Change color
-            </DropdownItem>
-            <DropdownItem onClick={onAddCard}>
-              <PlusIcon />
-              Add new job
-            </DropdownItem>
-            <DropdownDivider />
-            <DropdownItem onClick={() => setIsOpenDialogToRemoveColumn(true)}>
-              <TrashIcon />
-              Delete column
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <div className="flex grow justify-end">
+          <Dropdown>
+            <DropdownButton plain>
+              <EllipsisHorizontalIcon />
+            </DropdownButton>
+            <DropdownMenu anchor="bottom end">
+              <DropdownItem onClick={() => toggleCollapse(true)}>
+                <ChevronDoubleLeftIcon
+                  aria-hidden="true"
+                  className="size-5 text-gray-300 hover:text-gray-500"
+                />
+                Collapse
+              </DropdownItem>
+              <DropdownDivider />
+              <DropdownItem onClick={() => setIsEditing(true)}>
+                <PencilSquareIcon />
+                Edit column name
+              </DropdownItem>
+              <DropdownItem onClick={() => colorDropDownBtn.current?.click()}>
+                <SwatchIcon />
+                Change color
+              </DropdownItem>
+              <DropdownItem onClick={onAddCard}>
+                <PlusIcon />
+                Add new job
+              </DropdownItem>
+              <DropdownDivider />
+              <DropdownItem onClick={() => setIsOpenDialogToRemoveColumn(true)}>
+                <TrashIcon className="fill-red-500" />
+                Delete column
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Button plain className="text-zinc-950/50" onClick={onAddCard}>
+            <PlusIcon />
+          </Button>
+        </div>
       </div>
-      {column.cards.length === 0 && (
-        <Button plain className="text-zinc-950/50" onClick={onAddCard}>
+      {/* {column.cards.length === 0 && (
+        <Button outline className="text-zinc-950/50 w-full" onClick={onAddCard}>
           <PlusIcon />
-          ADD NEW JOB
+          Add new job
         </Button>
-      )}
+      )} */}
       {removeColumnDialog()}
     </div>
   )

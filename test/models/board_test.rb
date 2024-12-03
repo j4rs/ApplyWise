@@ -17,7 +17,6 @@
 #  index_boards_on_partition_id_and_slug  (partition_id,slug)
 #  index_boards_on_slug                   (slug) UNIQUE
 #  index_boards_on_talent_id              (talent_id)
-#  index_boards_on_talent_id_and_purpose  (talent_id,purpose) UNIQUE
 #
 # Foreign Keys
 #

@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :talents, only: %i[ update ]
+
   scope module: :dashboard do
     resource :dashboard, only: %i[ show ], controller: :dashboard do
       scope module: :inbox do
@@ -27,12 +29,13 @@ Rails.application.routes.draw do
       end
 
       scope module: :board do
-        resources :boards, only: %i[ show ] do
+        resources :boards, only: %i[ create index show update destroy ] do
           scope module: :column do
             resources :columns, only: %i[ create update destroy ] do
               resource :move, only: %i[ update ], controller: :move
             end
           end
+          resource :collapse, only: %i[ update ], controller: :collapse
         end
       end
 

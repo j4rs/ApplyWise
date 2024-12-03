@@ -2,13 +2,14 @@
 #
 # Table name: talents
 #
-#  id         :bigint           not null, primary key
-#  email      :string           not null
-#  first_name :string
-#  last_name  :string
-#  slug       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  email       :string           not null
+#  first_name  :string
+#  last_name   :string
+#  preferences :jsonb
+#  slug        :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #

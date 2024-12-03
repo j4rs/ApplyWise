@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { Board } from './components/board/Board'
 
+import { Boards } from './components/board/Boards'
 import { StackedLayoutDashboard } from './components/dashboard/StackedLayoutDashboard'
 import { ErrorPage } from './components/error/ErrorPage'
 
@@ -11,8 +12,12 @@ const router = createBrowserRouter([
   {
     children: [
       {
+        element: <Boards />,
+        path: '/dashboard/boards'
+      },
+      {
         element: <Board />,
-        path: 'boards/:id'
+        path: '/dashboard/boards/:id'
       }
     ],
     element: <StackedLayoutDashboard />,
