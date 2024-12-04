@@ -41,8 +41,7 @@ export const Boards = () => {
   const navigate = useNavigate()
   const [boards, setBoards] = useState([])
   const [isOpenCreateBoardDialog, setIsOpenCreateBoardDialog] = useState(false)
-  useState(false)
-  const [boardIdToRemove, setBoardIdToRemove] = useState(null)
+  const [boardToRemove, setBoardToRemove] = useState(null)
   const boardForm = useForm()
 
   const reFetchBoards = async () => setBoards(await fetchBoards())
@@ -88,19 +87,19 @@ export const Boards = () => {
   )
 
   const onRemoveBoard = async () => {
-    await deleteBoard(boardIdToRemove)
+    await deleteBoard(boardToRemove.id)
     reFetchBoards()
-    setBoardIdToRemove(null)
+    setBoardToRemove(null)
   }
 
   const removeBoardDialog = () => (
-    <Dialog onClose={() => setBoardIdToRemove(null)} open={!!boardIdToRemove}>
+    <Dialog onClose={() => setBoardToRemove(null)} open={!!boardToRemove}>
       <DialogTitle>Delete board</DialogTitle>
       <DialogDescription>
-        Are you sure you want to delete this board?
+        {`Are you sure you want to delete the board "${boardToRemove?.name}"?`}
       </DialogDescription>
       <DialogActions>
-        <Button plain onClick={() => setBoardIdToRemove(null)}>
+        <Button plain onClick={() => setBoardToRemove(null)}>
           Cancel
         </Button>
         <Button color="red" onClick={onRemoveBoard}>
@@ -153,7 +152,7 @@ export const Boards = () => {
                       <ViewColumnsIcon />
                       View
                     </DropdownItem>
-                    <DropdownItem onClick={() => setBoardIdToRemove(board.id)}>
+                    <DropdownItem onClick={() => setBoardToRemove(board)}>
                       <TrashIcon className="fill-red-500" />
                       Delete
                     </DropdownItem>

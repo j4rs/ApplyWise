@@ -1,9 +1,7 @@
 import {
   ArrowRightStartOnRectangleIcon,
-  ChevronDownIcon,
   Cog8ToothIcon,
   LightBulbIcon,
-  PlusIcon,
   ShieldCheckIcon,
   UserIcon
 } from '@heroicons/react/16/solid'
@@ -24,9 +22,7 @@ import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../ui/navbar'
 import {
   Sidebar,
   SidebarBody,
-  SidebarHeader,
   SidebarItem,
-  SidebarLabel,
   SidebarSection
 } from '../ui/sidebar'
 import { StackedLayout } from '../ui/stacked-layout'
@@ -39,29 +35,6 @@ const logout = (event) => {
 }
 
 const navItems = [{ label: 'Boards', url: '/dashboard/boards' }]
-
-const TeamDropdownMenu = () => (
-  <DropdownMenu anchor="bottom start" className="min-w-80 lg:min-w-64">
-    <DropdownItem href="/teams/1/settings">
-      <Cog8ToothIcon />
-      <DropdownLabel>Settings</DropdownLabel>
-    </DropdownItem>
-    <DropdownDivider />
-    <DropdownItem href="/teams/1">
-      <Avatar slot="icon" src="/tailwind-logo.svg" />
-      <DropdownLabel>Tailwind Labs</DropdownLabel>
-    </DropdownItem>
-    <DropdownItem href="/teams/2">
-      <Avatar className="bg-purple-500 text-white" initials="WC" slot="icon" />
-      <DropdownLabel>Workcation</DropdownLabel>
-    </DropdownItem>
-    <DropdownDivider />
-    <DropdownItem href="/teams/create">
-      <PlusIcon />
-      <DropdownLabel>New team&hellip;</DropdownLabel>
-    </DropdownItem>
-  </DropdownMenu>
-)
 
 export const StackedLayoutDashboard = () => (
   <StackedLayout
@@ -125,16 +98,6 @@ export const StackedLayoutDashboard = () => (
     }
     sidebar={
       <Sidebar>
-        <SidebarHeader>
-          <Dropdown>
-            <DropdownButton as={SidebarItem} className="lg:mb-2.5">
-              <Avatar />
-              <SidebarLabel>Tailwind Labs</SidebarLabel>
-              <ChevronDownIcon />
-            </DropdownButton>
-            <TeamDropdownMenu />
-          </Dropdown>
-        </SidebarHeader>
         <SidebarBody>
           <SidebarSection>
             {navItems.map(({ label, url }) => (

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
       scope module: :board do
         resources :boards, only: %i[ create index show update destroy ] do
+          resources :jobs, only: %i[ show ]
           scope module: :column do
             resources :columns, only: %i[ create update destroy ] do
               resource :move, only: %i[ update ], controller: :move

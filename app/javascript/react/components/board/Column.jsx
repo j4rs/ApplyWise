@@ -238,7 +238,7 @@ export const Column = ({ column, onNewCard = () => null }) => {
                 <input
                   type="text"
                   {...form.register('name')}
-                  className="p-0 font-semibold border-0 focus:ring-0 text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400"
+                  className="p-0 border-0 focus:ring-0 text-base/6 sm:text-sm/6 bg-transparent pr-2"
                 />
               </div>
             </form>

@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Board } from './components/board/Board'
 
 import { Boards } from './components/board/Boards'
+import { Job } from './components/board/Job'
 import { StackedLayoutDashboard } from './components/dashboard/StackedLayoutDashboard'
 import { ErrorPage } from './components/error/ErrorPage'
 
@@ -16,8 +17,14 @@ const router = createBrowserRouter([
         path: '/dashboard/boards'
       },
       {
+        children: [
+          {
+            element: <Job />,
+            path: 'jobs/:job_id'
+          }
+        ],
         element: <Board />,
-        path: '/dashboard/boards/:id'
+        path: '/dashboard/boards/:board_id'
       }
     ],
     element: <StackedLayoutDashboard />,
@@ -27,11 +34,10 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return (
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  )
+  const routerProvider = <RouterProvider router={router} />
+  // REACT_APP_RAILS_ENV is set by esbuild.config.js when building the app
+  if (process.env.REACT_APP_RAILS_ENV === 'production') return routerProvider
+  return <React.StrictMode>{routerProvider}</React.StrictMode>
 }
 
 document.addEventListener('turbo:load', () => {

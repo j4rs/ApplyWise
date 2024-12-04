@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState, useRef } from 'react'
 
 import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import { useImmerReducer } from 'use-immer'
 
 import { Button } from '../ui/button'
@@ -46,7 +46,7 @@ import {
 } from './reducer'
 
 export const Board = () => {
-  const { id } = useParams()
+  const { board_id } = useParams()
   const [board, dispatch] = useImmerReducer(boardReducer, null)
   const [editCard, setEditCard] = useState(null)
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
@@ -55,9 +55,9 @@ export const Board = () => {
   const boardForm = useForm()
 
   useEffect(() => {
-    if (!id) return
-    ;(async () => dispatch(initBoardAction(await fetchBoard(id))))()
-  }, [dispatch, id])
+    if (!board_id) return
+    ;(async () => dispatch(initBoardAction(await fetchBoard(board_id))))()
+  }, [dispatch, board_id])
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -179,7 +179,7 @@ export const Board = () => {
               </DropdownItem>
               <DropdownItem href={`/dashboard/boards`}>
                 <ListBulletIcon />
-                Admin boards
+                Manage boards
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -215,6 +215,7 @@ export const Board = () => {
         {editCard && (
           <EditCard isOpen card={editCard} onClose={() => setEditCard(null)} />
         )}
+        <Outlet />
       </BoardDispatchContext.Provider>
     </BoardContext.Provider>
   )

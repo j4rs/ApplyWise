@@ -1,5 +1,6 @@
 import {
   EllipsisHorizontalIcon,
+  EyeIcon,
   PencilSquareIcon,
   TrashIcon
 } from '@heroicons/react/16/solid'
@@ -68,7 +69,7 @@ export const Card = ({ card }) => {
   )
 
   const {
-    job: { company_name, role }
+    job: { id: job_id, company_name, role }
   } = card
 
   if (column?.collapsed) return null
@@ -85,7 +86,7 @@ export const Card = ({ card }) => {
           isHovering && `ring-1 ${ringColors[column?.color]}`
         )}
       >
-        <div className="flex">
+        <div className="flex justify-between">
           <div>
             <p className="text-sm font-medium text-gray-900">{role}</p>
             <p className="truncate text-sm text-gray-500">{company_name}</p>
@@ -96,6 +97,10 @@ export const Card = ({ card }) => {
                 <EllipsisHorizontalIcon />
               </DropdownButton>
               <DropdownMenu anchor="bottom end">
+                <DropdownItem href={`jobs/${job_id}`}>
+                  <EyeIcon />
+                  Open card
+                </DropdownItem>
                 <DropdownItem onClick={() => setEditCard(card)}>
                   <PencilSquareIcon />
                   Edit job details

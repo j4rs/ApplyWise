@@ -3,11 +3,17 @@
 module Dashboard
   module Board
     class JobsController < ApplicationController
-      skip_forgery_protection only: %i[ update]
+      include Reactive
 
+      skip_forgery_protection only: %i[ update]
       before_action :set_job, only: [ :update ]
 
-      # PATCH /dashboard/board/jobs/:id
+      # GET /dashboard/board/:board_id/jobs/:id
+      def show
+        @job = Job.find_by!(slug: params[:id])
+      end
+
+      # PATCH /dashboard/board/:board_id/jobs/:id
       def update
         @job.update(job_params)
         render :show

@@ -70,6 +70,12 @@ export const createCard = async (board_column_id, card) =>
     method: 'POST'
   }).then((res) => res.json())
 
+export const fetchJob = async (boardId, id) =>
+  fetch(`/dashboard/boards/${boardId}/jobs/${id}`, {
+    headers,
+    method: 'GET'
+  }).then((res) => res.json())
+
 export const updateJob = async (job) =>
   fetch(`/dashboard/board/jobs/${job.id}`, {
     body: JSON.stringify({ job }),

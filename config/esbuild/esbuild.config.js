@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /* eslint-disable */
 
 const { glob } = require('glob');
@@ -6,6 +5,29 @@ const { glob } = require('glob');
 const chokidar = require('chokidar')
 const esbuild = require('esbuild')
 const http = require('http')
+
+const envPaths = ['.env', '.env.development', '.env.local', '.env.development.local']
+const fs = require('fs')
+const dotenv = require('dotenv');
+
+let envObject = {}
+// Iterate through env and apply the values based on precedence.
+envPaths.forEach((v) => {
+  if (fs.existsSync(v)) {
+    if (Object.keys(envObject).length === 0) {
+      console.log(`Using env file: '${v}'`)
+    } else {
+      console.log(`Merging keys from env file: '${v}'`)
+    }
+    envObject = { ...envObject, ...dotenv.parse(fs.readFileSync(v)) }
+  }
+})
+
+if (Object.keys(envObject).length > 0) {
+  dotenv.populate(process.env, envObject)
+} else {
+  console.log('Did not load environment file.')
+}
 
 // Add more entrypoints, if needed
 const entryPoints = [
@@ -33,6 +55,9 @@ const buildConfig = {
   plugins: [],
   banner: {
     js: `(() => new EventSource("http://localhost:${esbuildUpdateServerPort}").onmessage = () => location.reload())();`,
+  },
+  define: {
+    'process.env.REACT_APP_RAILS_ENV': JSON.stringify(process.env.REACT_APP_RAILS_ENV)
   }
 }
 
