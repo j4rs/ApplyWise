@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "landing/home#index"
+  root "landing#index"
 
   resources :sessions, only: %i[ new create show destroy ] do
     collection do
@@ -25,28 +25,42 @@ Rails.application.routes.draw do
 
   resources :talents, only: %i[ update ]
 
-  scope module: :dashboard do
-    resource :dashboard, only: %i[ show ], controller: :dashboard do
-      scope module: :inbox do
-        resource :inbox
-      end
+  # /dashboard
+  resource :dashboard, only: %i[ show ], controller: :dashboard
 
+  namespace :dashboard do
+    # /dashboard/boards
+    resources :boards, only: %i[ create index show update destroy ] do
+      # /dashboard/boards/:board_id/columns
       scope module: :board do
-        resources :boards, only: %i[ create index show update destroy ] do
-          resources :jobs, only: %i[ show ]
+        # /dashboard/boards/:board_id/columns
+        resources :columns, only: %i[ create update destroy ] do
+          # /dashboard/boards/:board_id/columns/:id/move
           scope module: :column do
-            resources :columns, only: %i[ create update destroy ] do
-              resource :move, only: %i[ update ], controller: :move
-            end
+            resource :move, only: %i[ update ], controller: :move
           end
-          resource :collapse, only: %i[ update ], controller: :collapse
         end
+        # /dashboard/boards/:board_id/jobs/:id
+        resources :jobs, only: %i[ show ] do
+          # /dashboard/boards/:board_id/jobs/:id/details
+          scope module: :jobs do
+            resource :details, only: %i[ show ]
+          end
+        end
+        # /dashboard/boards/:board_id/collapse
+        resource :collapse, only: %i[ update ], controller: :collapse
       end
+    end
 
-      namespace :board do
-        resources :cards, only: %i[ create destroy update ]
-        resources :jobs, only: %i[ update destroy ]
-      end
+    # The following actions don't need the board and column context
+    # as everything is scoped to the partition and using slug
+
+    # /dashboard/board
+    namespace :board do
+      # /dashboard/board/cards
+      resources :cards, only: %i[ create destroy update ]
+      # /dashboard/board/jobs
+      resources :jobs, only: %i[ update destroy ]
     end
   end
 end

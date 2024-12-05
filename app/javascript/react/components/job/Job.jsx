@@ -1,12 +1,15 @@
 import { ChevronRightIcon, ViewColumnsIcon } from '@heroicons/react/16/solid'
 import React, { useEffect, useState } from 'react'
 
-import { useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 
+import { fetchBoard, fetchJob } from '../board/network'
 import { Link } from '../ui/link'
 
-import { fetchBoard, fetchJob } from './network'
-import { Divider } from '../ui/divider'
+import { Text } from '../ui/text'
+
+import { JobContext } from './JobContext'
+import { Tabs } from './Tabs'
 
 export const Job = () => {
   const { board_id, job_id } = useParams()
@@ -27,7 +30,6 @@ export const Job = () => {
     asyncFetchBoard()
   }, [board_id])
 
-  // fetch job
   useEffect(() => {
     if (!job_id) return
 
@@ -48,9 +50,9 @@ export const Job = () => {
             >
               <ViewColumnsIcon
                 aria-hidden="true"
-                className="size-5 shrink-0 text-gray-400"
+                className="size-5 text-gray-400"
               />
-              {board.name}
+              <Text>{board.name}</Text>
             </Link>
           </div>
         </li>
@@ -58,9 +60,9 @@ export const Job = () => {
           <div className="flex items-center gap-2">
             <ChevronRightIcon
               aria-hidden="true"
-              className="size-5 shrink-0 text-gray-400"
+              className="size-5 text-gray-400"
             />
-            {job.role}
+            <Text>{job.role}</Text>
           </div>
         </li>
       </ol>
@@ -68,9 +70,12 @@ export const Job = () => {
   )
 
   return (
-    <>
-      {buildBreadcrumb()}
-      <Divider className="my-4" />
-    </>
+    <JobContext.Provider value={job}>
+      <div className="flex flex-col gap-4">
+        {buildBreadcrumb()}
+        <Tabs />
+        <Outlet />
+      </div>
+    </JobContext.Provider>
   )
 }

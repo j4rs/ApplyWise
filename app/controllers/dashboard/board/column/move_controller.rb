@@ -7,7 +7,7 @@ module Dashboard
         skip_forgery_protection only: %i[ update ]
         before_action :set_board, only: %i[ update ]
 
-        # PATCH /dashboard/board/columns/:id/move
+        # PATCH /dashboard/boards/:board_id/columns/:id/move
         def update
           @board.move_column!(column_params.merge(slug: params[:column_id]))
 

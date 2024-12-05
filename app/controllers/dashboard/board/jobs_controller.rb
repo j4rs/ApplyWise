@@ -10,7 +10,7 @@ module Dashboard
 
       # GET /dashboard/board/:board_id/jobs/:id
       def show
-        @job = Job.find_by!(slug: params[:id])
+        @job = ::Job.find_by!(slug: params[:id])
       end
 
       # PATCH /dashboard/board/:board_id/jobs/:id
@@ -22,7 +22,7 @@ module Dashboard
       private
 
       def set_job
-        @job = Job.find_by!(slug: params[:id])
+        @job = ::Job.find_by!(slug: params[:id])
       end
 
       def job_params

@@ -5,9 +5,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Board } from './components/board/Board'
 
 import { Boards } from './components/board/Boards'
-import { Job } from './components/board/Job'
 import { Dashboard } from './components/dashboard/Dashboard'
 import { ErrorPage } from './components/error/ErrorPage'
+import { DetailsTab } from './components/job/DetailsTab'
+import { Job } from './components/job/Job'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,12 @@ const router = createBrowserRouter([
         path: '/dashboard/boards/:board_id'
       },
       {
+        children: [
+          {
+            element: <DetailsTab />,
+            path: 'details'
+          }
+        ],
         element: <Job />,
         path: '/dashboard/boards/:board_id/jobs/:job_id'
       }
