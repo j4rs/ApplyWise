@@ -386,7 +386,9 @@ DEPENDENCIES
   solid_cable
   solid_cache
   solid_queue
+  stimulus-rails
   thruster
+  turbo-rails
   tzinfo-data
   web-console
 
