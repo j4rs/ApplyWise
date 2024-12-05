@@ -149,10 +149,10 @@ export const Dashboard = () => (
         </SidebarHeader>
         <SidebarBody>
           <SidebarSection>
-            <SidebarItem href="board">
+            <SidebarItem href="/dashboard/boards">
               <HomeIcon />
               <SidebarLabel>
-                <Strong>Board</Strong>
+                <Strong>Boards</Strong>
               </SidebarLabel>
             </SidebarItem>
             <SidebarItem href="/events">

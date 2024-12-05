@@ -1,51 +1,76 @@
+import { ChevronRightIcon, ViewColumnsIcon } from '@heroicons/react/16/solid'
 import React, { useEffect, useState } from 'react'
+
 import { useParams } from 'react-router-dom'
 
-import {
-  Dialog,
-  DialogBody,
-  DialogDescription,
-  DialogTitle
-} from '../ui/dialog'
+import { Link } from '../ui/link'
 
-import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from '../ui/navbar'
-
-import { fetchJob } from './network'
+import { fetchBoard, fetchJob } from './network'
+import { Divider } from '../ui/divider'
 
 export const Job = () => {
   const { board_id, job_id } = useParams()
+  const [board, setBoard] = useState(null)
   const [job, setJob] = useState(null)
 
-  console.log(board_id, job_id)
+  const asyncFetchJob = async () => {
+    const fetchedJob = await fetchJob(board_id, job_id)
+    setJob(fetchedJob)
+  }
+
+  const asyncFetchBoard = async () => {
+    const fetchedBoard = await fetchBoard(board_id)
+    setBoard(fetchedBoard)
+  }
+
+  useEffect(() => {
+    asyncFetchBoard()
+  }, [board_id])
 
   // fetch job
   useEffect(() => {
     if (!job_id) return
 
-    setJob(fetchJob(board_id, job_id))
+    asyncFetchJob()
   }, [board_id, job_id])
 
+  if (!board) return null
   if (!job) return null
 
+  const buildBreadcrumb = () => (
+    <nav aria-label="Breadcrumb">
+      <ol className="flex items-center">
+        <li key="board">
+          <div>
+            <Link
+              className="flex items-center gap-2"
+              href={`/dashboard/boards/${board_id}`}
+            >
+              <ViewColumnsIcon
+                aria-hidden="true"
+                className="size-5 shrink-0 text-gray-400"
+              />
+              {board.name}
+            </Link>
+          </div>
+        </li>
+        <li key="job">
+          <div className="flex items-center gap-2">
+            <ChevronRightIcon
+              aria-hidden="true"
+              className="size-5 shrink-0 text-gray-400"
+            />
+            {job.role}
+          </div>
+        </li>
+      </ol>
+    </nav>
+  )
+
   return (
-    <Dialog onClose={() => {}} open={true}>
-      <DialogTitle>Job</DialogTitle>
-      <DialogDescription>
-        Play with the tools to create a tailored resume and cover letter for
-        this job.
-      </DialogDescription>
-      <DialogBody>
-        <Navbar>
-          <NavbarSection className="max-lg:hidden">
-            <NavbarItem current href="/">
-              Home
-            </NavbarItem>
-            <NavbarItem href="/events">Events</NavbarItem>
-            <NavbarItem href="/orders">Orders</NavbarItem>
-          </NavbarSection>
-          <NavbarSpacer />
-        </Navbar>
-      </DialogBody>
-    </Dialog>
+    <>
+      {buildBreadcrumb()}
+      <Divider className="my-4" />
+    </>
   )
 }

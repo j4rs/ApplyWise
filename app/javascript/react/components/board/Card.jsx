@@ -69,7 +69,7 @@ export const Card = ({ card }) => {
   )
 
   const {
-    job: { id: job_id, company_name, role }
+    job: { company_name, id: job_id, role }
   } = card
 
   if (column?.collapsed) return null
@@ -82,13 +82,13 @@ export const Card = ({ card }) => {
       <div
         className={classNames(
           borderColors[column?.color],
-          'min-w-64 rounded-lg border p-4 shadow-lg mb-3 ml-0.5 bg-white',
+          'w-64 rounded-lg border p-4 shadow-lg mb-3 ml-0.5 bg-white',
           isHovering && `ring-1 ${ringColors[column?.color]}`
         )}
       >
         <div className="flex justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-900">{role}</p>
+          <div className="w-4/5">
+            <p className="truncate text-sm font-medium text-gray-900">{role}</p>
             <p className="truncate text-sm text-gray-500">{company_name}</p>
           </div>
           {isHovering && (

@@ -31,7 +31,8 @@ class BoardColumn < ApplicationRecord
     { name: "Wish", color: "red", position: 0 },
     { name: "Applied", color: "yellow", position: 1 },
     { name: "Contacted", color: "blue", position: 2 },
-    { name: "Interview", color: "green", position: 3 }
+    { name: "Interview", color: "green", position: 3 },
+    { name: "Rejected", color: "zinc", position: 4 }
   ].freeze
 
   belongs_to :board

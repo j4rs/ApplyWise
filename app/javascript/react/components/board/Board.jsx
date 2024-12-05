@@ -23,6 +23,8 @@ import {
 } from '../ui/dropdown'
 import { Heading } from '../ui/heading'
 
+import { Text } from '../ui/text'
+
 import { BoardContext, BoardDispatchContext } from './BoardContext'
 import { Card } from './Card'
 import { Column } from './Column'
@@ -126,7 +128,7 @@ export const Board = () => {
   return (
     <BoardContext.Provider value={board}>
       <BoardDispatchContext.Provider value={{ dispatch, setEditCard }}>
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between">
           {isEditingBoardName ? (
             <form
               onSubmit={boardForm.handleSubmit(updateBoardName)}
@@ -135,11 +137,11 @@ export const Board = () => {
               <input
                 type="text"
                 {...boardForm.register('name')}
-                className="sm:text-xl/8 font-semibold border-0 text-gray-900 focus:ring-0 p-2"
+                className="sm:text-xl/8 font-semibold border-0 text-gray-900 focus:ring-0 p-0"
               />
             </form>
           ) : (
-            <div className="hover:bg-zinc-100 rounded-md p-2">
+            <div className="hover:bg-zinc-100 rounded-md">
               <Heading
                 className="hover:bg-zinc-100"
                 onClick={() => setIsEditingBoardName(true)}
@@ -184,6 +186,7 @@ export const Board = () => {
             </DropdownMenu>
           </Dropdown>
         </div>
+        <Text>Scroll to the right to see more columns</Text>
         <Divider className="my-4" />
         {board && (
           <ControlledBoard

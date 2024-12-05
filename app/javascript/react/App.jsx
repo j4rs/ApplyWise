@@ -6,7 +6,7 @@ import { Board } from './components/board/Board'
 
 import { Boards } from './components/board/Boards'
 import { Job } from './components/board/Job'
-import { StackedLayoutDashboard } from './components/dashboard/StackedLayoutDashboard'
+import { Dashboard } from './components/dashboard/Dashboard'
 import { ErrorPage } from './components/error/ErrorPage'
 
 const router = createBrowserRouter([
@@ -17,17 +17,15 @@ const router = createBrowserRouter([
         path: '/dashboard/boards'
       },
       {
-        children: [
-          {
-            element: <Job />,
-            path: 'jobs/:job_id'
-          }
-        ],
         element: <Board />,
         path: '/dashboard/boards/:board_id'
+      },
+      {
+        element: <Job />,
+        path: '/dashboard/boards/:board_id/jobs/:job_id'
       }
     ],
-    element: <StackedLayoutDashboard />,
+    element: <Dashboard />,
     errorElement: <ErrorPage />,
     path: '/dashboard'
   }
@@ -37,6 +35,7 @@ function App() {
   const routerProvider = <RouterProvider router={router} />
   // REACT_APP_RAILS_ENV is set by esbuild.config.js when building the app
   if (process.env.REACT_APP_RAILS_ENV === 'production') return routerProvider
+
   return <React.StrictMode>{routerProvider}</React.StrictMode>
 }
 
