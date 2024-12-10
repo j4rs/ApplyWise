@@ -1,18 +1,18 @@
-import { ControlledBoard } from '@caldwell619/react-kanban'
 import {
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
   EllipsisHorizontalIcon,
   ListBulletIcon,
   PencilIcon,
-  PlusIcon
+  ViewColumnsIcon
 } from '@heroicons/react/16/solid'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { Outlet, useParams } from 'react-router-dom'
 import { useImmerReducer } from 'use-immer'
 
+import { DashboardContext } from '../dashboard/DashboardContext'
 import { Button } from '../ui/button'
 import { Divider } from '../ui/divider'
 import {
@@ -26,32 +26,23 @@ import { Heading } from '../ui/heading'
 import { Text } from '../ui/text'
 
 import { BoardContext, BoardDispatchContext } from './BoardContext'
-import { Card } from './Card'
-import { Column } from './Column'
-import { EditCard } from './EditCard'
-import {
-  collapseColumns,
-  createColumn,
-  fetchBoard,
-  moveCard,
-  moveColumn,
-  updateBoard
-} from './network'
+import CardsList from './CardsList'
+import Kanban from './Kanban'
+import { collapseColumns, fetchBoard, updateBoard } from './network'
 import {
   boardReducer,
   collapseColumnsAction,
-  createColumnAction,
   initBoardAction,
-  moveCardAction,
-  moveColumnAction,
   updateBoardAction
 } from './reducer'
 
 export const Board = () => {
   const { board_id } = useParams()
   const [board, dispatch] = useImmerReducer(boardReducer, null)
-  const [editCard, setEditCard] = useState(null)
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
+
+  const { onPreferencesChange, preferences } = useContext(DashboardContext)
+  const layout = preferences?.jobs_layout || 'kanban'
 
   const editBoardNameContainerRef = useRef(null)
   const boardForm = useForm()
@@ -89,31 +80,8 @@ export const Board = () => {
     }
   }, [boardForm, isEditingBoardName])
 
-  const onCardDragEnd = (card, source, destination) => {
-    const from = {
-      column_id: source.fromColumnId,
-      position: source.fromPosition
-    }
-
-    const to = {
-      column_id: destination.toColumnId,
-      position: destination.toPosition
-    }
-
-    moveCard(card, from, to)
-    dispatch(moveCardAction(card, source, destination))
-  }
-
-  const onColumnDragEnd = (column, source, destination) => {
-    moveColumn(board.id, column, source.fromPosition, destination.toPosition)
-    dispatch(moveColumnAction(column, source, destination))
-  }
-
-  const onAddColumn = async () => {
-    const column = await createColumn(board.id, {
-      column: { color: 'light', name: 'View name' }
-    })
-    dispatch(createColumnAction(column))
+  const handleLayoutChange = (newLayout) => {
+    onPreferencesChange({ ...preferences, jobs_layout: newLayout })
   }
 
   const updateBoardName = async (data) => {
@@ -127,7 +95,7 @@ export const Board = () => {
 
   return (
     <BoardContext.Provider value={board}>
-      <BoardDispatchContext.Provider value={{ dispatch, setEditCard }}>
+      <BoardDispatchContext.Provider value={dispatch}>
         <div className="flex items-center justify-between">
           {isEditingBoardName ? (
             <form
@@ -150,74 +118,72 @@ export const Board = () => {
               </Heading>
             </div>
           )}
-          <Dropdown>
-            <DropdownButton plain aria-label="More options">
-              <EllipsisHorizontalIcon />
-            </DropdownButton>
-            <DropdownMenu anchor="bottom end">
-              <DropdownItem plain onClick={() => setIsEditingBoardName(true)}>
-                <PencilIcon />
-                Edit board name
-              </DropdownItem>
-              <DropdownItem
-                plain
-                onClick={() => {
-                  dispatch(collapseColumnsAction(true))
-                  collapseColumns(board.id, true)
-                }}
-              >
-                <ArrowsPointingInIcon />
-                Collapse all views
-              </DropdownItem>
-              <DropdownItem
-                plain
-                onClick={() => {
-                  dispatch(collapseColumnsAction(false))
-                  collapseColumns(board.id, false)
-                }}
-              >
-                <ArrowsPointingOutIcon />
-                Expand all views
-              </DropdownItem>
-              <DropdownItem href={`/dashboard/boards`}>
-                <ListBulletIcon />
-                Manage boards
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <div className="flex justify-end gap-2">
+            <Button
+              plain
+              className={
+                layout === 'kanban' ? 'bg-zinc-100 border-zinc-200' : ''
+              }
+              onClick={() => handleLayoutChange('kanban')}
+            >
+              <ViewColumnsIcon />
+            </Button>
+            <Button
+              plain
+              className={layout === 'list' ? 'bg-zinc-100 border-zinc-200' : ''}
+              onClick={() => handleLayoutChange('list')}
+            >
+              <ListBulletIcon />
+            </Button>
+            <Dropdown>
+              <DropdownButton plain aria-label="More options">
+                <EllipsisHorizontalIcon />
+              </DropdownButton>
+              <DropdownMenu anchor="bottom end">
+                <DropdownItem plain onClick={() => setIsEditingBoardName(true)}>
+                  <PencilIcon />
+                  Edit board name
+                </DropdownItem>
+                {layout === 'kanban' && (
+                  <>
+                    <DropdownItem
+                      plain
+                      onClick={() => {
+                        dispatch(collapseColumnsAction(true))
+                        collapseColumns(board.id, true)
+                      }}
+                    >
+                      <ArrowsPointingInIcon />
+                      Collapse all views
+                    </DropdownItem>
+                    <DropdownItem
+                      plain
+                      onClick={() => {
+                        dispatch(collapseColumnsAction(false))
+                        collapseColumns(board.id, false)
+                      }}
+                    >
+                      <ArrowsPointingOutIcon />
+                      Expand all views
+                    </DropdownItem>
+                  </>
+                )}
+                <DropdownItem href={`/dashboard/boards`}>
+                  <ListBulletIcon />
+                  Manage boards
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
         </div>
-        <Text>Scroll to the right to see more columns</Text>
-        <Divider className="my-4" />
-        {board && (
-          <ControlledBoard
-            allowAddCard={false}
-            allowAddColumn={true}
-            allowRemoveCard={false}
-            allowRemoveColumn={false}
-            allowRenameColumn={false}
-            onCardDragEnd={onCardDragEnd}
-            onColumnDragEnd={onColumnDragEnd}
-            renderCard={(card) => <Card card={card} />}
-            renderColumnAdder={() => (
-              <Button
-                outline
-                className="min-w-64 text-zinc-950/50"
-                onClick={onAddColumn}
-              >
-                <PlusIcon />
-                Add new view
-              </Button>
-            )}
-            renderColumnHeader={(column) => (
-              <Column column={column} onNewCard={(card) => setEditCard(card)} />
-            )}
-          >
-            {board}
-          </ControlledBoard>
+        {layout === 'kanban' && (
+          <>
+            <Text>Scroll to the right to see more columns</Text>
+            <Divider className="my-4" />
+            <Kanban board={board} />
+          </>
         )}
-        {editCard && (
-          <EditCard isOpen card={editCard} onClose={() => setEditCard(null)} />
-        )}
+        {layout === 'list' && <CardsList board={board} />}
         <Outlet />
       </BoardDispatchContext.Provider>
     </BoardContext.Provider>

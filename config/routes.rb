@@ -23,7 +23,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :talents, only: %i[ update ]
+  scope module: :talents do
+    resource :preferences, only: %i[ update show ]
+  end
 
   # /dashboard
   resource :dashboard, only: %i[ show ], controller: :dashboard
@@ -43,7 +45,7 @@ Rails.application.routes.draw do
         # /dashboard/boards/:board_id/jobs/:id
         resources :jobs, only: %i[ show ] do
           # /dashboard/boards/:board_id/jobs/:id/details
-          scope module: :jobs do
+          scope module: :job do
             resource :details, only: %i[ show ]
           end
         end

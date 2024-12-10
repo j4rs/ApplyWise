@@ -101,3 +101,13 @@ export const updateTalent = async (talent) =>
     headers,
     method: 'PATCH'
   })
+
+export const updateTalentPreferences = async (prefs) =>
+  fetch('/preferences', {
+    body: JSON.stringify({ preferences: { ...prefs } }),
+    headers,
+    method: 'PATCH'
+  })
+
+export const fetchTalentPreferences = async () =>
+  fetch('/preferences', { headers, method: 'GET' }).then((res) => res.json())

@@ -7,8 +7,11 @@ import { Board } from './components/board/Board'
 import { Boards } from './components/board/Boards'
 import { Dashboard } from './components/dashboard/Dashboard'
 import { ErrorPage } from './components/error/ErrorPage'
+import { CoverLetterTab } from './components/job/CoverLetterTab'
 import { DetailsTab } from './components/job/DetailsTab'
+import { InterviewPrepTab } from './components/job/InterviewPrepTab'
 import { Job } from './components/job/Job'
+import { ResumeTab } from './components/job/ResumeTab'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ const router = createBrowserRouter([
           {
             element: <DetailsTab />,
             path: 'details'
+          },
+          {
+            element: <ResumeTab />,
+            path: 'resume'
+          },
+          {
+            element: <CoverLetterTab />,
+            path: 'cover_letter'
+          },
+          {
+            element: <InterviewPrepTab />,
+            path: 'interview_prep'
           }
         ],
         element: <Job />,

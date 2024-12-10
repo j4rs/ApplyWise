@@ -1,11 +1,10 @@
+// app/javascript/react/components/board/EditCard.jsx
 import { LinkIcon } from '@heroicons/react/16/solid'
-import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
+import React from 'react'
 
 import { JobEditor } from '../jobs/JobEditor'
 import { Button } from '../ui/button'
 import { Dialog, DialogActions } from '../ui/dialog'
-
 import {
   ErrorMessage,
   Field,
@@ -17,40 +16,15 @@ import {
 import { Input, InputGroup } from '../ui/input'
 import { Text } from '../ui/text'
 
-import { BoardDispatchContext } from './BoardContext'
+import { useEditCard } from './hooks/useEditCard'
 
-import { updateJob } from './network'
-import { updateCardAction } from './reducer'
-
-export const EditCard = (props) => {
-  const { dispatch } = useContext(BoardDispatchContext)
-  const { card, isOpen, onClose } = props
-
-  const {
-    job: { company_name, description, id, role, url }
-  } = card
-
-  const {
-    formState: { errors },
-    handleSubmit,
-    register
-  } = useForm({
-    defaultValues: {
-      company_name,
-      description,
-      id,
-      role,
-      url
-    }
-  })
+export const EditCard = ({ card, isOpen, onClose }) => {
+  const { errors, handleSubmit, onSubmit, register } = useEditCard(
+    card,
+    onClose
+  )
 
   if (!card) return null
-
-  const onSubmit = async (data) => {
-    const updatedJob = await updateJob(data)
-    dispatch(updateCardAction({ ...card, job: updatedJob }))
-    onClose()
-  }
 
   return (
     <Dialog className="relative z-10" onClose={onClose} open={isOpen}>

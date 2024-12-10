@@ -10,7 +10,6 @@ import {
 } from '@heroicons/react/16/solid'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { v4 as uuid } from 'uuid'
 
 import {
   bgColorsWithOpacity,
@@ -19,12 +18,6 @@ import {
 } from '../../toolsets/colors'
 import { sizes } from '../../toolsets/sizes'
 import { Button } from '../ui/button'
-import {
-  Dialog,
-  DialogActions,
-  DialogDescription,
-  DialogTitle
-} from '../ui/dialog'
 import {
   Dropdown,
   DropdownButton,
@@ -35,12 +28,11 @@ import {
 import { Text } from '../ui/text'
 
 import { BoardContext, BoardDispatchContext } from './BoardContext'
-import { createCard, deleteColumn, updateColumn } from './network'
-import {
-  addCardAction,
-  deleteColumnAction,
-  updateColumnAction
-} from './reducer'
+import { RemoveColumnDialog } from './RemoveColumnDialog'
+import { AddCard } from './actions/AddCard'
+import { useDeleteColumn } from './hooks/useDeleteColumn'
+import { updateColumn } from './network'
+import { updateColumnAction } from './reducer'
 import { classNames } from './utils'
 
 const colorIcon = (color, size = 'md') => (
@@ -53,18 +45,17 @@ const colorIcon = (color, size = 'md') => (
   </svg>
 )
 
-export const Column = ({ column, onNewCard = () => null }) => {
+export const Column = ({ column }) => {
   const board = useContext(BoardContext)
-  const { dispatch } = useContext(BoardDispatchContext)
+  const dispatch = useContext(BoardDispatchContext)
 
   const [isEditing, setIsEditing] = useState(false)
   const form = useForm()
 
-  const [isOpenDialogToRemoveColumn, setIsOpenDialogToRemoveColumn] =
-    useState(false)
-
   const colorDropDownBtn = useRef(null)
   const editContainerRef = useRef(null)
+
+  const { onRemoveColumn, removeColumn, setRemoveColumn } = useDeleteColumn()
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -96,24 +87,6 @@ export const Column = ({ column, onNewCard = () => null }) => {
 
   const { collapsed, color, name, position } = column
 
-  const onAddCard = async () => {
-    const id = uuid()
-    const card = {
-      id,
-      job: {
-        company_name: 'COMPANY NAME',
-        role: 'ROLE'
-      }
-    }
-
-    const newCard = await createCard(column.id, {
-      job_attributes: card.job,
-      slug: id
-    })
-    dispatch(addCardAction(column.id, newCard))
-    onNewCard(newCard)
-  }
-
   const onSubmitColumnName = async (event) => {
     event.preventDefault()
     setIsEditing(false)
@@ -136,11 +109,6 @@ export const Column = ({ column, onNewCard = () => null }) => {
       column: { collapsed: isCollapsed }
     })
     dispatch(updateColumnAction(updatedColumn))
-  }
-
-  const onRemoveColumn = async () => {
-    deleteColumn(board.id, column.id)
-    dispatch(deleteColumnAction(column.id))
   }
 
   const ColorsDropdown = ({ value = 'light' }) => (
@@ -179,26 +147,6 @@ export const Column = ({ column, onNewCard = () => null }) => {
     </Dropdown>
   )
 
-  const removeColumnDialog = () => (
-    <Dialog
-      onClose={setIsOpenDialogToRemoveColumn}
-      open={isOpenDialogToRemoveColumn}
-    >
-      <DialogTitle>Delete column</DialogTitle>
-      <DialogDescription>
-        Are you sure you want to delete this column?
-      </DialogDescription>
-      <DialogActions>
-        <Button plain onClick={() => setIsOpenDialogToRemoveColumn(false)}>
-          Cancel
-        </Button>
-        <Button color="red" onClick={onRemoveColumn}>
-          Delete
-        </Button>
-      </DialogActions>
-    </Dialog>
-  )
-
   if (collapsed) {
     return (
       <div
@@ -220,6 +168,10 @@ export const Column = ({ column, onNewCard = () => null }) => {
         </Text>
       </div>
     )
+  }
+
+  const onAddCard = () => {
+    AddCard(column.id, dispatch)
   }
 
   return (
@@ -284,9 +236,9 @@ export const Column = ({ column, onNewCard = () => null }) => {
                 Add new job
               </DropdownItem>
               <DropdownDivider />
-              <DropdownItem onClick={() => setIsOpenDialogToRemoveColumn(true)}>
+              <DropdownItem onClick={() => setRemoveColumn(column)}>
                 <TrashIcon className="fill-red-500" />
-                Delete column
+                Delete view
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -301,7 +253,11 @@ export const Column = ({ column, onNewCard = () => null }) => {
           Add new job
         </Button>
       )} */}
-      {removeColumnDialog()}
+      <RemoveColumnDialog
+        isOpen={removeColumn !== null}
+        onClose={() => setRemoveColumn(null)}
+        onConfirm={() => onRemoveColumn(removeColumn)}
+      />
     </div>
   )
 }

@@ -67,7 +67,12 @@ export const boardReducer = (board, action) => {
     }
     case CREATE_COLUMN: {
       const { column } = action.payload
-      board.columns.push(column)
+      // mark all columns as not recent
+      board.columns.forEach((c) => {
+        c.recent = false
+      })
+      // mark the new column as recent
+      board.columns.push({ ...column, recent: true })
 
       break
     }
@@ -82,8 +87,8 @@ export const boardReducer = (board, action) => {
       break
     }
     case DELETE_COLUMN: {
-      const { columnId } = action.payload
-      board.columns = board.columns.filter((c) => c.id !== columnId)
+      const { column } = action.payload
+      board.columns = board.columns.filter((c) => c.id !== column.id)
 
       break
     }
@@ -138,8 +143,8 @@ export const moveCardAction = (card, source, destination) => ({
   type: MOVE_CARD
 })
 
-export const deleteColumnAction = (columnId) => ({
-  payload: { columnId },
+export const deleteColumnAction = (column) => ({
+  payload: { column },
   type: DELETE_COLUMN
 })
 

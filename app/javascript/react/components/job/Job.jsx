@@ -1,4 +1,4 @@
-import { ChevronRightIcon, ViewColumnsIcon } from '@heroicons/react/16/solid'
+import { ChevronRightIcon } from '@heroicons/react/16/solid'
 import React, { useEffect, useState } from 'react'
 
 import { Outlet, useParams } from 'react-router-dom'
@@ -13,8 +13,11 @@ import { Tabs } from './Tabs'
 
 export const Job = () => {
   const { board_id, job_id } = useParams()
+
   const [board, setBoard] = useState(null)
   const [job, setJob] = useState(null)
+
+  const [activeTab, setActiveTab] = useState('details')
 
   const asyncFetchJob = async () => {
     const fetchedJob = await fetchJob(board_id, job_id)
@@ -48,10 +51,6 @@ export const Job = () => {
               className="flex items-center gap-2"
               href={`/dashboard/boards/${board_id}`}
             >
-              <ViewColumnsIcon
-                aria-hidden="true"
-                className="size-5 text-gray-400"
-              />
               <Text>{board.name}</Text>
             </Link>
           </div>
@@ -62,7 +61,11 @@ export const Job = () => {
               aria-hidden="true"
               className="size-5 text-gray-400"
             />
-            <Text>{job.role}</Text>
+            <Text className="flex items-center gap-2">
+              <span className="text-xl font-semibold">{job.role}</span>
+              <span className="font-semibold">::</span>
+              <span className="text-xl font-semibold">{job.company_name}</span>
+            </Text>
           </div>
         </li>
       </ol>
@@ -73,7 +76,7 @@ export const Job = () => {
     <JobContext.Provider value={job}>
       <div className="flex flex-col gap-4">
         {buildBreadcrumb()}
-        <Tabs />
+        <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <Outlet />
       </div>
     </JobContext.Provider>

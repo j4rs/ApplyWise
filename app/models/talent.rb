@@ -18,7 +18,10 @@
 
 class Talent < ApplicationRecord
   has_many :boards, dependent: :destroy
-  store_accessor :preferences, :last_seen_board_id
+  store_accessor :preferences,
+                 :last_seen_board_id,
+                 :is_sidebar_collapsed,
+                 :jobs_layout
 
   after_create :create_board!
 
