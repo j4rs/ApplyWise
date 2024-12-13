@@ -1,6 +1,7 @@
 import {
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
+  ChevronRightIcon,
   EllipsisHorizontalIcon,
   ListBulletIcon,
   PencilIcon,
@@ -23,6 +24,7 @@ import {
 } from '../ui/dropdown'
 import { Heading } from '../ui/heading'
 
+import { Link } from '../ui/link'
 import { Text } from '../ui/text'
 
 import { BoardContext, BoardDispatchContext } from './BoardContext'
@@ -93,31 +95,56 @@ export const Board = () => {
 
   if (!board) return null
 
+  const boardName = isEditingBoardName ? (
+    <form
+      onSubmit={boardForm.handleSubmit(updateBoardName)}
+      ref={editBoardNameContainerRef}
+    >
+      <input
+        type="text"
+        {...boardForm.register('name')}
+        className="sm:text-xl/8 font-semibold border-0 text-gray-900 focus:ring-0 p-0"
+      />
+    </form>
+  ) : (
+    <div>
+      <Heading
+        className="hover:bg-zinc-100 !text-zinc-500"
+        onClick={() => setIsEditingBoardName(true)}
+      >
+        {board.name}
+      </Heading>
+    </div>
+  )
+
+  const breadcrumb = (
+    <nav aria-label="Breadcrumb">
+      <ol className="flex items-center space-x-2">
+        <li key="boards">
+          <div>
+            <Link className="flex items-center" href={`/dashboard/boards`}>
+              <Text>Boards</Text>
+            </Link>
+          </div>
+        </li>
+        <li key="job">
+          <div className="flex items-center space-x-2">
+            <ChevronRightIcon
+              aria-hidden="true"
+              className="size-5 text-gray-400"
+            />
+            {boardName}
+          </div>
+        </li>
+      </ol>
+    </nav>
+  )
+
   return (
     <BoardContext.Provider value={board}>
       <BoardDispatchContext.Provider value={dispatch}>
         <div className="flex items-center justify-between">
-          {isEditingBoardName ? (
-            <form
-              onSubmit={boardForm.handleSubmit(updateBoardName)}
-              ref={editBoardNameContainerRef}
-            >
-              <input
-                type="text"
-                {...boardForm.register('name')}
-                className="sm:text-xl/8 font-semibold border-0 text-gray-900 focus:ring-0 p-0"
-              />
-            </form>
-          ) : (
-            <div className="hover:bg-zinc-100 rounded-md">
-              <Heading
-                className="hover:bg-zinc-100"
-                onClick={() => setIsEditingBoardName(true)}
-              >
-                {board.name}
-              </Heading>
-            </div>
-          )}
+          {breadcrumb}
           <div className="flex justify-end gap-2">
             <Button
               plain
@@ -154,7 +181,7 @@ export const Board = () => {
                       }}
                     >
                       <ArrowsPointingInIcon />
-                      Collapse all views
+                      Collapse all
                     </DropdownItem>
                     <DropdownItem
                       plain
@@ -164,14 +191,10 @@ export const Board = () => {
                       }}
                     >
                       <ArrowsPointingOutIcon />
-                      Expand all views
+                      Expand all
                     </DropdownItem>
                   </>
                 )}
-                <DropdownItem href={`/dashboard/boards`}>
-                  <ListBulletIcon />
-                  Manage boards
-                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -183,7 +206,12 @@ export const Board = () => {
             <Kanban board={board} />
           </>
         )}
-        {layout === 'list' && <CardsList board={board} />}
+        {layout === 'list' && (
+          <>
+            <Text>Select a stage to filter jobs</Text>
+            <CardsList board={board} />
+          </>
+        )}
         <Outlet />
       </BoardDispatchContext.Provider>
     </BoardContext.Provider>

@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-class TalentsController < ApplicationController; end
+class Dashboard::ProfileController < ApplicationController; end

@@ -11,9 +11,9 @@ import {
 
 export const RemoveColumnDialog = ({ isOpen, onClose, onConfirm }) => (
   <Dialog onClose={onClose} open={isOpen}>
-    <DialogTitle>Delete view</DialogTitle>
+    <DialogTitle>Delete this stage</DialogTitle>
     <DialogDescription>
-      Are you sure you want to delete view this view?
+      Are you sure you want to delete this stage?
     </DialogDescription>
     <DialogActions>
       <Button plain onClick={onClose}>

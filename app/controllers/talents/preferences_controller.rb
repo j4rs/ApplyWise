@@ -5,11 +5,6 @@ module Talents
     skip_forgery_protection only: %i[ update ]
     before_action :authenticate_talent!
 
-    # GET /preferences
-    def show
-      render json: current_talent.preferences
-    end
-
     # PATCH /preferences
     def update
       current_talent.update!(talent_params)

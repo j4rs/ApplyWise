@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { borderColors, ringColors } from '../../toolsets/colors'
 
+import { Link } from '../ui/link'
+
 import { BoardContext } from './BoardContext'
 import { CardActions } from './CardsAction'
 import { classNames, findColumn } from './utils'
@@ -37,10 +39,14 @@ export const Card = ({ card, setEditCard, setRemoveCard }) => {
         )}
       >
         <div className="flex justify-between">
-          <div className="w-4/5">
-            <p className="truncate text-sm font-medium text-gray-900">{role}</p>
-            <p className="truncate text-sm text-gray-500">{company_name}</p>
-          </div>
+          <Link className="-m-4" href={`jobs/${card.job.id}/details`}>
+            <div className="m-4 w-44">
+              <p className="truncate text-sm font-medium text-zinc-700">
+                {role}
+              </p>
+              <p className="truncate text-sm text-zinc-500">{company_name}</p>
+            </div>
+          </Link>
           {isHovering && (
             <CardActions
               card={card}

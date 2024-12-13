@@ -1,8 +1,8 @@
-import React from 'react';
-import clsx from 'clsx';
+import clsx from 'clsx'
+import React from 'react'
 
 export function Heading({ className, level = 1, ...props }) {
-  let Element = `h${level}`;
+  const Element = `h${level}`
 
   return (
     <Element
@@ -12,11 +12,11 @@ export function Heading({ className, level = 1, ...props }) {
         'text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white'
       )}
     />
-  );
+  )
 }
 
 export function Subheading({ className, level = 2, ...props }) {
-  let Element = `h${level}`;
+  const Element = `h${level}`
 
   return (
     <Element
@@ -26,5 +26,5 @@ export function Subheading({ className, level = 2, ...props }) {
         'text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white'
       )}
     />
-  );
+  )
 }

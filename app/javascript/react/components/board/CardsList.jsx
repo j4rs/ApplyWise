@@ -1,4 +1,9 @@
-import { PlusIcon, TrashIcon } from '@heroicons/react/16/solid'
+import {
+  EllipsisHorizontalIcon,
+  PlusIcon,
+  TrashIcon
+} from '@heroicons/react/16/solid'
+
 import React, { useContext } from 'react'
 
 import { Badge } from '../ui/badge'
@@ -11,6 +16,13 @@ import {
   DialogDescription,
   DialogTitle
 } from '../ui/dialog'
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownDivider,
+  DropdownItem,
+  DropdownMenu
+} from '../ui/dropdown'
 import { Field } from '../ui/fieldset'
 import { Input } from '../ui/input'
 import { Listbox, ListboxOption } from '../ui/listbox'
@@ -92,44 +104,53 @@ export default function CardsList({ board }) {
     setNewColumnDialogOpen(false)
   }
 
-  const viewsSelect = (
-    <div className="flex justify-between gap-2 py-4">
-      <div className="flex gap-2">
-        <div className="w-64">
-          <Listbox onChange={setColumnId} value={columnId || null}>
-            <ListboxOption key="all" value={null}>
-              All stages
+  const viewsSelectSection = (
+    <div className="flex gap-2 py-4">
+      <div className="min-w-64">
+        <Listbox onChange={setColumnId} value={columnId || null}>
+          <ListboxOption key="all" value={null}>
+            All stages
+          </ListboxOption>
+          {board.columns.map((column) => (
+            <ListboxOption key={column.id} value={column.id}>
+              <Badge color={column.color}>
+                {column.name} ({column.cards.length})
+              </Badge>
             </ListboxOption>
-            {board.columns.map((column) => (
-              <ListboxOption key={column.id} value={column.id}>
-                <Badge color={column.color}>
-                  {column.name} ({column.cards.length})
-                </Badge>
-              </ListboxOption>
-            ))}
-          </Listbox>
-        </div>
-        <Button outline onClick={() => setNewColumnDialogOpen(true)}>
-          <PlusIcon />
-          Add stage
-        </Button>
+          ))}
+        </Listbox>
       </div>
-      <div className="flex gap-2 justify-end">
-        <Button outline disabled={!columnId} onClick={onAddCard}>
-          <PlusIcon />
-          Add job
-        </Button>
-        <Button
-          outline
-          disabled={!columnId}
-          onClick={() => {
-            const col = board.columns.find((c) => c.id === columnId)
-            setRemoveColumn(col)
-          }}
-        >
-          <TrashIcon className="fill-red-500" />
-        </Button>
-      </div>
+      <Dropdown>
+        <DropdownButton outline>
+          <EllipsisHorizontalIcon />
+        </DropdownButton>
+        <DropdownMenu anchor="bottom end">
+          <DropdownItem onClick={() => setNewColumnDialogOpen(true)}>
+            <PlusIcon />
+            Create new stage
+          </DropdownItem>
+          <DropdownItem
+            data-disabled={!columnId}
+            disabled={!columnId}
+            onClick={onAddCard}
+          >
+            <PlusIcon />
+            Add job to stage
+          </DropdownItem>
+          <DropdownDivider />
+          <DropdownItem
+            data-disabled={!columnId}
+            disabled={!columnId}
+            onClick={() => {
+              const col = board.columns.find((c) => c.id === columnId)
+              setRemoveColumn(col)
+            }}
+          >
+            <TrashIcon className="fill-red-500" />
+            Delete stage
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
     </div>
   )
 
@@ -174,7 +195,7 @@ export default function CardsList({ board }) {
   if (cards.length === 0) {
     return (
       <>
-        {viewsSelect}
+        {viewsSelectSection}
         <Text>No jobs yet.</Text>
         {newColumnDialog}
         {removeColumnDialog}
@@ -184,7 +205,7 @@ export default function CardsList({ board }) {
 
   return (
     <>
-      {viewsSelect}
+      {viewsSelectSection}
       <Table
         striped
         className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]"

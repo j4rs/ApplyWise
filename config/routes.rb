@@ -23,14 +23,19 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :talent, only: %i[ show ]
+
   scope module: :talents do
-    resource :preferences, only: %i[ update show ]
+    resource :preferences, only: %i[ update ]
   end
 
   # /dashboard
   resource :dashboard, only: %i[ show ], controller: :dashboard
 
   namespace :dashboard do
+    # /dashboard/profile
+    resource :profile, only: %i[ show update ], controller: :profile
+
     # /dashboard/boards
     resources :boards, only: %i[ create index show update destroy ] do
       # /dashboard/boards/:board_id/columns

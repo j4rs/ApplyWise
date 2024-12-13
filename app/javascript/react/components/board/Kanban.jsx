@@ -42,7 +42,7 @@ export default function Kanban({ board }) {
 
   const onAddColumn = async () => {
     const column = await createColumn(board.id, {
-      column: { color: randomColor(), name: 'View name' }
+      column: { color: randomColor(), name: 'New stage name' }
     })
     dispatch(createColumnAction(column))
   }
@@ -71,7 +71,7 @@ export default function Kanban({ board }) {
             onClick={onAddColumn}
           >
             <PlusIcon />
-            Add new view
+            Add new stage
           </Button>
         )}
         renderColumnHeader={(column) => (

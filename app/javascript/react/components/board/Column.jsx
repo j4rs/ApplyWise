@@ -225,7 +225,7 @@ export const Column = ({ column }) => {
               <DropdownDivider />
               <DropdownItem onClick={() => setIsEditing(true)}>
                 <PencilSquareIcon />
-                Edit column name
+                Edit name
               </DropdownItem>
               <DropdownItem onClick={() => colorDropDownBtn.current?.click()}>
                 <SwatchIcon />
@@ -233,12 +233,12 @@ export const Column = ({ column }) => {
               </DropdownItem>
               <DropdownItem onClick={onAddCard}>
                 <PlusIcon />
-                Add new job
+                Add a new job
               </DropdownItem>
               <DropdownDivider />
               <DropdownItem onClick={() => setRemoveColumn(column)}>
                 <TrashIcon className="fill-red-500" />
-                Delete view
+                Delete stage
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

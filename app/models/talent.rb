@@ -3,8 +3,11 @@
 # Table name: talents
 #
 #  id          :bigint           not null, primary key
+#  country     :string
+#  description :text
 #  email       :string           not null
 #  first_name  :string
+#  language    :string
 #  last_name   :string
 #  preferences :jsonb
 #  slug        :string           not null
@@ -18,6 +21,8 @@
 
 class Talent < ApplicationRecord
   has_many :boards, dependent: :destroy
+  has_many_attached :resumes
+
   store_accessor :preferences,
                  :last_seen_board_id,
                  :is_sidebar_collapsed,

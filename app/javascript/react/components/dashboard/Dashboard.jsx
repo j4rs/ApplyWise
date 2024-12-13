@@ -14,12 +14,16 @@ import {
   ArrowRightStartOnRectangleIcon
 } from '@heroicons/react/24/outline'
 import { clsx } from 'clsx'
+
+import isEmpty from 'lodash/isEmpty'
+
 import React, { useState } from 'react'
 
 import { Outlet } from 'react-router-dom'
 
 import {
-  fetchTalentPreferences,
+  fetchProfile,
+  updateProfile,
   updateTalentPreferences
 } from '../board/network'
 import { Avatar } from '../ui/avatar'
@@ -54,64 +58,92 @@ const logout = (event) => {
   })
 }
 
-const UserAvatar = ({ isCollapsed }) => {
+const initials = (profile) => `${profile.first_name[0]}${profile.last_name[0]}`
+
+const UserAvatar = ({ isCollapsed, profile }) => {
   if (isCollapsed) {
     return (
       <Avatar
         alt=""
         className="size-10 flex-shrink-0 hover:ring-2 hover:ring-zinc-300 dark:hover:ring-zinc-700"
-        initials="JR"
+        initials={initials(profile)}
       />
     )
   }
 
+  let name = ''
+  if (!isEmpty(profile.first_name)) {
+    name = profile.first_name
+  }
+  if (!isEmpty(profile.last_name)) {
+    name = `${name} ${profile.last_name}`
+  }
+
   return (
     <span className="flex min-w-0 items-center gap-3">
-      <Avatar alt="" className="size-10 flex-shrink-0" initials="JR" />
+      <Avatar
+        alt=""
+        className="size-10 flex-shrink-0"
+        initials={initials(profile)}
+      />
       <span className="min-w-0">
-        <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-          Jorge
-        </span>
+        {name && (
+          <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
+            {name}
+          </span>
+        )}
         <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-          erica@example.com
+          {profile.email}
         </span>
       </span>
     </span>
   )
 }
 
-export function Dashboard() {
-  const [isCollapsed, setIsCollapsed] = useState(null)
-  const [preferences, setPreferences] = useState(null)
+const DEFAULT_PREFERENCES = { is_sidebar_collapsed: true }
 
-  const asyncFetchTalentPreferences = async () => {
-    const prefs = await fetchTalentPreferences()
-    setIsCollapsed(prefs.is_sidebar_collapsed || false)
-    setPreferences(prefs)
+export function Dashboard() {
+  const [preferences, setPreferences] = useState(null)
+  const [profile, setProfile] = useState(null)
+
+  const onUpdateProfile = async (data) => {
+    const newProfile = await updateProfile(data)
+    setProfile(newProfile)
+  }
+
+  const asyncFetchProfile = async () => {
+    setProfile(await fetchProfile())
   }
 
   React.useEffect(() => {
-    asyncFetchTalentPreferences()
+    asyncFetchProfile()
   }, [])
+
+  React.useEffect(() => {
+    if (!profile) return
+
+    setPreferences(profile.preferences || DEFAULT_PREFERENCES)
+  }, [profile])
 
   const onPreferencesChange = (prefs) => {
     updateTalentPreferences(prefs)
     setPreferences(prefs)
   }
 
-  const handleCollapse = (collapsed) => {
+  const toggleCollapse = (collapsed) => {
     updateTalentPreferences({ is_sidebar_collapsed: collapsed })
-    setIsCollapsed(collapsed)
+    setPreferences({ ...preferences, is_sidebar_collapsed: collapsed })
   }
 
+  if (!profile || !preferences) return null
+
+  const isCollapsed = preferences.is_sidebar_collapsed
   const iconWrapper = 'size-5 flex items-center justify-center flex-shrink-0'
 
-  if (isCollapsed === null) {
-    return null
-  }
-
   return (
-    <DashboardContext.Provider value={{ onPreferencesChange, preferences }}>
+    <DashboardContext.Provider
+      value={{ onPreferencesChange, onUpdateProfile, preferences, profile }}
+    >
       <SidebarLayout
         className={clsx(
           'transition-all duration-300',
@@ -128,7 +160,7 @@ export function Dashboard() {
                     'cursor-pointer',
                     isCollapsed && 'justify-center'
                   )}
-                  onClick={() => handleCollapse(!isCollapsed)}
+                  onClick={() => toggleCollapse(!isCollapsed)}
                 >
                   <div className={iconWrapper}>
                     <ChevronDoubleLeftIcon
@@ -249,7 +281,7 @@ export function Dashboard() {
                     as="div"
                     className="flex w-full items-center justify-center rounded-lg px-2 py-2.5 text-left !cursor-pointer"
                   >
-                    <UserAvatar isCollapsed={isCollapsed} />
+                    <UserAvatar isCollapsed={isCollapsed} profile={profile} />
                   </DropdownButton>
                 ) : (
                   <DropdownButton
@@ -257,13 +289,13 @@ export function Dashboard() {
                     className="!cursor-pointer [&_*]:!cursor-pointer"
                   >
                     <SidebarItem className="gap-3">
-                      <UserAvatar isCollapsed={isCollapsed} />
+                      <UserAvatar isCollapsed={isCollapsed} profile={profile} />
                     </SidebarItem>
                   </DropdownButton>
                 )}
 
                 <DropdownMenu anchor="top start" className="min-w-64">
-                  <DropdownItem href="/my-profile">
+                  <DropdownItem href="/dashboard/profile">
                     <UserIcon />
                     <DropdownLabel>My profile</DropdownLabel>
                   </DropdownItem>

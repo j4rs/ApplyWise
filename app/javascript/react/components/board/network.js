@@ -95,13 +95,6 @@ export const deleteCard = async (cardId) =>
     res.json()
   )
 
-export const updateTalent = async (talent) =>
-  fetch('/dashboard/talents', {
-    body: JSON.stringify(talent),
-    headers,
-    method: 'PATCH'
-  })
-
 export const updateTalentPreferences = async (prefs) =>
   fetch('/preferences', {
     body: JSON.stringify({ preferences: { ...prefs } }),
@@ -109,5 +102,13 @@ export const updateTalentPreferences = async (prefs) =>
     method: 'PATCH'
   })
 
-export const fetchTalentPreferences = async () =>
-  fetch('/preferences', { headers, method: 'GET' }).then((res) => res.json())
+export const fetchProfile = async () =>
+  fetch('/dashboard/profile', { headers, method: 'GET' }).then((res) =>
+    res.json()
+  )
+
+export const updateProfile = async (payload) =>
+  fetch('/dashboard/profile', {
+    body: payload,
+    method: 'PATCH'
+  }).then((res) => res.json())

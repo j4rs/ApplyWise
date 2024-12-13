@@ -12,6 +12,7 @@ import { DetailsTab } from './components/job/DetailsTab'
 import { InterviewPrepTab } from './components/job/InterviewPrepTab'
 import { Job } from './components/job/Job'
 import { ResumeTab } from './components/job/ResumeTab'
+import { Profile } from './components/profile/Profile'
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         ],
         element: <Job />,
         path: '/dashboard/boards/:board_id/jobs/:job_id'
+      },
+      {
+        element: <Profile />,
+        path: '/dashboard/profile'
       }
     ],
     element: <Dashboard />,

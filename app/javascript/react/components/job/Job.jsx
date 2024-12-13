@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 
 import { fetchBoard, fetchJob } from '../board/network'
+import { Heading } from '../ui/heading'
 import { Link } from '../ui/link'
 
 import { Text } from '../ui/text'
@@ -44,11 +45,22 @@ export const Job = () => {
 
   const buildBreadcrumb = () => (
     <nav aria-label="Breadcrumb">
-      <ol className="flex items-center">
-        <li key="board">
+      <ol className="flex items-center space-x-2">
+        <li key="boards">
           <div>
+            <Link className="flex items-center" href={`/dashboard/boards`}>
+              <Text>Boards</Text>
+            </Link>
+          </div>
+        </li>
+        <li key="board">
+          <div className="flex items-center space-x-2">
+            <ChevronRightIcon
+              aria-hidden="true"
+              className="size-5 text-gray-400"
+            />
             <Link
-              className="flex items-center gap-2"
+              className="flex items-center"
               href={`/dashboard/boards/${board_id}`}
             >
               <Text>{board.name}</Text>
@@ -56,16 +68,14 @@ export const Job = () => {
           </div>
         </li>
         <li key="job">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center space-x-2">
             <ChevronRightIcon
               aria-hidden="true"
               className="size-5 text-gray-400"
             />
-            <Text className="flex items-center gap-2">
-              <span className="text-xl font-semibold">{job.role}</span>
-              <span className="font-semibold">::</span>
-              <span className="text-xl font-semibold">{job.company_name}</span>
-            </Text>
+            <Heading className="!text-zinc-500">
+              {job.role} :: {job.company_name}
+            </Heading>
           </div>
         </li>
       </ol>
