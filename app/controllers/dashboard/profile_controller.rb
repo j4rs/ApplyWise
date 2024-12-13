@@ -24,9 +24,9 @@ module Dashboard
     end
 
     def broadcast_profile_update
-      ActionCable
-        .server
-        .broadcast("flash_channel_#{current_talent.slug}", { title: "Profile updated successfully", subtitle: "Your profile has been updated successfully" })
+      # ActionCable
+      #   .server
+      #   .broadcast("flash_channel_#{current_talent.slug}", { title: "Profile updated successfully", subtitle: "Your profile has been updated successfully" })
     end
   end
 end

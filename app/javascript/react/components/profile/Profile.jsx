@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import countryList from 'react-select-country-list'
 
+import { PubSubContext } from '../../pubsub/PubSubContext'
 import { ComboBoxSelect } from '../custom/ComboBoxSelect'
 import { DashboardContext } from '../dashboard/DashboardContext'
 import { Button } from '../ui/button'
@@ -35,7 +36,9 @@ const COUNTRIES = countryList()
   }))
 
 export function Profile() {
+  const { addNotification } = useContext(PubSubContext)
   const { onUpdateProfile, profile } = useContext(DashboardContext)
+
   const { handleSubmit, register, setValue } = useForm({
     defaultValues: omit(profile, ['email', 'id', 'preferences', 'resumes'])
   })
@@ -66,7 +69,12 @@ export function Profile() {
       }
     })
 
-    return onUpdateProfile(formData)
+    await onUpdateProfile(formData)
+
+    addNotification({
+      subtitle: 'Your profile has been updated successfully',
+      title: 'Profile updated successfully'
+    })
   }
 
   const renderFile = (file) => (
