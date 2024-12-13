@@ -2,6 +2,8 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import { PubSub } from '../PubSub'
+
 import { Board } from './components/board/Board'
 
 import { Boards } from './components/board/Boards'
@@ -12,6 +14,7 @@ import { DetailsTab } from './components/job/DetailsTab'
 import { InterviewPrepTab } from './components/job/InterviewPrepTab'
 import { Job } from './components/job/Job'
 import { ResumeTab } from './components/job/ResumeTab'
+import { Flash } from './components/notifications/Flash'
 import { Profile } from './components/profile/Profile'
 
 const router = createBrowserRouter([
@@ -59,7 +62,11 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  const routerProvider = <RouterProvider router={router} />
+  const routerProvider = (
+    <PubSub channel="FlashChannel">
+      <RouterProvider router={router} />
+    </PubSub>
+  )
   // REACT_APP_RAILS_ENV is set by esbuild.config.js when building the app
   if (process.env.REACT_APP_RAILS_ENV === 'production') return routerProvider
 
