@@ -2,8 +2,6 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { PubSub } from './pubsub/PubSub'
-
 import { Board } from './components/board/Board'
 
 import { Boards } from './components/board/Boards'
@@ -16,6 +14,7 @@ import { Job } from './components/job/Job'
 import { ResumeTab } from './components/job/ResumeTab'
 import { Flash } from './components/notifications/Flash'
 import { Profile } from './components/profile/Profile'
+import { PubSub } from './pubsub/PubSub'
 
 const router = createBrowserRouter([
   {
@@ -65,6 +64,7 @@ function App() {
   const routerProvider = (
     <PubSub channel="FlashChannel">
       <RouterProvider router={router} />
+      <Flash />
     </PubSub>
   )
   // REACT_APP_RAILS_ENV is set by esbuild.config.js when building the app

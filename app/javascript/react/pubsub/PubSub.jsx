@@ -1,32 +1,42 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import { v4 as uuid } from 'uuid'
 
 import { useActionCable } from '../components/hooks/useActionCable'
-import { Flash } from '../components/notifications/Flash'
 
 import { PubSubContext } from './PubSubContext'
 
 export const PubSub = ({ channel, children }) => {
   const [notifications, setNotifications] = useState([])
 
-  const addNotification = (notification) => {
-    setNotifications([...notifications, notification])
-    setTimeout(() => {
-      setNotifications([])
-    }, 3000)
-  }
+  const removeNotification = useCallback((id) => {
+    setNotifications((prev) => prev.filter((msg) => msg.id !== id))
+  }, [])
 
-  const onReceived = (data) => {
-    addNotification(data)
-  }
+  const addNotification = useCallback((notification) => {
+    const id = uuid()
+    setNotifications((prev) => [{ ...notification, id }, ...prev])
+
+    if (notification.duration) {
+      setTimeout(() => {
+        setNotifications((prev) => prev.filter((msg) => msg.id !== id))
+      }, notification.duration)
+    }
+  }, [])
+
+  const onReceived = useCallback(
+    (data) => {
+      addNotification(data)
+    },
+    [addNotification]
+  )
 
   useActionCable({ channel, onReceived })
 
   return (
-    <PubSubContext.Provider value={{ addNotification, notifications }}>
+    <PubSubContext.Provider
+      value={{ addNotification, notifications, removeNotification }}
+    >
       {children}
-      {notifications.map((notification) => (
-        <Flash key={notification.id} {...notification} />
-      ))}
     </PubSubContext.Provider>
   )
 }
