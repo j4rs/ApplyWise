@@ -71,7 +71,7 @@ export const Boards = () => {
             <Label>Name</Label>
             <Input
               name="name"
-              placeholder="Enter a name for your board"
+              placeholder="Name your new board"
               {...boardForm.register('name')}
             />
           </Field>

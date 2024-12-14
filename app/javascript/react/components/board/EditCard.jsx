@@ -16,6 +16,8 @@ import {
 import { Input, InputGroup } from '../ui/input'
 import { Text } from '../ui/text'
 
+import { Textarea } from '../ui/textarea'
+
 import { useEditCard } from './hooks/useEditCard'
 
 export const EditCard = ({ card, isOpen, onClose }) => {
@@ -68,7 +70,12 @@ export const EditCard = ({ card, isOpen, onClose }) => {
             </Field>
             <Field>
               <Label>Description</Label>
-              <JobEditor />
+              <Textarea
+                name="description"
+                {...register('description')}
+                rows={10}
+              />
+              {/* <JobEditor /> */}
             </Field>
           </FieldGroup>
         </Fieldset>

@@ -58,7 +58,8 @@ const logout = (event) => {
   })
 }
 
-const initials = (profile) => `${profile.first_name[0]}${profile.last_name[0]}`
+const initials = (profile) =>
+  `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`
 
 const UserAvatar = ({ isCollapsed, profile }) => {
   if (isCollapsed) {
@@ -194,22 +195,12 @@ export function Dashboard() {
 
                 <SidebarItem
                   className={isCollapsed ? 'justify-center' : ''}
-                  href="/events"
+                  href="/inbox"
                 >
                   <div className={iconWrapper}>
                     <Square2StackIcon className="w-full h-full" />
                   </div>
-                  {!isCollapsed && <SidebarLabel>Events</SidebarLabel>}
-                </SidebarItem>
-
-                <SidebarItem
-                  className={isCollapsed ? 'justify-center' : ''}
-                  href="/orders"
-                >
-                  <div className={iconWrapper}>
-                    <TicketIcon className="w-full h-full" />
-                  </div>
-                  {!isCollapsed && <SidebarLabel>Orders</SidebarLabel>}
+                  {!isCollapsed && <SidebarLabel>Inbox</SidebarLabel>}
                 </SidebarItem>
 
                 <SidebarItem
@@ -221,19 +212,9 @@ export function Dashboard() {
                   </div>
                   {!isCollapsed && <SidebarLabel>Settings</SidebarLabel>}
                 </SidebarItem>
-
-                <SidebarItem
-                  className={isCollapsed ? 'justify-center' : ''}
-                  href="/broadcasts"
-                >
-                  <div className={iconWrapper}>
-                    <MegaphoneIcon className="w-full h-full" />
-                  </div>
-                  {!isCollapsed && <SidebarLabel>Broadcasts</SidebarLabel>}
-                </SidebarItem>
               </SidebarSection>
 
-              {!isCollapsed && (
+              {!isCollapsed && false && (
                 <SidebarSection className="max-lg:hidden">
                   <SidebarHeading>Upcoming Events</SidebarHeading>
                   <SidebarItem href="/events/1">

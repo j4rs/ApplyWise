@@ -119,10 +119,10 @@ export const Column = ({ column }) => {
       >
         {colorIcon(value, 'sm')}
       </Headless.MenuButton>
-      <DropdownMenu className="supports-[grid-template-columns:subgrid]:grid-cols-5">
+      <DropdownMenu className="!grid-cols-5">
         {Object.keys(fillColors).map((c) => (
           <DropdownItem
-            className="data-[focus]:bg-gray-100 supports-[grid-template-columns:subgrid]:col-span-1"
+            className="data-[focus]:bg-gray-100 !col-span-1"
             key={c}
             onClick={onChangeColor(c)}
           >

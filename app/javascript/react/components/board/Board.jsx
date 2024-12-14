@@ -201,7 +201,7 @@ export const Board = () => {
         </div>
         {layout === 'kanban' && (
           <>
-            <Text>Scroll to the right to see more columns</Text>
+            <Text>Scroll to the right to see more stages</Text>
             <Divider className="my-4" />
             <Kanban board={board} />
           </>
