@@ -46,10 +46,17 @@ export function Profile() {
   const [country, setCountry] = useState(profile.country)
   const [language, setLanguage] = useState(profile.language)
 
+  register('country', { value: country })
+  register('language', { value: language })
+
   useEffect(() => {
-    setValue('country', country.value)
+    setValue('country', country)
+  }, [country])
+
+  useEffect(() => {
+    register('language', { value: language })
     setValue('language', language)
-  }, [country, language, setValue])
+  }, [language])
 
   const onSubmit = async (data) => {
     const formData = new FormData()
@@ -72,8 +79,8 @@ export function Profile() {
     await onUpdateProfile(formData)
 
     addNotification({
-      subtitle: 'Your profile has been updated successfully',
-      title: 'Profile updated successfully'
+      duration: 3000,
+      title: 'Profile updated successfully...'
     })
   }
 
@@ -135,16 +142,14 @@ export function Profile() {
                     (c) => c.value === profile.country
                   )}
                   items={COUNTRIES}
-                  onChange={(value) => setCountry(value)}
-                  placeholder="Search countries..."
-                  renderItem={(item) =>
-                    item && (
-                      <span className="flex items-center gap-2">
-                        <span className="w-5 sm:w-4">{item.flag}</span>
-                        <span>{item.label}</span>
-                      </span>
-                    )
-                  }
+                  onChange={(c) => setCountry(c.value)}
+                  placeholder="Search the country..."
+                  renderItem={(item) => (
+                    <span className="flex items-center gap-2">
+                      <span className="w-5 sm:w-4">{item.flag}</span>
+                      <span>{item.label}</span>
+                    </span>
+                  )}
                 />
               </Field>
               <Field>
