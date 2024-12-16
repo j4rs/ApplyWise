@@ -80,7 +80,9 @@ export function Profile() {
 
     addNotification({
       duration: 3000,
-      title: 'Profile updated successfully...'
+      icon: 'success',
+      title: 'Profile updated successfully...',
+      type: 'toast'
     })
   }
 

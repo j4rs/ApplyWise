@@ -1,9 +1,7 @@
 import {
   HomeIcon,
   Square2StackIcon,
-  TicketIcon,
   Cog6ToothIcon,
-  MegaphoneIcon,
   QuestionMarkCircleIcon,
   SparklesIcon,
   ChevronDoubleLeftIcon,
@@ -26,6 +24,7 @@ import {
   updateProfile,
   updateTalentPreferences
 } from '../board/network'
+import { Flash } from '../notifications/Flash'
 import { Avatar } from '../ui/avatar'
 import {
   Dropdown,
@@ -142,170 +141,176 @@ export function Dashboard() {
   const iconWrapper = 'size-5 flex items-center justify-center flex-shrink-0'
 
   return (
-    <DashboardContext.Provider
-      value={{ onPreferencesChange, onUpdateProfile, preferences, profile }}
-    >
-      <SidebarLayout
-        className={clsx(
-          'transition-all duration-300',
-          isCollapsed ? 'lg:ml-16' : 'lg:ml-64'
-        )}
-        sidebar={
-          <Sidebar
-            className={`transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}
-          >
-            <SidebarHeader>
-              <SidebarSection>
-                <SidebarItem
-                  className={clsx(
-                    'cursor-pointer',
-                    isCollapsed && 'justify-center'
-                  )}
-                  onClick={() => toggleCollapse(!isCollapsed)}
-                >
-                  <div className={iconWrapper}>
-                    <ChevronDoubleLeftIcon
-                      className={clsx(
-                        'w-full h-full',
-                        'transition-transform duration-300',
-                        isCollapsed ? 'rotate-180' : ''
-                      )}
-                    />
-                  </div>
-                  {!isCollapsed && <SidebarLabel>Collapse Menu</SidebarLabel>}
-                </SidebarItem>
-              </SidebarSection>
-            </SidebarHeader>
-
-            <SidebarBody>
-              <SidebarSection>
-                <SidebarItem
-                  className={isCollapsed ? 'justify-center' : ''}
-                  href="/dashboard/boards"
-                >
-                  <div className={iconWrapper}>
-                    <HomeIcon className="w-full h-full" />
-                  </div>
-                  {!isCollapsed && (
-                    <SidebarLabel>
-                      <Strong>Boards</Strong>
-                    </SidebarLabel>
-                  )}
-                </SidebarItem>
-
-                <SidebarItem
-                  className={isCollapsed ? 'justify-center' : ''}
-                  href="/inbox"
-                >
-                  <div className={iconWrapper}>
-                    <Square2StackIcon className="w-full h-full" />
-                  </div>
-                  {!isCollapsed && <SidebarLabel>Inbox</SidebarLabel>}
-                </SidebarItem>
-
-                <SidebarItem
-                  className={isCollapsed ? 'justify-center' : ''}
-                  href="/settings"
-                >
-                  <div className={iconWrapper}>
-                    <Cog6ToothIcon className="w-full h-full" />
-                  </div>
-                  {!isCollapsed && <SidebarLabel>Settings</SidebarLabel>}
-                </SidebarItem>
-              </SidebarSection>
-
-              {!isCollapsed && false && (
-                <SidebarSection className="max-lg:hidden">
-                  <SidebarHeading>Upcoming Events</SidebarHeading>
-                  <SidebarItem href="/events/1">
-                    Bear Hug: Live in Concert
-                  </SidebarItem>
-                  <SidebarItem href="/events/2">Viking People</SidebarItem>
-                  <SidebarItem href="/events/3">
-                    Six Fingers — DJ Set
-                  </SidebarItem>
-                  <SidebarItem href="/events/4">
-                    We All Look The Same
+    <>
+      <DashboardContext.Provider
+        value={{ onPreferencesChange, onUpdateProfile, preferences, profile }}
+      >
+        <SidebarLayout
+          className={clsx(
+            'transition-all duration-300',
+            isCollapsed ? 'lg:ml-16' : 'lg:ml-64'
+          )}
+          sidebar={
+            <Sidebar
+              className={`transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}
+            >
+              <SidebarHeader>
+                <SidebarSection>
+                  <SidebarItem
+                    className={clsx(
+                      'cursor-pointer',
+                      isCollapsed && 'justify-center'
+                    )}
+                    onClick={() => toggleCollapse(!isCollapsed)}
+                  >
+                    <div className={iconWrapper}>
+                      <ChevronDoubleLeftIcon
+                        className={clsx(
+                          'w-full h-full',
+                          'transition-transform duration-300',
+                          isCollapsed ? 'rotate-180' : ''
+                        )}
+                      />
+                    </div>
+                    {!isCollapsed && <SidebarLabel>Collapse Menu</SidebarLabel>}
                   </SidebarItem>
                 </SidebarSection>
-              )}
+              </SidebarHeader>
 
-              <SidebarSpacer />
-
-              <SidebarSection>
-                <SidebarItem
-                  className={isCollapsed ? 'justify-center' : ''}
-                  href="/support"
-                >
-                  <div className={iconWrapper}>
-                    <QuestionMarkCircleIcon className="w-full h-full" />
-                  </div>
-                  {!isCollapsed && <SidebarLabel>Support</SidebarLabel>}
-                </SidebarItem>
-
-                <SidebarItem
-                  className={isCollapsed ? 'justify-center' : ''}
-                  href="/changelog"
-                >
-                  <div className={iconWrapper}>
-                    <SparklesIcon className="w-full h-full" />
-                  </div>
-                  {!isCollapsed && <SidebarLabel>Changelog</SidebarLabel>}
-                </SidebarItem>
-              </SidebarSection>
-            </SidebarBody>
-
-            <SidebarFooter className="max-lg:hidden">
-              <Dropdown>
-                {isCollapsed ? (
-                  <DropdownButton
-                    as="div"
-                    className="flex w-full items-center justify-center rounded-lg px-2 py-2.5 text-left !cursor-pointer"
+              <SidebarBody>
+                <SidebarSection>
+                  <SidebarItem
+                    className={isCollapsed ? 'justify-center' : ''}
+                    href="/dashboard/boards"
                   >
-                    <UserAvatar isCollapsed={isCollapsed} profile={profile} />
-                  </DropdownButton>
-                ) : (
-                  <DropdownButton
-                    as="div"
-                    className="!cursor-pointer [&_*]:!cursor-pointer"
+                    <div className={iconWrapper}>
+                      <HomeIcon className="w-full h-full" />
+                    </div>
+                    {!isCollapsed && (
+                      <SidebarLabel>
+                        <Strong>Boards</Strong>
+                      </SidebarLabel>
+                    )}
+                  </SidebarItem>
+
+                  <SidebarItem
+                    className={isCollapsed ? 'justify-center' : ''}
+                    href="/inbox"
                   >
-                    <SidebarItem className="gap-3">
-                      <UserAvatar isCollapsed={isCollapsed} profile={profile} />
+                    <div className={iconWrapper}>
+                      <Square2StackIcon className="w-full h-full" />
+                    </div>
+                    {!isCollapsed && <SidebarLabel>Inbox</SidebarLabel>}
+                  </SidebarItem>
+
+                  <SidebarItem
+                    className={isCollapsed ? 'justify-center' : ''}
+                    href="/settings"
+                  >
+                    <div className={iconWrapper}>
+                      <Cog6ToothIcon className="w-full h-full" />
+                    </div>
+                    {!isCollapsed && <SidebarLabel>Settings</SidebarLabel>}
+                  </SidebarItem>
+                </SidebarSection>
+
+                {!isCollapsed && false && (
+                  <SidebarSection className="max-lg:hidden">
+                    <SidebarHeading>Upcoming Events</SidebarHeading>
+                    <SidebarItem href="/events/1">
+                      Bear Hug: Live in Concert
                     </SidebarItem>
-                  </DropdownButton>
+                    <SidebarItem href="/events/2">Viking People</SidebarItem>
+                    <SidebarItem href="/events/3">
+                      Six Fingers — DJ Set
+                    </SidebarItem>
+                    <SidebarItem href="/events/4">
+                      We All Look The Same
+                    </SidebarItem>
+                  </SidebarSection>
                 )}
 
-                <DropdownMenu anchor="top start" className="min-w-64">
-                  <DropdownItem href="/dashboard/profile">
-                    <UserIcon />
-                    <DropdownLabel>My profile</DropdownLabel>
-                  </DropdownItem>
-                  <DropdownItem href="/settings">
-                    <Cog8ToothIcon />
-                    <DropdownLabel>Settings</DropdownLabel>
-                  </DropdownItem>
-                  <DropdownDivider />
-                  <DropdownItem href="/privacy-policy">
-                    <ShieldCheckIcon />
-                    <DropdownLabel>Privacy policy</DropdownLabel>
-                  </DropdownItem>
-                  <DropdownItem href="/share-feedback">
-                    <LightBulbIcon />
-                    <DropdownLabel>Share feedback</DropdownLabel>
-                  </DropdownItem>
-                  <DropdownDivider />
-                  <DropdownItem href="/sessions" onClick={logout}>
-                    <ArrowRightStartOnRectangleIcon />
-                    <DropdownLabel>Sign out</DropdownLabel>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </SidebarFooter>
-          </Sidebar>
-        }
-      >
-        <Outlet />
-      </SidebarLayout>
-    </DashboardContext.Provider>
+                <SidebarSpacer />
+
+                <SidebarSection>
+                  <SidebarItem
+                    className={isCollapsed ? 'justify-center' : ''}
+                    href="/support"
+                  >
+                    <div className={iconWrapper}>
+                      <QuestionMarkCircleIcon className="w-full h-full" />
+                    </div>
+                    {!isCollapsed && <SidebarLabel>Support</SidebarLabel>}
+                  </SidebarItem>
+
+                  <SidebarItem
+                    className={isCollapsed ? 'justify-center' : ''}
+                    href="/changelog"
+                  >
+                    <div className={iconWrapper}>
+                      <SparklesIcon className="w-full h-full" />
+                    </div>
+                    {!isCollapsed && <SidebarLabel>Changelog</SidebarLabel>}
+                  </SidebarItem>
+                </SidebarSection>
+              </SidebarBody>
+
+              <SidebarFooter className="max-lg:hidden">
+                <Dropdown>
+                  {isCollapsed ? (
+                    <DropdownButton
+                      as="div"
+                      className="flex w-full items-center justify-center rounded-lg px-2 py-2.5 text-left !cursor-pointer"
+                    >
+                      <UserAvatar isCollapsed={isCollapsed} profile={profile} />
+                    </DropdownButton>
+                  ) : (
+                    <DropdownButton
+                      as="div"
+                      className="!cursor-pointer [&_*]:!cursor-pointer"
+                    >
+                      <SidebarItem className="gap-3">
+                        <UserAvatar
+                          isCollapsed={isCollapsed}
+                          profile={profile}
+                        />
+                      </SidebarItem>
+                    </DropdownButton>
+                  )}
+
+                  <DropdownMenu anchor="top start" className="min-w-64">
+                    <DropdownItem href="/dashboard/profile">
+                      <UserIcon />
+                      <DropdownLabel>My profile</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownItem href="/settings">
+                      <Cog8ToothIcon />
+                      <DropdownLabel>Settings</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownDivider />
+                    <DropdownItem href="/privacy-policy">
+                      <ShieldCheckIcon />
+                      <DropdownLabel>Privacy policy</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownItem href="/share-feedback">
+                      <LightBulbIcon />
+                      <DropdownLabel>Share feedback</DropdownLabel>
+                    </DropdownItem>
+                    <DropdownDivider />
+                    <DropdownItem href="/sessions" onClick={logout}>
+                      <ArrowRightStartOnRectangleIcon />
+                      <DropdownLabel>Sign out</DropdownLabel>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </SidebarFooter>
+            </Sidebar>
+          }
+        >
+          <Outlet />
+        </SidebarLayout>
+      </DashboardContext.Provider>
+      <Flash />
+    </>
   )
 }

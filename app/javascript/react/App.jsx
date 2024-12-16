@@ -64,7 +64,6 @@ function App() {
   const routerProvider = (
     <PubSub channel="FlashChannel">
       <RouterProvider router={router} />
-      <Flash />
     </PubSub>
   )
   // REACT_APP_RAILS_ENV is set by esbuild.config.js when building the app

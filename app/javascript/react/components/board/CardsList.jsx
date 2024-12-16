@@ -130,21 +130,21 @@ export default function CardsList({ board }) {
             Create new stage
           </DropdownItem>
           <DropdownItem
-            data-disabled={!columnId}
             disabled={!columnId}
             onClick={onAddCard}
+            {...(!columnId ? { 'data-disabled': 'true' } : {})}
           >
             <PlusIcon />
             Add job to stage
           </DropdownItem>
           <DropdownDivider />
           <DropdownItem
-            data-disabled={!columnId}
             disabled={!columnId}
             onClick={() => {
               const col = board.columns.find((c) => c.id === columnId)
               setRemoveColumn(col)
             }}
+            {...(!columnId ? { 'data-disabled': 'true' } : {})}
           >
             <TrashIcon className="fill-red-500" />
             Delete stage
