@@ -28,11 +28,19 @@ export const EditCard = ({ card, isOpen, onClose }) => {
   if (!card) return null
 
   return (
-    <Dialog className="relative z-10" onClose={onClose} open={isOpen}>
+    <Dialog
+      className="relative z-10"
+      onClose={onClose}
+      open={isOpen}
+      size="3xl"
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Fieldset>
           <Legend>Job Posting</Legend>
-          <Text>Update the details for this job posting.</Text>
+          <Text>
+            Update the basic details for this job posting. You will able to add
+            notes, contacts, questions and more later.
+          </Text>
           <FieldGroup>
             <Field>
               <Label>Role</Label>
