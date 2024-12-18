@@ -2,7 +2,6 @@
 import { LinkIcon } from '@heroicons/react/16/solid'
 import React from 'react'
 
-import { JobEditor } from '../jobs/JobEditor'
 import { Button } from '../ui/button'
 import { Dialog, DialogActions } from '../ui/dialog'
 import {
@@ -75,7 +74,6 @@ export const EditCard = ({ card, isOpen, onClose }) => {
                 {...register('description')}
                 rows={10}
               />
-              {/* <JobEditor /> */}
             </Field>
           </FieldGroup>
         </Fieldset>

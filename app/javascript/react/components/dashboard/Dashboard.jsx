@@ -67,6 +67,7 @@ const UserAvatar = ({ isCollapsed, profile }) => {
         alt=""
         className="size-10 flex-shrink-0 hover:ring-2 hover:ring-zinc-300 dark:hover:ring-zinc-700"
         initials={initials(profile)}
+        src={profile.avatar}
       />
     )
   }
@@ -85,6 +86,7 @@ const UserAvatar = ({ isCollapsed, profile }) => {
         alt=""
         className="size-10 flex-shrink-0"
         initials={initials(profile)}
+        src={profile.avatar}
       />
       <span className="min-w-0">
         {name && (

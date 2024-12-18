@@ -37,6 +37,7 @@ import {
   initBoardAction,
   updateBoardAction
 } from './reducer'
+import { classNames } from './utils'
 
 export const Board = () => {
   const { board_id } = useParams()
@@ -140,28 +141,44 @@ export const Board = () => {
     </nav>
   )
 
+  const selectedLayoutClassNames = 'ml-0.5 rounded-md bg-white p-1.5 shadow-xs'
+  const unSelectedLayoutClassNames =
+    'rounded-md p-1.5  hover:bg-white hover:shadow-xs'
+  const commonLayoutClassNames =
+    'text-gray-400 focus:ring-2 focus:outline-hidden focus:ring-inset'
+
   return (
     <BoardContext.Provider value={board}>
       <BoardDispatchContext.Provider value={dispatch}>
         <div className="flex items-center justify-between">
           {breadcrumb}
-          <div className="flex justify-end gap-2">
-            <Button
-              plain
-              className={
-                layout === 'kanban' ? 'bg-zinc-100 border-zinc-200' : ''
-              }
-              onClick={() => handleLayoutChange('kanban')}
-            >
-              <ViewColumnsIcon />
-            </Button>
-            <Button
-              plain
-              className={layout === 'list' ? 'bg-zinc-100 border-zinc-200' : ''}
-              onClick={() => handleLayoutChange('list')}
-            >
-              <ListBulletIcon />
-            </Button>
+          <div className="flex gap-2">
+            <div className="ml-6 hidden rounded-lg bg-gray-100 p-0.5 sm:flex">
+              <Button
+                plain
+                className={classNames(
+                  layout === 'kanban'
+                    ? selectedLayoutClassNames
+                    : unSelectedLayoutClassNames,
+                  commonLayoutClassNames
+                )}
+                onClick={() => handleLayoutChange('kanban')}
+              >
+                <ViewColumnsIcon />
+              </Button>
+              <Button
+                plain
+                className={classNames(
+                  layout === 'list'
+                    ? selectedLayoutClassNames
+                    : unSelectedLayoutClassNames,
+                  commonLayoutClassNames
+                )}
+                onClick={() => handleLayoutChange('list')}
+              >
+                <ListBulletIcon />
+              </Button>
+            </div>
             <Dropdown>
               <DropdownButton plain aria-label="More options">
                 <EllipsisHorizontalIcon />

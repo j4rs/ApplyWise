@@ -67,17 +67,6 @@ export const Job = () => {
             </Link>
           </div>
         </li>
-        <li key="job">
-          <div className="flex items-center space-x-2">
-            <ChevronRightIcon
-              aria-hidden="true"
-              className="size-5 text-gray-400"
-            />
-            <Heading className="!text-zinc-500">
-              {job.role} :: {job.company_name}
-            </Heading>
-          </div>
-        </li>
       </ol>
     </nav>
   )
@@ -86,6 +75,9 @@ export const Job = () => {
     <JobContext.Provider value={job}>
       <div className="flex flex-col gap-4">
         {buildBreadcrumb()}
+        <Heading className="!text-zinc-500">
+          {job.role} :: {job.company_name}
+        </Heading>
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <Outlet />
       </div>

@@ -1,10 +1,11 @@
 import {
+  AtSymbolIcon,
   ChatBubbleLeftRightIcon,
   ChevronDownIcon,
   DocumentIcon,
   EnvelopeIcon,
   PencilSquareIcon
-} from '@heroicons/react/16/solid'
+} from '@heroicons/react/20/solid'
 
 import React, { useContext } from 'react'
 
@@ -22,6 +23,12 @@ export const Tabs = ({ activeTab, setActiveTab }) => {
       icon: PencilSquareIcon,
       key: 'details',
       name: 'Details'
+    },
+    {
+      href: 'application',
+      icon: AtSymbolIcon,
+      key: 'application',
+      name: 'Application'
     },
     { href: 'resume', icon: DocumentIcon, key: 'resume', name: 'Resume' },
     {

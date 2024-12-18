@@ -8,6 +8,7 @@ import countryList from 'react-select-country-list'
 import { PubSubContext } from '../../pubsub/PubSubContext'
 import { ComboBoxSelect } from '../custom/ComboBoxSelect'
 import { DashboardContext } from '../dashboard/DashboardContext'
+import { Avatar } from '../ui/avatar'
 import { Button } from '../ui/button'
 import { Divider } from '../ui/divider'
 import { Description, Field, FieldGroup, Fieldset, Label } from '../ui/fieldset'
@@ -18,6 +19,7 @@ import { Text } from '../ui/text'
 import { Textarea } from '../ui/textarea'
 
 import { ResumeUpload } from './ResumeUpload'
+import { AvatarUpload } from './UploadAvatar'
 
 // Common languages with their native names
 const LANGUAGES = [
@@ -25,6 +27,9 @@ const LANGUAGES = [
   { label: 'Español', value: 'es' },
   { label: 'Português', value: 'pt' }
 ]
+
+const initials = (profile) =>
+  `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`
 
 // Get formatted country list with flags
 const COUNTRIES = countryList()
@@ -46,17 +51,20 @@ export function Profile() {
   const [country, setCountry] = useState(profile.country)
   const [language, setLanguage] = useState(profile.language)
 
+  const [avatarPreview, setAvatarPreview] = useState(profile.avatar)
+  const [newAvatar, setNewAvatar] = useState(null)
+
   register('country', { value: country })
   register('language', { value: language })
 
   useEffect(() => {
     setValue('country', country)
-  }, [country])
+  }, [country, setValue])
 
   useEffect(() => {
     register('language', { value: language })
     setValue('language', language)
-  }, [language])
+  }, [language, register, setValue])
 
   const onSubmit = async (data) => {
     const formData = new FormData()
@@ -75,6 +83,10 @@ export function Profile() {
         formData.append(`profile[${key}]`, data[key] || '')
       }
     })
+
+    if (newAvatar?.size > 0) {
+      formData.append('profile[avatar]', newAvatar)
+    } else formData.delete('profile[avatar]')
 
     await onUpdateProfile(formData)
 
@@ -116,6 +128,20 @@ export function Profile() {
       <Divider className="my-4" />
       <form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
         <Fieldset>
+          <FieldGroup>
+            <div className="flex items-center gap-4">
+              <Avatar
+                className="size-20"
+                initials={initials(profile)}
+                src={avatarPreview}
+              />
+              <AvatarUpload
+                onAvatarChange={setNewAvatar}
+                register={register}
+                setAvatarPreview={setAvatarPreview}
+              />
+            </div>
+          </FieldGroup>
           <FieldGroup>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4">
               <Field>

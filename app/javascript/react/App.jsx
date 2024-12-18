@@ -7,12 +7,12 @@ import { Board } from './components/board/Board'
 import { Boards } from './components/board/Boards'
 import { Dashboard } from './components/dashboard/Dashboard'
 import { ErrorPage } from './components/error/ErrorPage'
+import { Application } from './components/job/Application'
 import { CoverLetterTab } from './components/job/CoverLetterTab'
 import { DetailsTab } from './components/job/DetailsTab'
 import { InterviewPrepTab } from './components/job/InterviewPrepTab'
 import { Job } from './components/job/Job'
 import { ResumeTab } from './components/job/ResumeTab'
-import { Flash } from './components/notifications/Flash'
 import { Profile } from './components/profile/Profile'
 import { PubSub } from './pubsub/PubSub'
 
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
       },
       {
         children: [
+          {
+            element: <Application />,
+            path: 'application'
+          },
           {
             element: <DetailsTab />,
             path: 'details'

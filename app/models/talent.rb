@@ -22,6 +22,7 @@
 class Talent < ApplicationRecord
   has_many :boards, dependent: :destroy
   has_many_attached :resumes
+  has_one_attached :avatar
 
   store_accessor :preferences,
                  :last_seen_board_id,

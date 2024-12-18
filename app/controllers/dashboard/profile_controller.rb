@@ -20,7 +20,7 @@ module Dashboard
     def profile_params
       params
         .require(:profile)
-        .permit(:first_name, :last_name, :description, :country, :language, resumes: [])
+        .permit(:first_name, :last_name, :description, :country, :avatar, :language, resumes: [])
     end
 
     def broadcast_profile_update
