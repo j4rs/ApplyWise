@@ -20,6 +20,7 @@ import { Textarea } from '../ui/textarea'
 
 import { ResumeUpload } from './ResumeUpload'
 import { AvatarUpload } from './UploadAvatar'
+import Build from './Build'
 
 // Common languages with their native names
 const LANGUAGES = [
@@ -101,11 +102,11 @@ export function Profile() {
   const renderFile = (file) => (
     <span
       className="inline-flex items-center gap-1 px-2 py-0.5 text-sm bg-gray-100 rounded-md"
-      key={file.name}
+      key={file.filename}
     >
       <span className="flex items-center gap-2">
         <a href={file.url} rel="noopener noreferrer" target="_blank">
-          {file.name}
+          {file.filename}
         </a>
       </span>
       <button
@@ -220,6 +221,7 @@ export function Profile() {
           <Button type="submit">Save</Button>
         </div>
       </form>
+      <Build profile={profile} />
     </>
   )
 }

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 
 import { fetchBoard, fetchJob } from '../board/network'
+import { classNames } from '../board/utils'
 import { Heading } from '../ui/heading'
 import { Link } from '../ui/link'
 
@@ -71,13 +72,25 @@ export const Job = () => {
     </nav>
   )
 
+  const highlight = 'bg-indigo-50 rounded-md px-2 py-0.5'
+
   return (
     <JobContext.Provider value={job}>
       <div className="flex flex-col gap-4">
         {buildBreadcrumb()}
-        <Heading className="!text-zinc-500">
+        <Heading>
           {job.role} :: {job.company_name}
         </Heading>
+        <Text>
+          Use your{' '}
+          <span className={classNames(highlight, '!bg-red-100')}>
+            AI assistants
+          </span>{' '}
+          to respond <span className={highlight}>Custom Questions</span>,
+          generate the <span className={highlight}>Resume</span> and{' '}
+          <span className={highlight}>Cover Letter</span>. Track the application
+          with <i>notes, tags, contacts</i>, and more.
+        </Text>
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <Outlet />
       </div>

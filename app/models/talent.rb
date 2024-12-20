@@ -21,8 +21,13 @@
 
 class Talent < ApplicationRecord
   has_many :boards, dependent: :destroy
-  has_many_attached :resumes
-  has_one_attached :avatar
+
+  has_many_attached :resumes, service: :amazon
+  has_one_attached :avatar, service: :amazon
+
+  has_many :text_pdfs, dependent: :destroy
+  has_one :last_text_pdf, -> { resume.order(created_at: :desc) },
+          class_name: "TextPdf"
 
   store_accessor :preferences,
                  :last_seen_board_id,
@@ -30,6 +35,7 @@ class Talent < ApplicationRecord
                  :jobs_layout
 
   after_create :create_board!
+  after_save_commit :create_text_pdfs
 
   private
 
@@ -37,5 +43,13 @@ class Talent < ApplicationRecord
     Current.partition = self
 
     Board.create_with_initial_columns!(talent: self)
+  end
+
+  # clean up text pdf
+  def create_text_pdfs
+    resumes.each do |attachment|
+      next if text_pdfs.where(attachment:).exists?
+      text_pdfs.create!(attachment:)
+    end
   end
 end
