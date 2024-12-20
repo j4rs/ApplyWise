@@ -18,9 +18,9 @@ import { Listbox, ListboxLabel, ListboxOption } from '../ui/listbox'
 import { Text } from '../ui/text'
 import { Textarea } from '../ui/textarea'
 
+import Build from './Build'
 import { ResumeUpload } from './ResumeUpload'
 import { AvatarUpload } from './UploadAvatar'
-import Build from './Build'
 
 // Common languages with their native names
 const LANGUAGES = [
@@ -42,7 +42,7 @@ const COUNTRIES = countryList()
   }))
 
 export function Profile() {
-  const { addNotification } = useContext(PubSubContext)
+  const { addFlashMessage } = useContext(PubSubContext)
   const { onUpdateProfile, profile } = useContext(DashboardContext)
 
   const { handleSubmit, register, setValue } = useForm({
@@ -91,7 +91,7 @@ export function Profile() {
 
     await onUpdateProfile(formData)
 
-    addNotification({
+    addFlashMessage({
       duration: 3000,
       icon: 'success',
       title: 'Profile updated successfully...',

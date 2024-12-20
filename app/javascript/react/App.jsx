@@ -7,6 +7,7 @@ import { Board } from './components/board/Board'
 import { Boards } from './components/board/Boards'
 import { Dashboard } from './components/dashboard/Dashboard'
 import { ErrorPage } from './components/error/ErrorPage'
+import { Inbox } from './components/inbox/Inbox'
 import { Application } from './components/job/Application'
 import { CoverLetterTab } from './components/job/CoverLetterTab'
 import { DetailsTab } from './components/job/DetailsTab'
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         element: <Profile />,
         path: '/dashboard/profile'
+      },
+      {
+        element: <Inbox />,
+        path: '/dashboard/notifications'
       }
     ],
     element: <Dashboard />,
@@ -66,7 +71,7 @@ const router = createBrowserRouter([
 
 function App() {
   const routerProvider = (
-    <PubSub channel="FlashChannel">
+    <PubSub>
       <RouterProvider router={router} />
     </PubSub>
   )

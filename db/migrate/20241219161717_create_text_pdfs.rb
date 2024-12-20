@@ -2,7 +2,7 @@ class CreateTextPdfs < ActiveRecord::Migration[8.0]
   def change
     create_table :text_pdfs do |t|
       t.integer :partition_id, null: false, index: true
-      t.string :slug, null: false
+      t.string :slug, null: false, index: { unique: true }
 
       t.belongs_to :talent
       t.belongs_to :attachment

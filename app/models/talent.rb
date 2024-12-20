@@ -29,6 +29,8 @@ class Talent < ApplicationRecord
   has_one :last_text_pdf, -> { resume.order(created_at: :desc) },
           class_name: "TextPdf"
 
+  has_many :notifications, dependent: :destroy
+
   store_accessor :preferences,
                  :last_seen_board_id,
                  :is_sidebar_collapsed,

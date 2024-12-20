@@ -21,6 +21,7 @@
 #
 #  index_text_pdfs_on_attachment_id  (attachment_id)
 #  index_text_pdfs_on_partition_id   (partition_id)
+#  index_text_pdfs_on_slug           (slug) UNIQUE
 #  index_text_pdfs_on_talent_id      (talent_id)
 #
 class TextPdf < ApplicationRecord

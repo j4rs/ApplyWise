@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_19_161717) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_20_193552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -103,6 +103,21 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_19_161717) do
     t.index ["slug"], name: "index_jobs_on_slug", unique: true
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "partition_id", null: false
+    t.string "slug", null: false
+    t.bigint "talent_id"
+    t.datetime "read_at", precision: nil
+    t.boolean "archived"
+    t.string "subject"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partition_id"], name: "index_notifications_on_partition_id"
+    t.index ["slug"], name: "index_notifications_on_slug"
+    t.index ["talent_id"], name: "index_notifications_on_talent_id"
+  end
+
   create_table "signed_messages", force: :cascade do |t|
     t.string "slug", null: false
     t.string "purpose", null: false
@@ -145,6 +160,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_19_161717) do
     t.datetime "updated_at", null: false
     t.index ["attachment_id"], name: "index_text_pdfs_on_attachment_id"
     t.index ["partition_id"], name: "index_text_pdfs_on_partition_id"
+    t.index ["slug"], name: "index_text_pdfs_on_slug", unique: true
     t.index ["talent_id"], name: "index_text_pdfs_on_talent_id"
   end
 

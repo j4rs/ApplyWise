@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   namespace :dashboard do
     # /dashboard/profile
     resource :profile, only: %i[ show update ], controller: :profile
+    resources :notifications, only: %i[ index ]
 
     # /dashboard/boards
     resources :boards, only: %i[ create index show update destroy ] do

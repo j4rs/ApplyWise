@@ -10,19 +10,19 @@ import { Click } from './Click'
 import { Toast } from './Toast'
 
 export const Flash = () => {
-  const { notifications, removeNotification } = useContext(PubSubContext)
+  const { flashMessages, removeFlashMessage } = useContext(PubSubContext)
   const navigate = useNavigate()
 
-  if (!notifications) return null
+  if (!flashMessages) return null
 
   const notificationComponent = (notification) => {
     switch (notification.type) {
       case 'toast':
-        return Toast(notification, removeNotification)
+        return Toast(notification, removeFlashMessage)
       case 'click':
-        return Click(notification, navigate, removeNotification)
+        return Click(notification, navigate, removeFlashMessage)
       case 'action':
-        return Action(notification, removeNotification)
+        return Action(notification, removeFlashMessage)
       default:
         return null
     }
@@ -48,9 +48,7 @@ export const Flash = () => {
           <button
             className="text-gray-500 hover:text-gray-700"
             onClick={() => {
-              notifications.forEach((notification) =>
-                removeNotification(notification.id)
-              )
+              flashMessages.forEach((message) => removeFlashMessage(message.id))
             }}
             type="button"
           >
@@ -69,10 +67,10 @@ export const Flash = () => {
       aria-live="assertive"
       className="pointer-events-none fixed inset-0 px-4 py-6 sm:items-start sm:p-6"
     >
-      {notifications.length > 0 && (
+      {flashMessages.length > 0 && (
         <>
-          {notifications.length > 1 && closeAll}
-          {notifications.map(renderNotification)}
+          {flashMessages.length > 1 && closeAll}
+          {flashMessages.map(renderNotification)}
         </>
       )}
     </div>

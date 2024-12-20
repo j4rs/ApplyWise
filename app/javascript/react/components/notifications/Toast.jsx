@@ -1,6 +1,7 @@
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
+  InformationCircleIcon,
   XMarkIcon
 } from '@heroicons/react/20/solid'
 import React from 'react'
@@ -14,6 +15,9 @@ export const Toast = (notification, removeNotification) => {
       break
     case 'error':
       icon = <ExclamationCircleIcon className="size-6 text-red-500" />
+      break
+    case 'info':
+      icon = <InformationCircleIcon className="size-6 text-blue-500" />
       break
     default:
       break

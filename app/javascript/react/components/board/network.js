@@ -112,3 +112,9 @@ export const updateProfile = async (payload) =>
     body: payload,
     method: 'PATCH'
   }).then((res) => res.json())
+
+export const fetchNotifications = async (page, perPage) =>
+  fetch(`/dashboard/notifications?page=${page}&per_page=${perPage}`, {
+    headers,
+    method: 'GET'
+  }).then((res) => res.json())

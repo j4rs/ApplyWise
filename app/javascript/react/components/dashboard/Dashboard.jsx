@@ -1,6 +1,5 @@
 import {
   HomeIcon,
-  Square2StackIcon,
   Cog6ToothIcon,
   QuestionMarkCircleIcon,
   SparklesIcon,
@@ -9,16 +8,18 @@ import {
   Cog8ToothIcon,
   ShieldCheckIcon,
   LightBulbIcon,
-  ArrowRightStartOnRectangleIcon
+  ArrowRightStartOnRectangleIcon,
+  BellIcon
 } from '@heroicons/react/24/outline'
 import { clsx } from 'clsx'
 
 import isEmpty from 'lodash/isEmpty'
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { Outlet } from 'react-router-dom'
 
+import { PubSubContext } from '../../pubsub/PubSubContext'
 import {
   fetchProfile,
   updateProfile,
@@ -105,6 +106,7 @@ const UserAvatar = ({ isCollapsed, profile }) => {
 const DEFAULT_PREFERENCES = { is_sidebar_collapsed: true }
 
 export function Dashboard() {
+  const { inboxNotifications } = useContext(PubSubContext)
   const [preferences, setPreferences] = useState(null)
   const [profile, setProfile] = useState(null)
 
@@ -141,6 +143,12 @@ export function Dashboard() {
 
   const isCollapsed = preferences.is_sidebar_collapsed
   const iconWrapper = 'size-5 flex items-center justify-center flex-shrink-0'
+
+  const notificationsCountBadge = (
+    <div className="absolute bg-red-500 text-white text-xs min-w-[18px] h-[18px] rounded-full px-1 flex items-center justify-center">
+      {inboxNotifications.filter((n) => n.read_at === null).length}
+    </div>
+  )
 
   return (
     <>
@@ -197,12 +205,15 @@ export function Dashboard() {
 
                   <SidebarItem
                     className={isCollapsed ? 'justify-center' : ''}
-                    href="/inbox"
+                    href="/dashboard/notifications"
                   >
-                    <div className={iconWrapper}>
-                      <Square2StackIcon className="w-full h-full" />
+                    <div className="relative">
+                      <div className={iconWrapper}>
+                        <BellIcon className="w-full h-full" />
+                      </div>
                     </div>
                     {!isCollapsed && <SidebarLabel>Inbox</SidebarLabel>}
+                    {inboxNotifications.length > 0 && notificationsCountBadge}
                   </SidebarItem>
 
                   <SidebarItem

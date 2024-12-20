@@ -5,36 +5,64 @@ import { useActionCable } from '../components/hooks/useActionCable'
 
 import { PubSubContext } from './PubSubContext'
 
-export const PubSub = ({ channel, children }) => {
-  const [notifications, setNotifications] = useState([])
+export const PubSub = ({ children }) => {
+  const [flashMessages, setFlashMessages] = useState([])
+  const [inboxNotifications, setInboxNotifications] = useState([])
 
-  const removeNotification = useCallback((id) => {
-    setNotifications((prev) => prev.filter((msg) => msg.id !== id))
+  const removeFlashMessage = useCallback((id) => {
+    setFlashMessages((prev) => prev.filter((msg) => msg.id !== id))
   }, [])
 
-  const addNotification = useCallback((notification) => {
+  const addFlashMessage = useCallback((message) => {
     const id = uuid()
-    setNotifications((prev) => [{ ...notification, id }, ...prev])
+    setFlashMessages((prev) => [{ ...message, id }, ...prev])
 
-    if (notification.duration) {
+    if (message.duration) {
       setTimeout(() => {
-        setNotifications((prev) => prev.filter((msg) => msg.id !== id))
-      }, notification.duration)
+        setFlashMessages((prev) => prev.filter((msg) => msg.id !== id))
+      }, message.duration)
     }
   }, [])
 
-  const onReceived = useCallback(
+  const onReceivedFlashMessage = useCallback(
     (data) => {
-      addNotification(data)
+      addFlashMessage(data)
     },
-    [addNotification]
+    [addFlashMessage]
   )
 
-  useActionCable({ channel, onReceived })
+  const onReceivingNotification = useCallback(
+    (data) => {
+      addFlashMessage({
+        duration: 3000,
+        icon: 'info',
+        title: 'There are new notifications...',
+        type: 'toast'
+      })
+      setInboxNotifications((prev) => [...prev, data])
+    },
+    [setInboxNotifications]
+  )
+
+  useActionCable({
+    channel: 'FlashChannel',
+    onReceived: onReceivedFlashMessage
+  })
+
+  useActionCable({
+    channel: 'NotificationChannel',
+    onReceived: onReceivingNotification
+  })
 
   return (
     <PubSubContext.Provider
-      value={{ addNotification, notifications, removeNotification }}
+      value={{
+        addFlashMessage,
+        flashMessages,
+        inboxNotifications,
+        removeFlashMessage,
+        setInboxNotifications
+      }}
     >
       {children}
     </PubSubContext.Provider>
