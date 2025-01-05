@@ -1,6 +1,9 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+import containerQueries from '@tailwindcss/container-queries'
+import forms from '@tailwindcss/forms'
+import typography from '@tailwindcss/typography'
+import defaultTheme from 'tailwindcss/defaultTheme'
 
-module.exports = {
+export default {
   content: [
     './public/**/*.html',
     './app/helpers/**/*.rb',
@@ -8,16 +11,12 @@ module.exports = {
     './app/views/**/*.{erb,haml,html,slim}'
   ],
   darkMode: 'selector',
+  plugins: [forms, typography, containerQueries],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-      },
-    },
-  },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/container-queries'),
-  ]
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans]
+      }
+    }
+  }
 }

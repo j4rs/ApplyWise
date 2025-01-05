@@ -102,13 +102,13 @@ export const updateTalentPreferences = async (prefs) =>
     method: 'PATCH'
   })
 
-export const fetchProfile = async () =>
-  fetch('/dashboard/profile', { headers, method: 'GET' }).then((res) =>
+export const fetchProfileBasic = async () =>
+  fetch('/dashboard/profile/basic', { headers, method: 'GET' }).then((res) =>
     res.json()
   )
 
-export const updateProfile = async (payload) =>
-  fetch('/dashboard/profile', {
+export const updateProfileBasic = async (payload) =>
+  fetch('/dashboard/profile/basic', {
     body: payload,
     method: 'PATCH'
   }).then((res) => res.json())

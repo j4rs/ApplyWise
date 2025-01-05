@@ -109,10 +109,7 @@ export const Board = () => {
     </form>
   ) : (
     <div>
-      <Heading
-        className="hover:bg-zinc-100 !text-zinc-500"
-        onClick={() => setIsEditingBoardName(true)}
-      >
+      <Heading onClick={() => setIsEditingBoardName(true)}>
         {board.name}
       </Heading>
     </div>
@@ -153,7 +150,7 @@ export const Board = () => {
         <div className="flex items-center justify-between">
           {breadcrumb}
           <div className="flex gap-2">
-            <div className="ml-6 hidden rounded-lg bg-gray-100 p-0.5 sm:flex">
+            <div className="ml-6 rounded-lg bg-gray-100 p-0.5 flex">
               <Button
                 plain
                 className={classNames(

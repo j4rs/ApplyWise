@@ -17,12 +17,12 @@ import isEmpty from 'lodash/isEmpty'
 
 import React, { useContext, useState } from 'react'
 
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import { PubSubContext } from '../../pubsub/PubSubContext'
 import {
-  fetchProfile,
-  updateProfile,
+  fetchProfileBasic,
+  updateProfileBasic,
   updateTalentPreferences
 } from '../board/network'
 import { Flash } from '../notifications/Flash'
@@ -110,17 +110,19 @@ export function Dashboard() {
   const [preferences, setPreferences] = useState(null)
   const [profile, setProfile] = useState(null)
 
+  const currentPath = useLocation().pathname
+
   const onUpdateProfile = async (data) => {
-    const newProfile = await updateProfile(data)
+    const newProfile = await updateProfileBasic(data)
     setProfile(newProfile)
   }
 
-  const asyncFetchProfile = async () => {
-    setProfile(await fetchProfile())
+  const asyncFetchProfileBasic = async () => {
+    setProfile(await fetchProfileBasic())
   }
 
   React.useEffect(() => {
-    asyncFetchProfile()
+    asyncFetchProfileBasic()
   }, [])
 
   React.useEffect(() => {
@@ -167,10 +169,7 @@ export function Dashboard() {
               <SidebarHeader>
                 <SidebarSection>
                   <SidebarItem
-                    className={clsx(
-                      'cursor-pointer',
-                      isCollapsed && 'justify-center'
-                    )}
+                    className={clsx(isCollapsed && 'justify-center')}
                     onClick={() => toggleCollapse(!isCollapsed)}
                   >
                     <div className={iconWrapper}>
@@ -191,6 +190,7 @@ export function Dashboard() {
                 <SidebarSection>
                   <SidebarItem
                     className={isCollapsed ? 'justify-center' : ''}
+                    current={currentPath.startsWith('/dashboard/boards')}
                     href="/dashboard/boards"
                   >
                     <div className={iconWrapper}>
@@ -205,6 +205,7 @@ export function Dashboard() {
 
                   <SidebarItem
                     className={isCollapsed ? 'justify-center' : ''}
+                    current={currentPath.startsWith('/dashboard/notifications')}
                     href="/dashboard/notifications"
                   >
                     <div className="relative">
@@ -227,7 +228,7 @@ export function Dashboard() {
                   </SidebarItem>
                 </SidebarSection>
 
-                {!isCollapsed && false && (
+                {!isCollapsed && (
                   <SidebarSection className="max-lg:hidden">
                     <SidebarHeading>Upcoming Events</SidebarHeading>
                     <SidebarItem href="/events/1">
@@ -292,7 +293,7 @@ export function Dashboard() {
                   )}
 
                   <DropdownMenu anchor="top start" className="min-w-64">
-                    <DropdownItem href="/dashboard/profile">
+                    <DropdownItem href="/dashboard/profile/basic">
                       <UserIcon />
                       <DropdownLabel>My profile</DropdownLabel>
                     </DropdownItem>

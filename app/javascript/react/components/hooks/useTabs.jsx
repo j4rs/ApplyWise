@@ -1,54 +1,20 @@
-import {
-  AtSymbolIcon,
-  ChatBubbleLeftRightIcon,
-  ChevronDownIcon,
-  DocumentIcon,
-  EnvelopeIcon,
-  PencilSquareIcon
-} from '@heroicons/react/20/solid'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import React, { useState } from 'react'
 
-import React, { useContext } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { classNames } from '../board/utils'
 import { Link } from '../ui/link'
 
-import { JobContext } from './JobContext'
+export const useTabs = (tabs) => {
+  const location = useLocation()
+  // Extract the last path segment using regex
+  const lastPathSegment = location.pathname.match(/[^/]+$/)?.[0] || ''
+  const [activeTab, setActiveTab] = useState(lastPathSegment)
 
-export const Tabs = ({ activeTab, setActiveTab }) => {
-  const job = useContext(JobContext)
-
-  const tabs = [
-    {
-      href: 'details',
-      icon: PencilSquareIcon,
-      key: 'details',
-      name: 'Details'
-    },
-    {
-      href: 'application',
-      icon: AtSymbolIcon,
-      key: 'application',
-      name: 'Application'
-    },
-    { href: 'resume', icon: DocumentIcon, key: 'resume', name: 'Resume' },
-    {
-      href: 'cover_letter',
-      icon: EnvelopeIcon,
-      key: 'cover_letter',
-      name: 'Cover Letter'
-    },
-    {
-      href: 'interview_prep',
-      icon: ChatBubbleLeftRightIcon,
-      key: 'interview_prep',
-      name: 'Interview Prep'
-    }
-  ]
-
-  return (
+  const tabsUI = (
     <div>
       <div className="grid grid-cols-1 sm:hidden">
-        {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
         <select
           aria-label="Select a tab"
           className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
@@ -97,4 +63,10 @@ export const Tabs = ({ activeTab, setActiveTab }) => {
       </div>
     </div>
   )
+
+  return {
+    activeTab,
+    setActiveTab,
+    tabsUI
+  }
 }

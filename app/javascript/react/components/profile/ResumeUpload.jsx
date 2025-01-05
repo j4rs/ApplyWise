@@ -25,12 +25,9 @@ export function ResumeUpload({ name = 'resumes', setValue }) {
 
   const { getInputProps, getRootProps, isDragActive } = useDropzone({
     accept: {
-      'application/msword': ['.doc'],
-      'application/pdf': ['.pdf'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        ['.docx']
+      'application/pdf': ['.pdf']
     },
-    multiple: true, // Changed to true to support multiple files
+    multiple: false,
     onDrop
   })
 
@@ -54,12 +51,10 @@ export function ResumeUpload({ name = 'resumes', setValue }) {
     }
 
     if (isDragActive) {
-      return <Text>Drop your resumes here...</Text>
+      return <Text>Drop your resume here...</Text>
     }
 
-    return (
-      <Text>Drag and drop your resumes here, or click to select files</Text>
-    )
+    return <Text>Drag and drop your resume here, or click to select files</Text>
   }
 
   // Clean up previews when component unmounts
@@ -76,9 +71,9 @@ export function ResumeUpload({ name = 'resumes', setValue }) {
 
   return (
     <Field>
-      <Label>Resumes</Label>
+      <Label>Resume</Label>
       <Description>
-        Your resumes along with your description will help us create tailored
+        Your resume along with your description will help us create tailored
         resumes and cover letters for your applications.
       </Description>
       <div
@@ -93,7 +88,7 @@ export function ResumeUpload({ name = 'resumes', setValue }) {
         <input {...getInputProps()} />
         {renderDropzoneContent()}
         <Text className="text-sm text-gray-500 mt-2">
-          Supported formats: PDF, DOC, DOCX
+          Supported formats: PDF
         </Text>
       </div>
     </Field>

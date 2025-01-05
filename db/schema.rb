@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_20_193552) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_24_183809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -128,6 +128,20 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_20_193552) do
     t.index ["purpose"], name: "index_signed_messages_on_purpose"
     t.index ["slug"], name: "index_signed_messages_on_slug", unique: true
     t.index ["token"], name: "index_signed_messages_on_token", unique: true
+  end
+
+  create_table "tailored_resumes", force: :cascade do |t|
+    t.integer "partition_id", null: false
+    t.string "slug", null: false
+    t.bigint "talent_id"
+    t.bigint "job_id"
+    t.jsonb "build"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_tailored_resumes_on_job_id"
+    t.index ["partition_id"], name: "index_tailored_resumes_on_partition_id"
+    t.index ["slug"], name: "index_tailored_resumes_on_slug", unique: true
+    t.index ["talent_id"], name: "index_tailored_resumes_on_talent_id"
   end
 
   create_table "talents", force: :cascade do |t|

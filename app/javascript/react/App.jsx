@@ -14,6 +14,8 @@ import { DetailsTab } from './components/job/DetailsTab'
 import { InterviewPrepTab } from './components/job/InterviewPrepTab'
 import { Job } from './components/job/Job'
 import { ResumeTab } from './components/job/ResumeTab'
+import { Basic } from './components/profile/Basic'
+import { Build } from './components/profile/Build'
 import { Profile } from './components/profile/Profile'
 import { PubSub } from './pubsub/PubSub'
 
@@ -55,6 +57,16 @@ const router = createBrowserRouter([
         path: '/dashboard/boards/:board_id/jobs/:job_id'
       },
       {
+        children: [
+          {
+            element: <Basic />,
+            path: 'basic'
+          },
+          {
+            element: <Build />,
+            path: 'build'
+          }
+        ],
         element: <Profile />,
         path: '/dashboard/profile'
       },

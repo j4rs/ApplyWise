@@ -14,7 +14,8 @@ import { useForm } from 'react-hook-form'
 import {
   bgColorsWithOpacity,
   fillColors,
-  textColors
+  columnColors,
+  textContrastColors
 } from '../../toolsets/colors'
 import { sizes } from '../../toolsets/sizes'
 import { Button } from '../ui/button'
@@ -34,6 +35,7 @@ import { useDeleteColumn } from './hooks/useDeleteColumn'
 import { updateColumn } from './network'
 import { updateColumnAction } from './reducer'
 import { classNames } from './utils'
+import clsx from 'clsx'
 
 const colorIcon = (color, size = 'md') => (
   <svg
@@ -128,7 +130,7 @@ export const Column = ({ column }) => {
           >
             <div
               className={classNames(
-                textColors[c],
+                columnColors[c],
                 c === color && 'data-[checked]:ring-2',
                 'cursor-pointer rounded-full p-0.5 ring-current focus:outline-none'
               )}
@@ -151,21 +153,24 @@ export const Column = ({ column }) => {
     return (
       <div
         className={classNames(
-          'flex items-center gap-2 py-3 rounded-lg [writing-mode:vertical-lr]',
-          position === 0 ? 'ml-0 mr-2' : 'mx-2',
+          'flex items-center gap-2 py-3 px-1 rounded-lg [writing-mode:vertical-lr]',
+          position === 0 ? 'mr-1' : 'mx-1',
           bgColorsWithOpacity[color]
         )}
       >
         <ColorsDropdown value={color} />
         <button onClick={() => toggleCollapse(false)}>
-          <Text className="font-semibold">{name}</Text>
+          <div
+            className={classNames(
+              'flex items-center gap-2 font-semibold',
+              textContrastColors[color]
+            )}
+          >
+            <p>
+              {name} ({column.cards.length})
+            </p>
+          </div>
         </button>
-        <Text
-          className="font-bold rounded-sm"
-          onClick={() => toggleCollapse(false)}
-        >
-          {column.cards.length}
-        </Text>
       </div>
     )
   }
@@ -195,18 +200,18 @@ export const Column = ({ column }) => {
               </div>
             </form>
           ) : (
-            <div className="flex max-w-40">
-              <Text
-                className="font-semibold mr-2 truncate"
-                color={color}
-                onClick={() => setIsEditing(true)}
+            <button onClick={() => setIsEditing(true)}>
+              <div
+                className={classNames(
+                  'flex max-w-40 pr-2 items-center gap-2 font-semibold',
+                  textContrastColors[color]
+                )}
               >
-                {name}
-              </Text>
-              <Text className="font-bold rounded-sm mr-2">
-                {column.cards.length}
-              </Text>
-            </div>
+                <p className="truncate">
+                  {name} ({column.cards.length})
+                </p>
+              </div>
+            </button>
           )}
         </div>
         <div className="flex grow justify-end">

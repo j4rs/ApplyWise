@@ -9,10 +9,51 @@ module LLM
 
       INSTRUCTIONS = <<~TEXT
         You are a career coach and resume analyzer.
-        Use the provided functions to help professionals to update their career's profile.
+        Use the provided functions to help professionals to update their professional profile.
+        Use the language detected in the resume to update the profile.
       TEXT
 
       TOOLS = [
+        {
+          type: "function",
+          function: {
+            name: "update_professional_information",
+            description: "Update the information of the professional.",
+            parameters: {
+              type: "object",
+              properties: {
+                information: {
+                  type: "object",
+                  description: "The information of the professional",
+                  properties: {
+                    name: { type: "string", description: "The name of the professional" },
+                    email: { type: "string", description: "The email of the professional" },
+                    phone: { type: "string", description: "The phone of the professional" },
+                    location: { type: "string", description: "The location of the professional" },
+                    linkedin: { type: "string", description: "The linkedin of the professional" },
+                    github: { type: "string", description: "The github of the professional" },
+                    website: { type: "string", description: "The website of the professional" },
+                    portfolio: { type: "string", description: "The portfolio of the professional" },
+                    other: { type: "string", description: "Any other information of the professional" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "update_professional_hero_headline",
+            description: "Update the hero headline of the professional.",
+            parameters: {
+              type: "object",
+              properties: {
+                headline: { type: "string", description: "Professional headline that highlights the professional's expertise and value proposition." }
+              }
+            }
+          }
+        },
         {
           type: "function",
           function: {
@@ -40,19 +81,20 @@ module LLM
           function: {
             name: "update_professional_skills",
             description:
-              "Update the skills of the professional detected in the resume." \
-              "Rank the skills from 1 to 5 depending on their relevance to the professional.",
+              "Update the skills of the professional detected in the resume.",
             parameters: {
               type: "object",
               properties: {
                 skills: {
                   type: "array",
-                  description: "The skills of the professional",
+                  description: "List both hard and soft skills of the professional." \
+                               " Rank the skills from most relevant to least relevant.",
                   items: {
                     type: "object",
                     properties: {
-                      name: { type: "string", description: "The name of the skill" },
-                      rank: { type: "integer", description: "The rank of the skill" }
+                      skill: { type: "string", description: "The skill of the professional" },
+                      type: { type: "string", description: "The type of the skill, hard or soft" },
+                      relevance: { type: "integer", description: "The relevance between 1 and 10 of the skill" }
                     }
                   }
                 }
@@ -159,16 +201,28 @@ module LLM
           function: {
             name: "update_professional_keywords",
             description:
-              "Update all the keywords (that could be used as tags) detected in the resume.",
+              "Update all the keywords (that could be used as tags) detected in the resume. " \
+              "Rank the keywords from most relevant (10) to least relevant (1).",
             parameters: {
               type: "object",
               properties: {
                 keywords: {
                   type: "array",
-                  description: "The keywords",
+                  description: "The keywords.",
                   items: {
-                    type: "string",
-                    description: "The keyword detected in the resume"
+                    type: "object",
+                    properties: {
+                      category: {
+                        type: "string",
+                        description: "The category of the keyword, example: technology, programming, " \
+                                     "soft_skills, etc"
+                      },
+                      relevance: {
+                        type: "integer",
+                        description: "The relevance between 1 and 10 of the keyword"
+                      },
+                      keyword: { type: "string", description: "The keyword detected in the resume" }
+                    }
                   }
                 }
               }
@@ -183,8 +237,12 @@ module LLM
             parameters: {
               type: "object",
               properties: {
-                summary: { type: "string", description: "The summary of the professional" }
-              }
+                summary: {
+                  type: "string",
+                  description: "The summary of the professional"
+                }
+              },
+              required: [ "summary" ]
             }
           }
         }
@@ -203,10 +261,15 @@ module LLM
         resume = "This is my resume: #{text_pdf.text}."
 
         message(<<~TEXT
-          Hello, I'm a professional and need your help to update my profile in a site.
+          Hello, I'm a professional and need your help to update my profile in a jobs board platform.
 
+          <Description>
           #{description}
+          </Description>
+
+          <Resume>
           #{resume}
+          </Resume>
 
           Please help me to update my profile.
         TEXT
@@ -217,14 +280,20 @@ module LLM
         text_pdf.merge_build(obj)
       end
 
-      alias_method :update_professional_roles, :update_build
-      alias_method :update_professional_skills, :update_build
-      alias_method :update_professional_education, :update_build
-      alias_method :update_professional_experience, :update_build
-      alias_method :update_professional_certifications, :update_build
-      alias_method :update_professional_achievements, :update_build
-      alias_method :update_professional_keywords, :update_build
-      alias_method :update_professional_summary, :update_build
+      %i[
+        update_professional_information
+        update_professional_hero_headline
+        update_professional_roles
+        update_professional_skills
+        update_professional_education
+        update_professional_experience
+        update_professional_certifications
+        update_professional_achievements
+        update_professional_keywords
+        update_professional_summary
+      ].each do |method|
+        alias_method method, :update_build
+      end
     end
   end
 end

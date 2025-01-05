@@ -34,7 +34,13 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     # /dashboard/profile
-    resource :profile, only: %i[ show update ], controller: :profile
+    namespace :profile do
+      # /dashboard/profile/basic
+      resource :basic, only: %i[ show update ], controller: :basic
+      # /dashboard/profile/resume
+      resource :build, only: %i[ show update destroy ], controller: :build
+    end
+
     resources :notifications, only: %i[ index ]
 
     # /dashboard/boards

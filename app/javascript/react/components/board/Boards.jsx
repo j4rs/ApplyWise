@@ -64,7 +64,7 @@ export const Boards = () => {
       <form onSubmit={boardForm.handleSubmit(onSubmitCreateBoard)}>
         <DialogDescription>
           Create a new board to start tracking your job applications. The board
-          will be created with default columns.
+          will be created with the default columns.
         </DialogDescription>
         <DialogBody>
           <Field>
@@ -80,7 +80,9 @@ export const Boards = () => {
           <Button plain onClick={() => setIsOpenCreateBoardDialog(false)}>
             Cancel
           </Button>
-          <Button type="submit">Create</Button>
+          <Button color="blue" type="submit">
+            Create
+          </Button>
         </DialogActions>
       </form>
     </Dialog>
@@ -136,7 +138,7 @@ export const Boards = () => {
             <TableRow href={`/dashboard/boards/${board.id}`} key={board.id}>
               <TableCell className="font-medium">{board.name}</TableCell>
               <TableCell>{board.columns.length}</TableCell>
-              <TableCell className="text-zinc-500">
+              <TableCell>
                 {board.columns.reduce(
                   (acc, column) => acc + column.cards.length,
                   0

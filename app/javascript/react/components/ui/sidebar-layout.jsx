@@ -52,7 +52,7 @@ export function SidebarLayout({ children, className, sidebar }) {
   return (
     <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
       {/* Sidebar on desktop */}
-      <div className="fixed inset-y-0 left-0 transition-all duration-300">
+      <div className="hidden lg:block fixed inset-y-0 left-0 transition-all duration-300">
         {sidebar}
       </div>
 

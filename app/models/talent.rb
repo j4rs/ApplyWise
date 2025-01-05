@@ -39,6 +39,8 @@ class Talent < ApplicationRecord
   after_create :create_board!
   after_save_commit :create_text_pdfs
 
+  delegate :build, to: :last_text_pdf, allow_nil: true
+
   private
 
   def create_board!
@@ -51,6 +53,7 @@ class Talent < ApplicationRecord
   def create_text_pdfs
     resumes.each do |attachment|
       next if text_pdfs.where(attachment:).exists?
+
       text_pdfs.create!(attachment:)
     end
   end

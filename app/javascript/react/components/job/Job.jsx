@@ -1,17 +1,52 @@
 import { ChevronRightIcon } from '@heroicons/react/16/solid'
+import {
+  AtSymbolIcon,
+  DocumentIcon,
+  EnvelopeIcon,
+  PencilSquareIcon
+} from '@heroicons/react/20/solid'
+import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
 import React, { useEffect, useState } from 'react'
 
 import { Outlet, useParams } from 'react-router-dom'
 
 import { fetchBoard, fetchJob } from '../board/network'
 import { classNames } from '../board/utils'
+import { useTabs } from '../hooks/useTabs'
 import { Heading } from '../ui/heading'
 import { Link } from '../ui/link'
 
 import { Text } from '../ui/text'
 
 import { JobContext } from './JobContext'
-import { Tabs } from './Tabs'
+
+const TABS = [
+  {
+    href: 'details',
+    icon: PencilSquareIcon,
+    key: 'details',
+    name: 'Details'
+  },
+  {
+    href: 'application',
+    icon: AtSymbolIcon,
+    key: 'application',
+    name: 'Application'
+  },
+  { href: 'resume', icon: DocumentIcon, key: 'resume', name: 'Resume' },
+  {
+    href: 'cover_letter',
+    icon: EnvelopeIcon,
+    key: 'cover_letter',
+    name: 'Cover Letter'
+  },
+  {
+    href: 'interview_prep',
+    icon: ChatBubbleLeftRightIcon,
+    key: 'interview_prep',
+    name: 'Interview Prep'
+  }
+]
 
 export const Job = () => {
   const { board_id, job_id } = useParams()
@@ -19,7 +54,7 @@ export const Job = () => {
   const [board, setBoard] = useState(null)
   const [job, setJob] = useState(null)
 
-  const [activeTab, setActiveTab] = useState('details')
+  const { tabsUI } = useTabs(TABS)
 
   const asyncFetchJob = async () => {
     const fetchedJob = await fetchJob(board_id, job_id)
@@ -91,7 +126,7 @@ export const Job = () => {
           <span className={highlight}>Cover Letter</span>. Track the application
           with <i>notes, tags, contacts</i>, and more.
         </Text>
-        <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        {tabsUI}
         <Outlet />
       </div>
     </JobContext.Provider>
