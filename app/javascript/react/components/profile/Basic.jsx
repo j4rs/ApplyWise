@@ -1,4 +1,3 @@
-import { XMarkIcon } from '@heroicons/react/16/solid'
 import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 import omit from 'lodash/omit'
 import React, { useContext, useEffect, useState } from 'react'

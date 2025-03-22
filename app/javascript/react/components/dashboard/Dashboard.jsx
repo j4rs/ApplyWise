@@ -2,15 +2,16 @@ import {
   HomeIcon,
   Cog6ToothIcon,
   QuestionMarkCircleIcon,
-  SparklesIcon,
   ChevronDoubleLeftIcon,
   UserIcon,
   Cog8ToothIcon,
   ShieldCheckIcon,
   LightBulbIcon,
   ArrowRightStartOnRectangleIcon,
-  BellIcon
-} from '@heroicons/react/24/outline'
+  BellIcon,
+  ViewColumnsIcon
+} from '@heroicons/react/20/solid'
+
 import { clsx } from 'clsx'
 
 import isEmpty from 'lodash/isEmpty'
@@ -43,11 +44,9 @@ import {
   SidebarItem,
   SidebarLabel,
   SidebarSection,
-  SidebarSpacer,
-  SidebarHeading
+  SidebarSpacer
 } from '../ui/sidebar'
 import { SidebarLayout } from '../ui/sidebar-layout'
-import { Strong } from '../ui/text'
 
 import { DashboardContext } from './DashboardContext'
 
@@ -144,7 +143,9 @@ export function Dashboard() {
   if (!profile || !preferences) return null
 
   const isCollapsed = preferences.is_sidebar_collapsed
-  const iconWrapper = 'size-5 flex items-center justify-center flex-shrink-0'
+  const iconWrapper =
+    'size-5 flex items-center justify-center flex-shrink-0 text-gray-500'
+  const itemLabelWrapper = 'text-gray-500'
 
   const notificationsCountBadge = (
     <div className="absolute bg-red-500 text-white text-xs min-w-[18px] h-[18px] rounded-full px-1 flex items-center justify-center">
@@ -181,7 +182,11 @@ export function Dashboard() {
                         )}
                       />
                     </div>
-                    {!isCollapsed && <SidebarLabel>Collapse Menu</SidebarLabel>}
+                    {!isCollapsed && (
+                      <SidebarLabel className={itemLabelWrapper}>
+                        Collapse Menu
+                      </SidebarLabel>
+                    )}
                   </SidebarItem>
                 </SidebarSection>
               </SidebarHeader>
@@ -189,16 +194,33 @@ export function Dashboard() {
               <SidebarBody>
                 <SidebarSection>
                   <SidebarItem
-                    className={isCollapsed ? 'justify-center' : ''}
-                    current={currentPath.startsWith('/dashboard/boards')}
-                    href="/dashboard/boards"
+                    className={clsx(isCollapsed ? 'justify-center' : '')}
+                    current={currentPath.startsWith(
+                      '/dashboard/start/step-one'
+                    )}
+                    href="/dashboard/start/step-one"
                   >
                     <div className={iconWrapper}>
                       <HomeIcon className="w-full h-full" />
                     </div>
                     {!isCollapsed && (
-                      <SidebarLabel>
-                        <Strong>Boards</Strong>
+                      <SidebarLabel className={itemLabelWrapper}>
+                        Home
+                      </SidebarLabel>
+                    )}
+                  </SidebarItem>
+
+                  <SidebarItem
+                    className={isCollapsed ? 'justify-center' : ''}
+                    current={currentPath.startsWith('/dashboard/boards')}
+                    href="/dashboard/boards"
+                  >
+                    <div className={iconWrapper}>
+                      <ViewColumnsIcon className="w-full h-full" />
+                    </div>
+                    {!isCollapsed && (
+                      <SidebarLabel className={itemLabelWrapper}>
+                        Boards
                       </SidebarLabel>
                     )}
                   </SidebarItem>
@@ -213,7 +235,11 @@ export function Dashboard() {
                         <BellIcon className="w-full h-full" />
                       </div>
                     </div>
-                    {!isCollapsed && <SidebarLabel>Inbox</SidebarLabel>}
+                    {!isCollapsed && (
+                      <SidebarLabel className={itemLabelWrapper}>
+                        Inbox
+                      </SidebarLabel>
+                    )}
                     {inboxNotifications.length > 0 && notificationsCountBadge}
                   </SidebarItem>
 
@@ -224,11 +250,15 @@ export function Dashboard() {
                     <div className={iconWrapper}>
                       <Cog6ToothIcon className="w-full h-full" />
                     </div>
-                    {!isCollapsed && <SidebarLabel>Settings</SidebarLabel>}
+                    {!isCollapsed && (
+                      <SidebarLabel className={itemLabelWrapper}>
+                        Settings
+                      </SidebarLabel>
+                    )}
                   </SidebarItem>
                 </SidebarSection>
 
-                {!isCollapsed && (
+                {/* {!isCollapsed && (
                   <SidebarSection className="max-lg:hidden">
                     <SidebarHeading>Upcoming Events</SidebarHeading>
                     <SidebarItem href="/events/1">
@@ -242,29 +272,23 @@ export function Dashboard() {
                       We All Look The Same
                     </SidebarItem>
                   </SidebarSection>
-                )}
+                )} */}
 
                 <SidebarSpacer />
 
                 <SidebarSection>
                   <SidebarItem
                     className={isCollapsed ? 'justify-center' : ''}
-                    href="/support"
+                    href="/dashboard/support"
                   >
                     <div className={iconWrapper}>
                       <QuestionMarkCircleIcon className="w-full h-full" />
                     </div>
-                    {!isCollapsed && <SidebarLabel>Support</SidebarLabel>}
-                  </SidebarItem>
-
-                  <SidebarItem
-                    className={isCollapsed ? 'justify-center' : ''}
-                    href="/changelog"
-                  >
-                    <div className={iconWrapper}>
-                      <SparklesIcon className="w-full h-full" />
-                    </div>
-                    {!isCollapsed && <SidebarLabel>Changelog</SidebarLabel>}
+                    {!isCollapsed && (
+                      <SidebarLabel className={itemLabelWrapper}>
+                        Support
+                      </SidebarLabel>
+                    )}
                   </SidebarItem>
                 </SidebarSection>
               </SidebarBody>

@@ -84,7 +84,7 @@ export const Build = () => {
         {profile.resumes.length > 0 && profile.resumes.map(renderFile)}
         <div className="flex justify-end">
           <Button color="blue" type="submit">
-            Save & generate skills
+            Upload and Generate Skills
           </Button>
         </div>
       </form>

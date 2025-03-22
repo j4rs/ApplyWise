@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     end
 
     resources :notifications, only: %i[ index ]
+    resource :support, only: %i[ show ], controller: :support
 
     # /dashboard/boards
     resources :boards, only: %i[ create index show update destroy ] do

@@ -26,7 +26,6 @@ import {
   DropdownItem,
   DropdownMenu
 } from '../ui/dropdown'
-import { Text } from '../ui/text'
 
 import { BoardContext, BoardDispatchContext } from './BoardContext'
 import { RemoveColumnDialog } from './RemoveColumnDialog'
@@ -35,7 +34,6 @@ import { useDeleteColumn } from './hooks/useDeleteColumn'
 import { updateColumn } from './network'
 import { updateColumnAction } from './reducer'
 import { classNames } from './utils'
-import clsx from 'clsx'
 
 const colorIcon = (color, size = 'md') => (
   <svg
