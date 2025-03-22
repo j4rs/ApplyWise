@@ -7,6 +7,10 @@ import { Board } from './components/board/Board'
 import { Boards } from './components/board/Boards'
 import { Dashboard } from './components/dashboard/Dashboard'
 import { ErrorPage } from './components/error/ErrorPage'
+import { StepOne } from './components/home/StepOne'
+import { StepThree } from './components/home/StepThree'
+import { StepTwo } from './components/home/StepTwo'
+import { Steps } from './components/home/Steps'
 import { Inbox } from './components/inbox/Inbox'
 import { Application } from './components/job/Application'
 import { CoverLetterTab } from './components/job/CoverLetterTab'
@@ -17,6 +21,7 @@ import { ResumeTab } from './components/job/ResumeTab'
 import { Basic } from './components/profile/Basic'
 import { Build } from './components/profile/Build'
 import { Profile } from './components/profile/Profile'
+import { Support } from './components/support/Support'
 import { PubSub } from './pubsub/PubSub'
 
 const router = createBrowserRouter([
@@ -73,6 +78,28 @@ const router = createBrowserRouter([
       {
         element: <Inbox />,
         path: '/dashboard/notifications'
+      },
+      {
+        children: [
+          {
+            element: <StepOne />,
+            path: 'step-one'
+          },
+          {
+            element: <StepTwo />,
+            path: 'step-two'
+          },
+          {
+            element: <StepThree />,
+            path: 'step-three'
+          }
+        ],
+        element: <Steps />,
+        path: '/dashboard/start'
+      },
+      {
+        element: <Support />,
+        path: '/dashboard/support'
       }
     ],
     element: <Dashboard />,

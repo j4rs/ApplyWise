@@ -1,4 +1,4 @@
-import { ArrowPathIcon } from '@heroicons/react/20/solid'
+import { ArrowPathIcon, ChevronDownIcon, EyeIcon, TrashIcon } from '@heroicons/react/20/solid'
 import React, { useContext, useEffect, useState } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
@@ -6,7 +6,14 @@ import { useSearchParams } from 'react-router-dom'
 import { PubSubContext } from '../../pubsub/PubSubContext'
 import { fetchNotifications } from '../board/network'
 import { Button } from '../ui/button'
+import { Checkbox } from '../ui/checkbox'
 import { Divider } from '../ui/divider'
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItem,
+  DropdownMenu
+} from '../ui/dropdown'
 import { Heading } from '../ui/heading'
 
 import {
@@ -39,10 +46,21 @@ export const Inbox = () => {
   }, [page])
 
   const renderNotification = (notification) => (
-    <div className="shadow-md p-4 rounded-md" key={notification.id}>
-      <div className="flex flex-col">
-        <span className="text-sm font-medium">{notification.subject}</span>
-        <span className="text-sm text-zinc-500">{notification.body}</span>
+    <div
+      className="py-4 cursor-pointer hover:bg-gray-100/50 hover:rounded-md text-sm"
+      key={notification.id}
+    >
+      <div className="flex flex-row gap-2 align-top">
+        <Checkbox
+          aria-label="read notification"
+          className="grow-0"
+          color="blue"
+          name="read_notification"
+        />
+        <div className="grow flex flex-col gap-2">
+          <div className="-mt-1">{notification.subject}</div>
+          <div>{notification.body}</div>
+        </div>
       </div>
     </div>
   )
@@ -58,7 +76,6 @@ export const Inbox = () => {
       <Text>
         Notifications are sent to your email. You can also view them here.
       </Text>
-      <Divider className="mt-4" />
     </>
   )
 
@@ -93,9 +110,50 @@ export const Inbox = () => {
     </Pagination>
   )
 
+  const states = (
+    <div className="text-sm mt-4 flex flex-row gap-2">
+      <div className="flex flex-row gap-2">
+        <div className="rounded-md bg-blue-500 px-2 py-1">
+          <div className="text-blue-100">All</div>
+        </div>
+      </div>
+      <div className="flex flex-row gap-2">
+        <div className="rounded-md py-1">
+          <div>New</div>
+        </div>
+      </div>
+      <div className="flex flex-row gap-2">
+        <div className="rounded-md py-1">
+          <div>Read</div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div>
       {header}
+      {states}
+      <div className="flex flex-row gap-2 items-center mt-4">
+        <Checkbox aria-label="Select all" color="blue" name="select_all" />
+        <Dropdown>
+          <DropdownButton outline aria-label="More options">
+            Actions
+            <ChevronDownIcon />
+          </DropdownButton>
+          <DropdownMenu anchor="bottom end">
+            <DropdownItem plain onClick={() => {}}>
+              <EyeIcon />
+              Mark as read
+            </DropdownItem>
+            <DropdownItem onClick={() => {}}>
+              <TrashIcon className="fill-red-500" />
+              Delete
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+      <Divider className="mt-4" />
       <div className="mt-4 flex flex-col gap-4">
         {data.notifications.map((notification) =>
           renderNotification(notification)
