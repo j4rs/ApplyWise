@@ -21,6 +21,7 @@
 
 class Talent < ApplicationRecord
   has_many :boards, dependent: :destroy
+  has_many :contacts, foreign_key: :partition_id, dependent: :destroy
 
   has_many_attached :resumes, service: :amazon
   has_one_attached :avatar, service: :amazon

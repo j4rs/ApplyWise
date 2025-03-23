@@ -118,3 +118,41 @@ export const fetchNotifications = async (page, perPage) =>
     headers,
     method: 'GET'
   }).then((res) => res.json())
+
+export const createContact = async (jobId, payload) =>
+  fetch('/dashboard/contacts', {
+    body: JSON.stringify({ contact: payload, job_id: jobId }),
+    headers,
+    method: 'POST'
+  }).then((res) => res.json())
+
+export const updateContact = async (id, payload) =>
+  fetch(`/dashboard/contacts/${id}`, {
+    body: JSON.stringify(payload),
+    headers,
+    method: 'PATCH'
+  }).then((res) => res.json())
+
+export const deleteContact = async (id) =>
+  fetch(`/dashboard/contacts/${id}`, { method: 'DELETE' }).then((res) =>
+    res.json()
+  )
+
+export const createNote = async (jobId, payload) =>
+  fetch(`/dashboard/board/jobs/${jobId}/notes`, {
+    body: JSON.stringify(payload),
+    headers,
+    method: 'POST'
+  }).then((res) => res.json())
+
+export const updateNote = async (jobId, noteId, payload) =>
+  fetch(`/dashboard/board/jobs/${jobId}/notes/${noteId}`, {
+    body: JSON.stringify(payload),
+    headers,
+    method: 'PATCH'
+  }).then((res) => res.json())
+
+export const deleteNote = async (jobId, noteId) =>
+  fetch(`/dashboard/board/jobs/${jobId}/notes/${noteId}`, {
+    method: 'DELETE'
+  }).then((res) => res.json())

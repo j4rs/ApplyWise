@@ -6,7 +6,7 @@ import { BoardDispatchContext } from '../BoardContext'
 import { updateJob } from '../network'
 import { updateCardAction } from '../reducer'
 
-export const useEditCard = (card, onClose) => {
+export const useEditCard = (card, onClose, onSave) => {
   const dispatch = useContext(BoardDispatchContext)
 
   const {
@@ -29,8 +29,9 @@ export const useEditCard = (card, onClose) => {
 
   const onSubmit = async (data) => {
     const updatedJob = await updateJob(data)
-    dispatch(updateCardAction({ ...card, job: updatedJob }))
-    onClose()
+    if (card.id) dispatch(updateCardAction({ ...card, job: updatedJob }))
+    if (onClose) onClose()
+    if (onSave) onSave(updatedJob)
   }
 
   return {

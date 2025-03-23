@@ -28,6 +28,7 @@ import {
 } from '../ui/dropdown'
 
 import { BoardContext, BoardDispatchContext } from './BoardContext'
+import { EditCard } from './EditCard'
 import { RemoveColumnDialog } from './RemoveColumnDialog'
 import { AddCard } from './actions/AddCard'
 import { useDeleteColumn } from './hooks/useDeleteColumn'
@@ -50,6 +51,7 @@ export const Column = ({ column }) => {
   const dispatch = useContext(BoardDispatchContext)
 
   const [isEditing, setIsEditing] = useState(false)
+  const [editingCard, setEditingCard] = useState(null)
   const form = useForm()
 
   const colorDropDownBtn = useRef(null)
@@ -173,8 +175,11 @@ export const Column = ({ column }) => {
     )
   }
 
-  const onAddCard = () => {
-    AddCard(column.id, dispatch)
+  const onAddCard = async () => {
+    const newCard = await AddCard(column.id, dispatch)
+    if (newCard) {
+      setEditingCard(newCard)
+    }
   }
 
   return (
@@ -261,6 +266,13 @@ export const Column = ({ column }) => {
         onClose={() => setRemoveColumn(null)}
         onConfirm={() => onRemoveColumn(removeColumn)}
       />
+      {editingCard && (
+        <EditCard
+          card={editingCard}
+          isOpen={true}
+          onClose={() => setEditingCard(null)}
+        />
+      )}
     </div>
   )
 }
