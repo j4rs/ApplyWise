@@ -19,10 +19,11 @@ import { Textarea } from '../ui/textarea'
 
 import { useEditCard } from './hooks/useEditCard'
 
-export const EditCard = ({ card, isOpen, onClose }) => {
+export const EditCard = ({ card, isOpen, onClose, onSave }) => {
   const { errors, handleSubmit, onSubmit, register } = useEditCard(
     card,
-    onClose
+    onClose,
+    onSave
   )
 
   if (!card) return null

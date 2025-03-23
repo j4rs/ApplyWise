@@ -110,7 +110,7 @@ export const Job = () => {
   const highlight = 'bg-indigo-50 rounded-md px-2 py-0.5'
 
   return (
-    <JobContext.Provider value={job}>
+    <JobContext.Provider value={{ job, setJob }}>
       <div className="flex flex-col gap-4">
         {buildBreadcrumb()}
         <Heading>

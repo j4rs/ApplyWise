@@ -25,4 +25,6 @@ class Job < ApplicationRecord
   include Partionable
 
   has_many :tailored_resumes, dependent: :destroy
+  has_many :notes, dependent: :destroy
+  has_and_belongs_to_many :contacts
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_24_183809) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_172727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -87,6 +87,31 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_24_183809) do
     t.index ["talent_id"], name: "index_boards_on_talent_id"
   end
 
+  create_table "contacts", force: :cascade do |t|
+    t.integer "partition_id", null: false
+    t.string "slug", null: false
+    t.string "name", null: false
+    t.string "email"
+    t.string "phone"
+    t.string "role"
+    t.string "profile_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partition_id", "slug"], name: "index_contacts_on_partition_id_and_slug"
+    t.index ["partition_id"], name: "index_contacts_on_partition_id"
+    t.index ["slug"], name: "index_contacts_on_slug", unique: true
+  end
+
+  create_table "contacts_jobs", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "job_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id", "job_id"], name: "index_contacts_jobs_on_contact_id_and_job_id", unique: true
+    t.index ["contact_id"], name: "index_contacts_jobs_on_contact_id"
+    t.index ["job_id"], name: "index_contacts_jobs_on_job_id"
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.integer "partition_id", null: false
     t.string "slug", null: false
@@ -101,6 +126,19 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_24_183809) do
     t.index ["partition_id", "slug"], name: "index_jobs_on_partition_id_and_slug"
     t.index ["partition_id"], name: "index_jobs_on_partition_id"
     t.index ["slug"], name: "index_jobs_on_slug", unique: true
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.integer "partition_id", null: false
+    t.string "slug", null: false
+    t.text "content", null: false
+    t.bigint "job_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_notes_on_job_id"
+    t.index ["partition_id", "slug"], name: "index_notes_on_partition_id_and_slug"
+    t.index ["partition_id"], name: "index_notes_on_partition_id"
+    t.index ["slug"], name: "index_notes_on_slug", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -183,4 +221,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_24_183809) do
   add_foreign_key "board_cards", "board_columns"
   add_foreign_key "board_columns", "boards"
   add_foreign_key "boards", "talents"
+  add_foreign_key "contacts_jobs", "contacts"
+  add_foreign_key "contacts_jobs", "jobs"
+  add_foreign_key "notes", "jobs"
 end

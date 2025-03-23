@@ -75,7 +75,15 @@ Rails.application.routes.draw do
       # /dashboard/board/cards
       resources :cards, only: %i[ create destroy update ]
       # /dashboard/board/jobs
-      resources :jobs, only: %i[ update destroy ]
+      resources :jobs, only: %i[ update destroy ] do
+        # /dashboard/board/jobs/:job_id/notes
+        scope module: :jobs do
+          resources :notes, only: %i[ index show create update destroy ]
+        end
+      end
     end
+
+    # /dashboard/contacts
+    resources :contacts, only: %i[ create update destroy ]
   end
 end
