@@ -21,14 +21,35 @@
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  slug: slug1
-  email: email1
-  first_name: MyString
-  last_name: MyString
+john_doe:
+  id: 1
+  email: john.doe@example.com
+  first_name: John
+  last_name: Doe
+  country: US
+  language: en
+  description: Experienced software engineer with 5 years of experience
+  preferences: {"theme": "light", "notifications": true}
+  slug: <%= SecureRandom.uuid %>
 
-two:
-  slug: slug2
-  email: email2
-  first_name: MyString
-  last_name: MyString
+jane_smith:
+  id: 2
+  email: jane.smith@example.com
+  first_name: Jane
+  last_name: Smith
+  country: UK
+  language: en
+  description: Product manager with expertise in agile methodologies
+  preferences: {"theme": "dark", "notifications": true}
+  slug: <%= SecureRandom.uuid %>
+
+michael_brown:
+  id: 3
+  email: michael.brown@example.com
+  first_name: Michael
+  last_name: Brown
+  country: CA
+  language: en
+  description: UX designer with a focus on accessibility
+  preferences: {"theme": "system", "notifications": false}
+  slug: <%= SecureRandom.uuid %>

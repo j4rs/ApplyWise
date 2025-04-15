@@ -26,18 +26,26 @@
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+google_card:
+  id: 1
   board_column_id: 1
   partition_id: 1
-  slug: slug1
-  position: 0
-  content_id: 1
-  content_type: job
-
-two:
-  board_column_id: 1
-  partition_id: 1
-  slug: slug2
+  job_id: 1
   position: 1
-  content_id: 2
-  content_type: job
+  slug: <%= SecureRandom.uuid %>
+
+microsoft_card:
+  id: 2
+  board_column_id: 2
+  partition_id: 1
+  job_id: 2
+  position: 1
+  slug: <%= SecureRandom.uuid %>
+
+apple_card:
+  id: 3
+  board_column_id: 3
+  partition_id: 2
+  job_id: 3
+  position: 1
+  slug: <%= SecureRandom.uuid %>

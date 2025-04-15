@@ -4,9 +4,7 @@ module Slugish
   extend ActiveSupport::Concern
 
   included do
-    validates :slug, presence: true, uniqueness: true
-
-    before_validation :generate_slug, on: :create
+    before_create :generate_slug
   end
 
   def generate_slug

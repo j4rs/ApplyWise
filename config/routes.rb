@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # Username: admin
   # password: ssoQ8oG1Y1mLWQNid6hUBTrZSNnnfcbFn1aThCQ9S8aUQA5gLPEaNNqNrnzeCr2x
   mount MissionControl::Jobs::Engine, at: "/active_jobs"
-  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.local?
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
