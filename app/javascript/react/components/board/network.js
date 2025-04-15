@@ -155,4 +155,4 @@ export const updateNote = async (jobId, noteId, payload) =>
 export const deleteNote = async (jobId, noteId) =>
   fetch(`/dashboard/board/jobs/${jobId}/notes/${noteId}`, {
     method: 'DELETE'
-  }).then((res) => res.json())
+  })

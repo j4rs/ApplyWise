@@ -6,16 +6,9 @@ import {
 
 import React, { useContext } from 'react'
 
+import { ActionDialog } from '../common/ActionDialog'
 import { Badge } from '../ui/badge'
 
-import { Button } from '../ui/button'
-import {
-  Dialog,
-  DialogActions,
-  DialogBody,
-  DialogDescription,
-  DialogTitle
-} from '../ui/dialog'
 import {
   Dropdown,
   DropdownButton,
@@ -155,15 +148,10 @@ export default function CardsList({ board }) {
   )
 
   const newColumnDialog = (
-    <Dialog
-      onClose={() => setNewColumnDialogOpen(false)}
-      open={newColumnDialogOpen}
-    >
-      <DialogTitle>New stage</DialogTitle>
-      <DialogDescription>
-        Create a new stage to track the progress of your jobs.
-      </DialogDescription>
-      <DialogBody>
+    <ActionDialog
+      actionButtonColor="blue"
+      actionButtonText="Create"
+      body={
         <Field>
           <Input
             name="name"
@@ -171,14 +159,13 @@ export default function CardsList({ board }) {
             ref={columnNameRef}
           />
         </Field>
-      </DialogBody>
-      <DialogActions>
-        <Button plain onClick={() => setNewColumnDialogOpen(false)}>
-          Cancel
-        </Button>
-        <Button onClick={onAddColumn}>Create</Button>
-      </DialogActions>
-    </Dialog>
+      }
+      description="Create a new stage to track the progress of your jobs."
+      isOpen={newColumnDialogOpen}
+      onClose={() => setNewColumnDialogOpen(false)}
+      onConfirm={onAddColumn}
+      title="New stage"
+    />
   )
 
   const removeColumnDialog = (
