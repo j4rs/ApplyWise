@@ -1,0 +1,51 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "2b21484c0f3e7642f64fda13aa72876041b6dc85df6eadcd0712df30f8b9967b",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/dashboard/board/jobs_controller.rb",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:job).permit(:role, :description, :company_name, :url, :color)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Dashboard::Board::JobsController",
+        "method": "job_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "Used to define the role of a contact in a company, has nothing to do with authorization"
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "83b4dfb4ac5323d3a4a8c620824af07ff2100ab1226acae256723bea42e8ab44",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/dashboard/contacts_controller.rb",
+      "line": 46,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:contact).permit(:name, :email, :phone, :role, :profile_url)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Dashboard::ContactsController",
+        "method": "contact_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "Used to define the role of a contact in a company, has nothing to do with authorization"
+    }
+  ],
+  "brakeman_version": "7.0.2"
+}
