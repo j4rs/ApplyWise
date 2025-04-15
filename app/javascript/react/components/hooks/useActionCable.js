@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createConsumer } from '@rails/actioncable'
 import { useEffect, useRef } from 'react'
 

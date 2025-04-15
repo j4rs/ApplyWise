@@ -33,7 +33,12 @@ const TABS = [
     key: 'application',
     name: 'Application'
   },
-  { href: 'resume', icon: DocumentIcon, key: 'resume', name: 'Resume' },
+  {
+    href: 'resume',
+    icon: DocumentIcon,
+    key: 'resume',
+    name: 'Tailored Resume'
+  },
   {
     href: 'cover_letter',
     icon: EnvelopeIcon,

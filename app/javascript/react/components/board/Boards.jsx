@@ -9,13 +9,13 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+import { ActionDialog } from '../common/ActionDialog'
 import { Button } from '../ui/button'
 import {
   Dialog,
   DialogActions,
   DialogBody,
-  DialogDescription,
-  DialogTitle
+  DialogDescription
 } from '../ui/dialog'
 import {
   Dropdown,
@@ -95,20 +95,15 @@ export const Boards = () => {
   }
 
   const removeBoardDialog = () => (
-    <Dialog onClose={() => setBoardToRemove(null)} open={!!boardToRemove}>
-      <DialogTitle>Delete board</DialogTitle>
-      <DialogDescription>
-        {`Are you sure you want to delete the board "${boardToRemove?.name}"?`}
-      </DialogDescription>
-      <DialogActions>
-        <Button plain onClick={() => setBoardToRemove(null)}>
-          Cancel
-        </Button>
-        <Button color="red" onClick={onRemoveBoard}>
-          Delete
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <ActionDialog
+      actionButtonColor="red"
+      actionButtonText="Delete"
+      description={`Are you sure you want to delete the board "${boardToRemove?.name}"?`}
+      isOpen={!!boardToRemove}
+      onClose={() => setBoardToRemove(null)}
+      onConfirm={onRemoveBoard}
+      title="Delete board"
+    />
   )
 
   return (

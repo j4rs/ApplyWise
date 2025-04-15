@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 import { PubSubContext } from '../../pubsub/PubSubContext'
 import { EditCard } from '../board/EditCard'
 import { createNote, deleteContact, deleteNote } from '../board/network'
+import { ActionDialog } from '../common/ActionDialog'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Divider } from '../ui/divider'
@@ -30,7 +31,6 @@ import { Text } from '../ui/text'
 import AddContact from './AddContact'
 import EditContact from './EditContact'
 import { JobContext } from './JobContext'
-import { RemoveContactDialog } from './RemoveContactDialog'
 
 const Contact = ({ contact, setEditContact, setRemoveContact }) => (
   <div className="flex flex-col gap-2">
@@ -101,6 +101,8 @@ export const DetailsTab = () => {
   const [isAddingContact, setIsAddingContact] = useState(false)
   const [removeContact, setRemoveContact] = useState(null)
   const [editContact, setEditContact] = useState(null)
+  const [removeNote, setRemoveNote] = useState(null)
+
   const handleAddContact = (contact) => {
     setContacts([...contacts, contact])
     setIsAddingContact(false)
@@ -139,6 +141,7 @@ export const DetailsTab = () => {
   const handleRemoveNote = async (jobId, noteId) => {
     deleteNote(jobId, noteId)
     setNotes(notes.filter((n) => n.id !== noteId))
+    setRemoveNote(null)
     addFlashMessage({
       duration: 3000,
       icon: 'success',
@@ -214,10 +217,7 @@ export const DetailsTab = () => {
           <div className="text-sm flex flex-col gap-1.5 mt-6">
             {notes.map((note) => (
               <React.Fragment key={note.id}>
-                <Note
-                  note={note}
-                  removeNote={() => handleRemoveNote(job.id, note.id)}
-                />
+                <Note note={note} removeNote={() => setRemoveNote(note)} />
                 <div className="h-5 border-l border-gray-300 ml-4" />
               </React.Fragment>
             ))}
@@ -275,10 +275,25 @@ export const DetailsTab = () => {
         />
       )}
       {removeContact && (
-        <RemoveContactDialog
+        <ActionDialog
+          actionButtonColor="red"
+          actionButtonText="Delete"
+          cancelButtonText="Cancel"
+          description="Are you sure you want to delete this contact?"
           isOpen={removeContact !== null}
           onClose={() => setRemoveContact(null)}
           onConfirm={() => handleRemoveContact(removeContact)}
+        />
+      )}
+      {removeNote && (
+        <ActionDialog
+          actionButtonColor="red"
+          actionButtonText="Delete"
+          cancelButtonText="Cancel"
+          description="Are you sure you want to delete this note?"
+          isOpen={removeNote !== null}
+          onClose={() => setRemoveNote(null)}
+          onConfirm={() => handleRemoveNote(job.id, removeNote.id)}
         />
       )}
     </>
