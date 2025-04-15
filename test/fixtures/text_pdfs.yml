@@ -1,0 +1,122 @@
+# == Schema Information
+#
+# Table name: text_pdfs
+#
+#  id            :bigint           not null, primary key
+#  partition_id  :integer          not null
+#  slug          :string           not null
+#  talent_id     :bigint
+#  attachment_id :bigint
+#  doc_purpose   :string           default("resume")
+#  text          :text
+#  pdf_version   :string
+#  info          :jsonb
+#  metadata      :jsonb
+#  page_count    :integer
+#  build         :jsonb
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+# Indexes
+#
+#  index_text_pdfs_on_attachment_id  (attachment_id)
+#  index_text_pdfs_on_partition_id   (partition_id)
+#  index_text_pdfs_on_slug          (slug) UNIQUE
+#  index_text_pdfs_on_talent_id     (talent_id)
+#
+
+johns_resume_pdf:
+  id: 1
+  partition_id: 1
+  talent_id: 1
+  attachment_id: 1
+  doc_purpose: resume
+  text: "John Doe\nSenior Software Engineer\n\nExperience:\nTechCorp - Senior Backend Engineer (2018-2023)\n- Led development of distributed systems\n- Implemented microservices architecture\n\nSkills:\n- Go, Python, Distributed Systems\n- Cloud Architecture, Docker, Kubernetes"
+  pdf_version: "1.7"
+  page_count: 2
+  info: {
+    "Author": "John Doe",
+    "CreationDate": "2024-01-15T10:00:00Z",
+    "Title": "John Doe - Senior Software Engineer Resume"
+  }
+  metadata: {
+    "format": "PDF",
+    "extracted_at": "2024-01-15T10:00:00Z"
+  }
+  build: {
+    "sections": [
+      {
+        "type": "header",
+        "content": "John Doe - Senior Software Engineer"
+      },
+      {
+        "type": "experience",
+        "content": "TechCorp - Senior Backend Engineer"
+      }
+    ]
+  }
+  slug: <%= SecureRandom.uuid %>
+
+janes_resume_pdf:
+  id: 2
+  partition_id: 2
+  talent_id: 2
+  attachment_id: 2
+  doc_purpose: resume
+  text: "Jane Smith\nProduct Manager\n\nExperience:\nMobileApps - Product Manager (2019-2023)\n- Led product strategy for mobile applications\n- Conducted user research and A/B testing\n\nSkills:\n- Product Strategy, Agile\n- User Research, Data Analysis"
+  pdf_version: "1.7"
+  page_count: 2
+  info: {
+    "Author": "Jane Smith",
+    "CreationDate": "2024-01-16T11:00:00Z",
+    "Title": "Jane Smith - Product Manager Resume"
+  }
+  metadata: {
+    "format": "PDF",
+    "extracted_at": "2024-01-16T11:00:00Z"
+  }
+  build: {
+    "sections": [
+      {
+        "type": "header",
+        "content": "Jane Smith - Product Manager"
+      },
+      {
+        "type": "experience",
+        "content": "MobileApps - Product Manager"
+      }
+    ]
+  }
+  slug: <%= SecureRandom.uuid %>
+
+michaels_resume_pdf:
+  id: 3
+  partition_id: 3
+  talent_id: 3
+  attachment_id: 3
+  doc_purpose: resume
+  text: "Michael Brown\nUX Designer\n\nExperience:\nDesignStudio - Senior UX Designer (2020-2023)\n- Led design system implementation\n- Conducted usability testing\n\nSkills:\n- Figma, Sketch, Adobe XD\n- User Research, Accessibility"
+  pdf_version: "1.7"
+  page_count: 2
+  info: {
+    "Author": "Michael Brown",
+    "CreationDate": "2024-01-17T12:00:00Z",
+    "Title": "Michael Brown - UX Designer Resume"
+  }
+  metadata: {
+    "format": "PDF",
+    "extracted_at": "2024-01-17T12:00:00Z"
+  }
+  build: {
+    "sections": [
+      {
+        "type": "header",
+        "content": "Michael Brown - UX Designer"
+      },
+      {
+        "type": "experience",
+        "content": "DesignStudio - Senior UX Designer"
+      }
+    ]
+  }
+  slug: <%= SecureRandom.uuid %>

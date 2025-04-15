@@ -1,0 +1,44 @@
+# == Schema Information
+#
+# Table name: notes
+#
+#  id           :bigint           not null, primary key
+#  partition_id :integer          not null
+#  slug         :string           not null
+#  content      :text            not null
+#  job_id       :bigint          not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_notes_on_job_id                    (job_id)
+#  index_notes_on_partition_id              (partition_id)
+#  index_notes_on_partition_id_and_slug     (partition_id,slug)
+#  index_notes_on_slug                      (slug) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (job_id => jobs.id)
+#
+
+google_interview_notes:
+  id: 1
+  partition_id: 1
+  content: "System design interview focused on distributed systems. Need to review CAP theorem and eventual consistency."
+  job_id: 1
+  slug: <%= SecureRandom.uuid %>
+
+microsoft_followup:
+  id: 2
+  partition_id: 1
+  content: "Discussed team culture and growth opportunities. Need to prepare questions about mentorship program."
+  job_id: 2
+  slug: <%= SecureRandom.uuid %>
+
+apple_prep:
+  id: 3
+  partition_id: 2
+  content: "Review product strategy frameworks and prepare case studies. Focus on user research methodologies."
+  job_id: 3
+  slug: <%= SecureRandom.uuid %>

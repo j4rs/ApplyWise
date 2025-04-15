@@ -1,0 +1,88 @@
+# == Schema Information
+#
+# Table name: tailored_resumes
+#
+#  id           :bigint           not null, primary key
+#  partition_id :integer          not null
+#  slug         :string           not null
+#  talent_id    :bigint
+#  job_id       :bigint
+#  build        :jsonb
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_tailored_resumes_on_job_id        (job_id)
+#  index_tailored_resumes_on_partition_id  (partition_id)
+#  index_tailored_resumes_on_slug         (slug) UNIQUE
+#  index_tailored_resumes_on_talent_id    (talent_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (job_id => jobs.id)
+#  fk_rails_...  (talent_id => talents.id)
+#
+
+google_backend_resume:
+  id: 1
+  partition_id: 1
+  talent_id: 1
+  job_id: 1
+  build: {
+    "sections": [
+      {
+        "type": "experience",
+        "content": "Senior Backend Engineer at TechCorp (2018-2023)",
+        "highlighted": true
+      },
+      {
+        "type": "skills",
+        "content": "Go, Python, Distributed Systems, Cloud Architecture",
+        "highlighted": true
+      }
+    ]
+  }
+  slug: <%= SecureRandom.uuid %>
+
+microsoft_fullstack_resume:
+  id: 2
+  partition_id: 1
+  talent_id: 1
+  job_id: 2
+  build: {
+    "sections": [
+      {
+        "type": "experience",
+        "content": "Full Stack Developer at WebSolutions (2016-2018)",
+        "highlighted": true
+      },
+      {
+        "type": "skills",
+        "content": "React, Node.js, TypeScript, Azure",
+        "highlighted": true
+      }
+    ]
+  }
+  slug: <%= SecureRandom.uuid %>
+
+apple_product_resume:
+  id: 3
+  partition_id: 2
+  talent_id: 2
+  job_id: 3
+  build: {
+    "sections": [
+      {
+        "type": "experience",
+        "content": "Product Manager at MobileApps (2019-2023)",
+        "highlighted": true
+      },
+      {
+        "type": "skills",
+        "content": "Product Strategy, Agile, User Research, Data Analysis",
+        "highlighted": true
+      }
+    ]
+  }
+  slug: <%= SecureRandom.uuid %>

@@ -23,22 +23,35 @@
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+google_job:
+  id: 1
   partition_id: 1
-  slug: slug1
-  role: MyString
-  description: MyText
-  company_name: MyString
-  url: MyString
-  color: MyString
-  image: MyString
+  role: Backend Engineer
+  description: Senior Backend Engineer position at Google
+  company_name: Google
+  url: https://careers.google.com
+  color: "#4285F4"
+  image: "google_logo.png"
+  slug: <%= SecureRandom.uuid %>
 
-two:
+microsoft_job:
+  id: 2
   partition_id: 1
-  slug: slug2
-  role: MyString
-  description: MyText
-  company_name: MyString
-  url: MyString
-  color: MyString
-  image: MyString
+  role: Full Stack Developer
+  description: Full Stack Developer position at Microsoft
+  company_name: Microsoft
+  url: https://careers.microsoft.com
+  color: "#00A4EF"
+  image: "microsoft_logo.png"
+  slug: <%= SecureRandom.uuid %>
+
+apple_job:
+  id: 3
+  partition_id: 2
+  role: Product Manager
+  description: Product Manager position at Apple
+  company_name: Apple
+  url: https://www.apple.com/careers
+  color: "#A2AAAD"
+  image: "apple_logo.png"
+  slug: <%= SecureRandom.uuid %>

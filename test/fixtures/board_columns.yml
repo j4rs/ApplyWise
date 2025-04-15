@@ -26,18 +26,156 @@
 #
 #  fk_rails_...  (board_id => boards.id)
 #
-one:
-  partition_id: 1
-  slug: slug1
-  name: MyString
-  position: 1
-  color: MyString
-  board_id: 1
 
-two:
+# John's Board Columns
+johns_wishlist:
+  id: 1
   partition_id: 1
-  slug: slug2
-  name: MyString
+  board_id: 1
+  name: "Wish List"
   position: 1
-  color: MyString
+  color: "#FFD700"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+johns_applied:
+  id: 2
+  partition_id: 1
+  board_id: 1
+  name: "Applied"
+  position: 2
+  color: "#4169E1"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+johns_interview:
+  id: 3
+  partition_id: 1
+  board_id: 1
+  name: "Interview"
+  position: 3
+  color: "#32CD32"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+johns_offers:
+  id: 4
+  partition_id: 1
+  board_id: 1
+  name: "Offers"
+  position: 4
+  color: "#FF4500"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+johns_rejected:
+  id: 5
+  partition_id: 1
+  board_id: 1
+  name: "Rejected"
+  position: 5
+  color: "#808080"
+  collapsed: true
+  slug: <%= SecureRandom.uuid %>
+
+# Jane's Board Columns
+janes_wishlist:
+  id: 6
+  partition_id: 2
   board_id: 2
+  name: "Wish List"
+  position: 1
+  color: "#FFD700"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+janes_applied:
+  id: 7
+  partition_id: 2
+  board_id: 2
+  name: "Applied"
+  position: 2
+  color: "#4169E1"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+janes_interview:
+  id: 8
+  partition_id: 2
+  board_id: 2
+  name: "Interview"
+  position: 3
+  color: "#32CD32"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+janes_offers:
+  id: 9
+  partition_id: 2
+  board_id: 2
+  name: "Offers"
+  position: 4
+  color: "#FF4500"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+janes_rejected:
+  id: 10
+  partition_id: 2
+  board_id: 2
+  name: "Rejected"
+  position: 5
+  color: "#808080"
+  collapsed: true
+  slug: <%= SecureRandom.uuid %>
+
+# Michael's Board Columns
+michaels_wishlist:
+  id: 11
+  partition_id: 3
+  board_id: 3
+  name: "Wish List"
+  position: 1
+  color: "#FFD700"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+michaels_applied:
+  id: 12
+  partition_id: 3
+  board_id: 3
+  name: "Applied"
+  position: 2
+  color: "#4169E1"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+michaels_interview:
+  id: 13
+  partition_id: 3
+  board_id: 3
+  name: "Interview"
+  position: 3
+  color: "#32CD32"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+michaels_offers:
+  id: 14
+  partition_id: 3
+  board_id: 3
+  name: "Offers"
+  position: 4
+  color: "#FF4500"
+  collapsed: false
+  slug: <%= SecureRandom.uuid %>
+
+michaels_rejected:
+  id: 15
+  partition_id: 3
+  board_id: 3
+  name: "Rejected"
+  position: 5
+  color: "#808080"
+  collapsed: true
+  slug: <%= SecureRandom.uuid %>

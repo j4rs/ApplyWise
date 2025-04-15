@@ -1,0 +1,61 @@
+# == Schema Information
+#
+# Table name: notifications
+#
+#  id           :bigint           not null, primary key
+#  partition_id :integer          not null
+#  slug         :string           not null
+#  talent_id    :bigint
+#  read_at      :datetime
+#  archived     :boolean
+#  subject      :string
+#  body         :text
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_notifications_on_partition_id  (partition_id)
+#  index_notifications_on_slug         (slug)
+#  index_notifications_on_talent_id    (talent_id)
+#
+
+google_interview_scheduled:
+  id: 1
+  partition_id: 1
+  talent_id: 1
+  subject: "Technical Interview Scheduled"
+  body: "Technical interview scheduled with Google for Backend Engineer position"
+  read_at: null
+  archived: false
+  slug: <%= SecureRandom.uuid %>
+
+microsoft_application_update:
+  id: 2
+  partition_id: 1
+  talent_id: 1
+  subject: "Application Update"
+  body: "Your application for Full Stack Developer at Microsoft has been reviewed"
+  read_at: "2024-03-23 10:00:00"
+  archived: false
+  slug: <%= SecureRandom.uuid %>
+
+apple_interview_prep:
+  id: 3
+  partition_id: 2
+  talent_id: 2
+  subject: "Interview Preparation Reminder"
+  body: "Product Manager interview with Apple in 2 days. Don't forget to prepare!"
+  read_at: null
+  archived: false
+  slug: <%= SecureRandom.uuid %>
+
+system_update:
+  id: 4
+  partition_id: 3
+  talent_id: 3
+  subject: "New Feature Available"
+  body: "New feature: Tailored resume builder is now available!"
+  read_at: null
+  archived: false
+  slug: <%= SecureRandom.uuid %>

@@ -28,8 +28,27 @@
 #
 #  fk_rails_...  (talent_id => talents.id)
 #
-one:
+
+johns_job_board:
+  id: 1
   partition_id: 1
   talent_id: 1
-  slug: slug1
+  name: "Job Board 2024"
   purpose: jobs
+  slug: <%= SecureRandom.uuid %>
+
+janes_job_board:
+  id: 2
+  partition_id: 2
+  talent_id: 2
+  name: "Job Applications 2024"
+  purpose: jobs
+  slug: <%= SecureRandom.uuid %>
+
+michaels_job_board:
+  id: 3
+  partition_id: 3
+  talent_id: 3
+  name: "UX Design Jobs 2024"
+  purpose: jobs
+  slug: <%= SecureRandom.uuid %>
