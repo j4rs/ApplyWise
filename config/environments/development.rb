@@ -38,7 +38,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3002 }
+  config.action_mailer.default_url_options = { host: "localhost", port: ENV.fetch("RAILS_PORT", 3000) }
 
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
@@ -76,6 +76,6 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # Configure Active Storage URL options
-  Rails.application.routes.default_url_options = { host: "localhost", port: 3002 }
+  Rails.application.routes.default_url_options = { host: "localhost", port: ENV.fetch("RAILS_PORT", 3000) }
   # config.active_storage.service_urls_expire_in = 1.hour
 end
