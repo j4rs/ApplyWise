@@ -6,6 +6,10 @@
 
 ApplyWise (I didn't find a better name) is a comprehensive job application assistant that helps you streamline your job search process. It provides a suite of tools to make your job hunting more efficient and effective. Check [HOW_IT_WORKS.md](HOW_IT_WORKS.md) for a more detailed explanation.
 
+
+![ApplyWise Dashboard](./doc/apply-wise-dashboard.png)
+
+
 ### Key Features
 
 - **CV PDF Parser**: Extract skills and experience from your resume automatically
@@ -18,7 +22,6 @@ ApplyWise (I didn't find a better name) is a comprehensive job application assis
 - **Interview Preparation**: Get customized interview questions based on job descriptions
 - **Interview Practice Tool**: Prepare effectively for your upcoming interviews
 
-### Screenshots
 
 ## Build and Run Locally
 
