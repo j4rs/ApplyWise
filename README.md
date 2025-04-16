@@ -55,7 +55,7 @@ ApplyWise (I didn't find a better name) is a comprehensive job application assis
 
    ```bash
    # Create your credentials file
-   ="code --wait" bin/rails credentials:edit
+   EDITOR="code --wait" bin/rails credentials:edit
    ```
 
    Add the following structure to the credentials file:
