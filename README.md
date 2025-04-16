@@ -14,9 +14,9 @@ ApplyWise (I didn't find a better name) is a comprehensive job application assis
 
 - **CV PDF Parser**: Extract skills and experience from your resume automatically
 - **Application Tracking System (ATS)**: Keep track of all your job applications in one place
-- **Custom Resume Builder**: Generate tailored resumes for each job application
-- **Custom Questions**: Generate tailored answers for for each job application custom questions
-- **Cover Letter Generator**: Create personalized cover letters for each position
+- [In development] **Custom Resume Builder**: Generate tailored resumes for each job application
+- [In development] **Custom Questions**: Generate tailored answers for for each job application custom questions
+- [In development] **Cover Letter Generator**: Create personalized cover letters for each position
 
 ### Coming (not that soon)
 - **Interview Preparation**: Get customized interview questions based on job descriptions
@@ -76,10 +76,10 @@ ApplyWise (I didn't find a better name) is a comprehensive job application assis
    ```
 
 5. Set up environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
+
+   ```bash
+   touch .env
+   ```
 
    Example of my local env vars:
 
@@ -96,12 +96,12 @@ cp .env.example .env
 
 7. Start the development server:
    ```bash
-   bin/dev
+   ./bin/dev
    ```
 
-The application will be available at `http://localhost:3100` and the active jobs console at http://localhost:3100/active_jobs (see how to set the credentials in step [4]).
+The application will be available at `http://localhost:3100` and the active jobs dashboard at http://localhost:3100/active_jobs (use the credentials for mission control set in step [4]).
 
-The application does not send real emails (yet). So capture them with letter_opener in your local at http://localhost:3100/letter_opener
+The application does not send real emails (yet). So capture them with `letter_opener` at http://localhost:3100/letter_opener
 
 ### Development with Docker
 
@@ -113,7 +113,7 @@ docker compose up
 
 ## Technology Stack
 
-- **Backend**: Ruby on Rails 8.0
+- **Backend**: Ruby on Rails 8.x
 - **Frontend**: React + JS + TypeScript
 - **Database**: PostgreSQL
 - **Styling**: Tailwind CSS
@@ -122,12 +122,12 @@ docker compose up
 
 ## Contributing
 
-We welcome contributions to ApplyWise! Here's how you can help:
+Contributions to ApplyWise are welcome:
 
 1. Fork the repository
 2. Create a new branch for your feature:
    ```bash
-   git checkout -b feature/your-feature-name
+   git checkout -b your-feature-name
    ```
 3. Make your changes and commit them:
    ```bash
