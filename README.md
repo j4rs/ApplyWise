@@ -1,8 +1,6 @@
 [![Github Actions CI](https://github.com/j4rs/ApplyWise/actions/workflows/ci.yml/badge.svg)](https://github.com/j4rs/ApplyWise/actions/workflows/ci.yml)
 
-# ApplyWise
-
-## About
+## ApplyWise
 
 ApplyWise (I didn't find a better name) is a comprehensive job application assistant that helps you streamline your job search process. It provides a suite of tools to make your job hunting more efficient and effective. Check [HOW_IT_WORKS.md](HOW_IT_WORKS.md) for a more detailed explanation.
 
