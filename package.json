@@ -10,7 +10,7 @@
     "autoprefixer": "^10.4.20",
     "babel-plugin-module-resolver": "^5.0.2",
     "chokidar": "^4.0.1",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.0",
     "eslint": "^8.57.01",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
