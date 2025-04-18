@@ -18,7 +18,8 @@
 #
 
 class SignedMessage < ApplicationRecord
-  PURPOSES = %w[sign_in default]
+  class AlreadyUsedError < StandardError; end
+  PURPOSES = %w[sign_in signed_messages]
 
   validates :token, presence: true
   validates :purpose, presence: true, inclusion: { in: PURPOSES }
@@ -31,15 +32,15 @@ class SignedMessage < ApplicationRecord
     token =
       Rails
         .application
-        .message_verifier(purpose.to_s)
+        .message_verifier(purpose)
         .generate(content, expires_at:)
 
-    create!(purpose: purpose.to_s, token:)
+    create!(purpose:, token:)
   end
 
   def self.use!(token)
     message = find_by!(token:)
-    # raise "Token already used" if message.read_at?
+    raise AlreadyUsedError if message.read_at?
 
     content =
       Rails
