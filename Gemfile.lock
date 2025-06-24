@@ -351,7 +351,7 @@ GEM
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
     securerandom (0.4.1)
-    solid_cable (3.0.10)
+    solid_cable (3.0.11)
       actioncable (>= 7.2)
       activejob (>= 7.2)
       activerecord (>= 7.2)
